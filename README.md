@@ -26,7 +26,7 @@ pawsandperils/img/                  Paws & Perils screenshots
 | File | Why it exists |
 | --- | --- |
 | `index.html` | Studio front page: the hero and a card for each game. |
-| `blockfall/index.html` | Blockfall's page: the Play button, features and screenshots. |
+| `blockfall/index.html` | Blockfall's page: the Play button, features and screenshots. Sets `data-theme="blockfall"` on `<html>`. |
 | `pawsandperils/index.html` | Paws & Perils' page. Sets `data-theme="paws"` on `<html>`. |
 | `<slug>/privacy-policy.md` | Source of truth for that game's policy wording, a copy of `docs/privacy-policy.md` in the game's repo. |
 | `<slug>/privacy-policy.html` | The URL given to Google Play. Generated, do not edit by hand. |
