@@ -1,6 +1,8 @@
 /* Codesarray site styles.
-   Palette mirrors the Blockfall in-game palettes: Navy (dark) and Light.
-   Single stylesheet shared by index.html and privacy-policy.html. */
+   The studio palette mirrors the Blockfall in-game palettes: Navy (dark) and Light.
+   The Paws & Perils pages set <html data-theme="paws"> and swap the same tokens
+   for that game's warm pastel palette; nothing below the token blocks changes.
+   Single stylesheet shared by every page. */
 
 :root {
   color-scheme: dark light;
@@ -43,6 +45,40 @@
     --gold: #8a5e00;
     --border: #d5d9ea;
     --shadow: 0 1px 2px rgb(28 31 58 / 0.06), 0 12px 32px -16px rgb(28 31 58 / 0.22);
+  }
+}
+
+/* ---------- Paws & Perils theme ---------- */
+/* Warm pastel palette from the game's PastelPalette in ui/GameColors.kt, with the
+   dim text darkened (#8A7B75 -> #6E5F58) and the gold darkened (#F5B301 -> #8A5E00)
+   so both clear 4.5:1 on cream. Ratios are recorded in README.md. */
+
+:root[data-theme="paws"] {
+  /* Dark first, to match the default block above. */
+  --bg: #2a2321;
+  --surface: #1f1a18;
+  --surface-2: #3a302c;
+  --text: #fff4e8;
+  --text-dim: #c9b8ae;
+  --gold: #f5b301;
+  --brand: #ff8a5b;
+  --border: #4a3e39;
+  --on-brand: #2a2020;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.45);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme="paws"] {
+    --bg: #fff7ec;
+    --surface: #ffffff;
+    --surface-2: #ffebd2;
+    --text: #3b2f2f;
+    --text-dim: #6e5f58;
+    --gold: #8a5e00;
+    --brand: #ff8a5b;
+    --border: #f0dcc4;
+    --on-brand: #3b2f2f;
+    --shadow: 0 1px 2px rgb(59 47 47 / 0.06), 0 12px 32px -16px rgb(59 47 47 / 0.22);
   }
 }
 
@@ -283,6 +319,24 @@ img {
   color: var(--text);
 }
 
+/* A badge shaped like .btn-secondary, but it is a <span>: nothing to click yet. */
+.btn-soon {
+  background: transparent;
+  border-color: var(--border);
+  border-style: dashed;
+  color: var(--text-dim);
+  cursor: default;
+}
+
+.btn-soon::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--brand);
+  flex: none;
+}
+
 /* ---------- game section ---------- */
 
 .section {
@@ -298,6 +352,30 @@ img {
   margin-top: 14px;
   max-width: var(--measure);
   color: var(--text-dim);
+}
+
+/* Two game cards side by side on the studio page, stacked on a phone. */
+.game-grid {
+  margin-top: 36px;
+  display: grid;
+  gap: 24px;
+}
+
+@media (min-width: 720px) {
+  .game-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.game-grid .game-card {
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-grid .actions {
+  margin-top: auto;
+  padding-top: 28px;
 }
 
 .game-card {
@@ -358,17 +436,34 @@ img {
   color: var(--gold);
 }
 
-.features h4 {
+.features h4,
+.notes h4 {
   margin: 0 0 2px;
   font-family: "Space Grotesk", sans-serif;
   font-size: 1rem;
   font-weight: 600;
 }
 
-.features p {
+.features p,
+.notes p {
   color: var(--text-dim);
   font-size: 0.9375rem;
   line-height: 1.55;
+}
+
+/* Short closing notes under the screenshots (ads, premium). */
+.notes {
+  margin-top: 32px;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+/* One sentence describing a card, above its buttons. */
+.card-text {
+  margin-top: 18px;
+  max-width: var(--measure);
+  color: var(--text-dim);
 }
 
 .shots {
@@ -480,7 +575,9 @@ img {
   gap: 4px;
 }
 
-.footer-links a {
+/* The span is the not-yet-released game's placeholder for a Play link. */
+.footer-links a,
+.footer-links span {
   display: inline-flex;
   align-items: center;
   min-height: 44px;

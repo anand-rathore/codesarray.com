@@ -45,4 +45,4 @@ If a future version changes how the app handles data, this page will be updated 
 
 ## Contact
 
-Questions about this policy: open an issue at https://github.com/anand-rathore/blockfall or use the contact email shown on the app's Google Play listing.
+Questions about this policy: email codesarray@gmail.com, the same address shown on the app's Google Play listing.
