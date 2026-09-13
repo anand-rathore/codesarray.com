@@ -21,10 +21,11 @@ from pathlib import Path
 HERE = Path(__file__).parent
 
 ARRAY_MARK = """      <svg class="mark" viewBox="0 0 32 32" role="img" aria-label="Codesarray">
-        <path d="M11 8H7v16h4M21 8h4v16h-4" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="11.2" cy="16" r="1.7" fill="#ffc53d"/>
-        <circle cx="16" cy="16" r="1.7" fill="#ffc53d"/>
-        <circle cx="20.8" cy="16" r="1.7" fill="#ffc53d"/>
+        <rect width="32" height="32" rx="7" fill="#1c1f3a"/>
+        <path d="M11 8H7.5v16H11M21 8h3.5v16H21" fill="none" stroke="#f2f3ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="11.2" cy="16" r="1.6" fill="#ffc53d"/>
+        <circle cx="16" cy="16" r="1.6" fill="#ffc53d"/>
+        <circle cx="20.8" cy="16" r="1.6" fill="#ffc53d"/>
       </svg>
 """
 
