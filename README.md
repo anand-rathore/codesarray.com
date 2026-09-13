@@ -37,7 +37,7 @@ pawsandperils/img/                  Paws & Perils screenshots
 | `styles.css` | Shared stylesheet for every page. |
 | `app-ads.txt` | Declares the AdMob publisher ID. AdMob crawls it from the domain root; the developer website on the Play listing must be exactly `https://codesarray.com`. |
 | `googleb8930721c04d2512.html` | Google Search Console ownership check. Search Console re-fetches it, so it has to stay. |
-| `favicon.svg` | Four-block mark matching the Blockfall icon. |
+| `favicon.svg` | The Codesarray mark: an array `[…]`, three gold dots between brackets on navy. |
 
 ## Updating a privacy policy
 
