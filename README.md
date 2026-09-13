@@ -85,12 +85,11 @@ both jobs: `--brand` (`#ffc53d`) fills buttons, where navy text on it reaches
 10:1 in either scheme, while `--gold` tints text and icons and darkens to
 `#8a5e00` in light mode to clear 4.5:1.
 
-The Paws & Perils pages set `data-theme="paws"` on `<html>` and redefine the same
-tokens from that game's `PastelPalette`; no rule below the token blocks changes,
-so the studio look is identical and only the colours differ. Two values are
-darkened from the app's palette to clear WCAG AA on cream: dim text
-`#8A7B75` → `#6E5F58`, and the gold `#F5B301` → `#8A5E00` (the app's gold is kept
-for the dark scheme, where it passes). Measured ratios:
+Game pages are pinned to their game's own look regardless of the visitor's system
+scheme: `data-theme="blockfall"` on `<html>` locks the Navy palette, and
+`data-theme="paws"` locks the warm pastel palette from the game's `PastelPalette`
+(dim text darkened `#8A7B75` → `#6E5F58` and gold `#F5B301` → `#8A5E00` so both clear
+4.5:1 on cream). Only the studio front page still switches on `prefers-color-scheme`.
 
 | Pair | Light | Dark |
 | --- | --- | --- |

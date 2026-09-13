@@ -44,9 +44,8 @@ SITES = {
             "saves, Google AdMob advertising and optional Google Play Games sign-in."
         ),
         "og_title": "Blockfall Privacy Policy",
-        "theme_attr": "",
-        "theme_dark": "#1c1f3a",
-        "theme_light": "#f4f5fb",
+        "theme_attr": ' data-theme="blockfall"',
+        "theme_color": "#1c1f3a",
         "mark": BLOCKS_MARK,
         "nav": [("Home", "/"), ("Paws &amp; Perils", "/pawsandperils/")],
         "store": ("Google Play", PLAY_URL),
@@ -61,8 +60,7 @@ SITES = {
         ),
         "og_title": "Paws &amp; Perils Privacy Policy",
         "theme_attr": ' data-theme="paws"',
-        "theme_dark": "#2a2321",
-        "theme_light": "#fff7ec",
+        "theme_color": "#fff7ec",
         "mark": PAW_MARK,
         "nav": [("Home", "/"), ("Blockfall", "/blockfall/")],
         "store": ("Coming soon to Google Play", None),
@@ -77,8 +75,7 @@ HEAD = """<!doctype html>
 <title>{title}</title>
 <meta name="description" content="{description}">
 <link rel="canonical" href="{canonical}">
-<meta name="theme-color" content="{theme_dark}" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="{theme_light}" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="{theme_color}">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Codesarray">
 <meta property="og:title" content="{og_title}">
@@ -216,8 +213,7 @@ def build(slug: str) -> None:
         title=site["title"],
         description=site["description"],
         canonical="https://codesarray.com/%s/privacy-policy.html" % slug,
-        theme_dark=site["theme_dark"],
-        theme_light=site["theme_light"],
+        theme_color=site["theme_color"],
         og_title=site["og_title"],
         mark=site["mark"],
         nav=nav,

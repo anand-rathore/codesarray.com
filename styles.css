@@ -1,7 +1,7 @@
 /* Codesarray site styles.
    The studio palette mirrors the Blockfall in-game palettes: Navy (dark) and Light.
-   The Paws & Perils pages set <html data-theme="paws"> and swap the same tokens
-   for that game's warm pastel palette; nothing below the token blocks changes.
+   Game pages set <html data-theme="blockfall"> or <html data-theme="paws"> and pin
+   the same tokens to that game's own palette; nothing below the token blocks changes.
    Single stylesheet shared by every page. */
 
 :root {
@@ -48,38 +48,40 @@
   }
 }
 
-/* ---------- Paws & Perils theme ---------- */
-/* Warm pastel palette from the game's PastelPalette in ui/GameColors.kt, with the
-   dim text darkened (#8A7B75 -> #6E5F58) and the gold darkened (#F5B301 -> #8A5E00)
-   so both clear 4.5:1 on cream. Ratios are recorded in README.md. */
+/* ---------- Game themes ---------- */
+/* Game pages are pinned to their game's own look regardless of the system scheme:
+   Blockfall is navy, Paws & Perils is warm pastel. The studio page keeps following
+   prefers-color-scheme with the two Blockfall palettes above. */
 
-:root[data-theme="paws"] {
-  /* Dark first, to match the default block above. */
-  --bg: #2a2321;
-  --surface: #1f1a18;
-  --surface-2: #3a302c;
-  --text: #fff4e8;
-  --text-dim: #c9b8ae;
-  --gold: #f5b301;
-  --brand: #ff8a5b;
-  --border: #4a3e39;
-  --on-brand: #2a2020;
+:root[data-theme="blockfall"] {
+  color-scheme: dark;
+  --bg: #1c1f3a;
+  --surface: #12142b;
+  --surface-2: #262a4d;
+  --text: #f2f3ff;
+  --text-dim: #9da2c7;
+  --gold: #ffc53d;
+  --brand: #ffc53d;
+  --border: #2e3358;
+  --on-brand: #1c1f3a;
   --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.45);
 }
 
-@media (prefers-color-scheme: light) {
-  :root[data-theme="paws"] {
-    --bg: #fff7ec;
-    --surface: #ffffff;
-    --surface-2: #ffebd2;
-    --text: #3b2f2f;
-    --text-dim: #6e5f58;
-    --gold: #8a5e00;
-    --brand: #ff8a5b;
-    --border: #f0dcc4;
-    --on-brand: #3b2f2f;
-    --shadow: 0 1px 2px rgb(59 47 47 / 0.06), 0 12px 32px -16px rgb(59 47 47 / 0.22);
-  }
+/* Warm pastel palette from the game's PastelPalette in ui/GameColors.kt, with the
+   dim text darkened (#8A7B75 -> #6E5F58) and the gold darkened (#F5B301 -> #8A5E00)
+   so both clear 4.5:1 on cream. Ratios are recorded in README.md. */
+:root[data-theme="paws"] {
+  color-scheme: light;
+  --bg: #fff7ec;
+  --surface: #ffffff;
+  --surface-2: #ffebd2;
+  --text: #3b2f2f;
+  --text-dim: #6e5f58;
+  --gold: #8a5e00;
+  --brand: #ff8a5b;
+  --border: #f0dcc4;
+  --on-brand: #3b2f2f;
+  --shadow: 0 1px 2px rgb(59 47 47 / 0.06), 0 12px 32px -16px rgb(59 47 47 / 0.22);
 }
 
 *,
