@@ -7,7 +7,8 @@ repo). Update the markdown, then run:
 
     python3 build-privacy.py blockfall
     python3 build-privacy.py pawsandperils
-    python3 build-privacy.py                # both
+    python3 build-privacy.py synapsy
+    python3 build-privacy.py                # all
 
 Only the small subset of markdown that the policies use is supported: an h1, h2
 headings, paragraphs, "- " bullets, and bare URLs (linked automatically).
@@ -43,7 +44,7 @@ SITES = {
         "theme_attr": ' data-theme="blockfall"',
         "theme_color": "#1c1f3a",
         "mark": ARRAY_MARK,
-        "nav": [("Home", "/"), ("Paws &amp; Perils", "/pawsandperils/")],
+        "nav": [("Home", "/"), ("Paws &amp; Perils", "/pawsandperils/"), ("Synapsy", "/synapsy/")],
         "store": ("Google Play", PLAY_URL),
     },
     "pawsandperils": {
@@ -58,7 +59,22 @@ SITES = {
         "theme_attr": ' data-theme="paws"',
         "theme_color": "#fff7ec",
         "mark": ARRAY_MARK,
-        "nav": [("Home", "/"), ("Blockfall", "/blockfall/")],
+        "nav": [("Home", "/"), ("Blockfall", "/blockfall/"), ("Synapsy", "/synapsy/")],
+        "store": ("Coming soon to Google Play", None),
+    },
+    "synapsy": {
+        "name": "Synapsy",
+        "title": "Synapsy Privacy Policy — Codesarray",
+        "description": (
+            "What the Synapsy Android game does with your information: on-device "
+            "saves, Google AdMob advertising, optional Google Play Games sign-in "
+            "and cloud save, and the one-time Remove Ads purchase."
+        ),
+        "og_title": "Synapsy Privacy Policy",
+        "theme_attr": ' data-theme="synapsy"',
+        "theme_color": "#0f1626",
+        "mark": ARRAY_MARK,
+        "nav": [("Home", "/"), ("Blockfall", "/blockfall/"), ("Paws &amp; Perils", "/pawsandperils/")],
         "store": ("Coming soon to Google Play", None),
     },
 }

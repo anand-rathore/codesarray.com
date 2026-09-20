@@ -1,6 +1,6 @@
 /* Codesarray site styles.
    The studio palette mirrors the Blockfall in-game palettes: Navy (dark) and Light.
-   Game pages set <html data-theme="blockfall"> or <html data-theme="paws"> and pin
+   Game pages set <html data-theme="blockfall">, data-theme="paws" or data-theme="synapsy" and pin
    the same tokens to that game's own palette; nothing below the token blocks changes.
    Single stylesheet shared by every page. */
 
@@ -82,6 +82,23 @@
   --border: #f0dcc4;
   --on-brand: #3b2f2f;
   --shadow: 0 1px 2px rgb(59 47 47 / 0.06), 0 12px 32px -16px rgb(59 47 47 / 0.22);
+}
+
+/* Synapsy's Calm Dusk palette from the game's DuskPalette in ui/theme/GamePalette.kt:
+   navy background, teal primary, gold for stars and streaks. The muted text and gold
+   both clear 4.5:1 on the navy. Ratios are recorded in README.md. */
+:root[data-theme="synapsy"] {
+  color-scheme: dark;
+  --bg: #0f1626;
+  --surface: #1b2438;
+  --surface-2: #26314a;
+  --text: #e8ecf4;
+  --text-dim: #9aa6bd;
+  --gold: #f2b441;
+  --brand: #3fc1b0;
+  --border: #26314a;
+  --on-brand: #08201c;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.35), 0 12px 32px -12px rgb(0 0 0 / 0.5);
 }
 
 *,
