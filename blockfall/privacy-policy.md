@@ -1,6 +1,6 @@
 # Blockfall Privacy Policy
 
-Effective date: 10 September 2026
+Effective date: 2 October 2026
 
 Blockfall ("the app") is published by Codesarray. This policy explains what the app does with your information.
 
@@ -27,9 +27,12 @@ Google's use of this data is described at https://policies.google.com/technologi
 ## Google Play Games
 
 If you sign in to Google Play Games, Google shows your Play Games profile (player name and avatar) to
-us and to other players on the daily leaderboard, and we send your daily scores to Google so the
-leaderboard can display them. Sign-in is optional: the game works fully without it. Google's handling
-of this data is described in the Google Privacy Policy (https://policies.google.com/privacy).
+us and to other players on the daily leaderboard, and we send your daily scores and the achievements
+you earn to Google so the leaderboard and your Play Games profile can display them. When you are signed in, your progress (statistics, daily results, streak
+freezes, achievements and palette) is also stored in your Google Play Games saved games so it can follow
+you to another device. Google's privacy policy covers that storage. Sign-in is optional: the game works
+fully without it. Google's handling of this data is described in the Google Privacy Policy
+(https://policies.google.com/privacy).
 
 ## Permissions
 
