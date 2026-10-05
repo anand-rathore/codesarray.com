@@ -76,6 +76,8 @@ HEAD = """<!doctype html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/styles.css">
+<script>try{{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}}catch(e){{}}</script>
+<script src="/theme.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -84,7 +86,7 @@ HEAD = """<!doctype html>
   <div class="container">
     <a class="wordmark brand" href="/">
       <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
-        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="#f3f1ec" stroke-width="8.4" stroke-linejoin="round"/>
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
         <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
       </svg>
       CODESARRAY
@@ -94,6 +96,10 @@ HEAD = """<!doctype html>
       <a href="/#videos">Videos</a>
       <a href="/articles/"{articles_current}>Articles</a>
       <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
     </nav>
   </div>
 </header>
@@ -136,6 +142,8 @@ MOVED = """<!doctype html>
 <meta name="theme-color" content="#1d2024">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/styles.css">
+<script>try{{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}}catch(e){{}}</script>
+<script src="/theme.js" defer></script>
 </head>
 <body>
 <main id="main">

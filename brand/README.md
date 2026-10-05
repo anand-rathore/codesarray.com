@@ -25,13 +25,34 @@ social preview image to the site root.
 | Signal orange | `#ff6a13` | The via, buttons, focus rings. One orange thing per view. |
 | Ink | `#14171a` | The mark's stroke on light backgrounds. |
 
+The light palette is the same identity with ground and type swapped:
+
+| Name | Hex | Use in the light theme |
+|---|---|---|
+| Bone | `#f3f1ec` | The ground. |
+| Ink | `#14171a` | Type and the mark's stroke. |
+| Slate | `#585e66` | Secondary text. |
+| Chalk | `#d6d2c8` | Lines and borders. |
+| Burnt orange | `#b8430a` | Orange text and links only, so they stay readable on bone. |
+| Signal orange | `#ff6a13` | Unchanged for the via and buttons. |
+
+Code blocks stay on Carbon in both palettes.
+
 Orange is the only colour. It marks the end of something: the via on the mark,
 the via at each section heading, the one primary button. Do not use it for
 large fills or for body text.
 
-The games keep their own palettes on their own pages (Blockfall navy and gold,
-Paws & Perils warm pastel, Synapsy dusk and teal). The Codesarray mark sits on
-its graphite tile there.
+The same two palettes are used everywhere the brand appears:
+
+- **Website:** every page, the game pages included, in whichever theme the
+  visitor chooses.
+- **Videos, shorts, thumbnails and post slides:** dark and light take turns
+  from one item to the next. The values are mirrored in
+  `G:\youtube\tools\design.py`; if a colour changes here, change it there.
+- **Profile pictures, banners and other brand assets:** always dark.
+
+The games' own colours (Blockfall's blocks, the Paws & Perils orange, the
+Synapsy teal) appear only in their icons and screenshots.
 
 ## Type
 
@@ -42,8 +63,7 @@ its graphite tile there.
 | JetBrains Mono | Code only, with ligatures off. |
 
 All three are open-licensed (SIL OFL); the files and licences are in `fonts/`.
-The older faces (Space Grotesk, Archivo) stay there because the game pages
-still use them.
+The older faces (Space Grotesk, Archivo) are kept only for the archived identity.
 
 ## The mark
 

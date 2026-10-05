@@ -1,7 +1,6 @@
 /* Codesarray site styles.
    The studio pages use the Codesarray identity (graphite, bone, signal orange).
-   Game pages set <html data-theme="blockfall">, data-theme="paws" or data-theme="synapsy" and pin
-   the same tokens to that game's own palette; nothing below the token blocks changes.
+   Every page uses it, in a dark and a light theme; the game pages too.
    Single stylesheet shared by every page. */
 
 :root {
@@ -36,73 +35,46 @@
   --radius: 3px;
   --radius-sm: 2px;
   --shadow: none;
+  --code-bg: #15171a;
+  --code-text: #f3f1ec;
+  --sun: block;
+  --moon: none;
   --measure: 68ch;
   --container: 1080px;
   --ease: cubic-bezier(0.2, 0, 0.2, 1);
 }
 
-/* Game pages (anything with data-theme) keep the type and the rounder shapes they
-   were designed with; only the palettes differ per game, in the blocks below. */
-:root[data-theme] {
-  --font-display: "Space Grotesk", Archivo, ui-sans-serif, system-ui, sans-serif;
-  --font-body: Archivo, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-ui: "Space Grotesk", sans-serif;
-  --tracking: -0.02em;
-  --radius: 16px;
-  --radius-sm: 10px;
+/* Light theme for the studio pages: bone ground, ink type. It applies when the visitor's
+   system asks for light and they have not chosen dark, or when they chose light with the
+   switch in the header (theme.js sets data-mode on <html>). The two blocks must stay
+   identical. Orange text darkens to hold 4.5:1 on bone; buttons keep the signal orange.
+   Code blocks stay dark in both themes: they are "the screen from the video". */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]):not([data-mode="dark"]) {
+    color-scheme: light;
+    --bg: #f3f1ec;
+    --surface: #e9e6de;
+    --surface-2: #e2dfd6;
+    --text: #14171a;
+    --text-dim: #585e66;
+    --gold: #b8430a;
+    --border: #d6d2c8;
+    --sun: none;
+    --moon: block;
+  }
 }
 
-/* ---------- Game themes ---------- */
-/* Game pages are pinned to their game's own look regardless of the system scheme:
-   Blockfall is navy, Paws & Perils is warm pastel. The studio page keeps following
-   prefers-color-scheme with the two Blockfall palettes above. */
-
-:root[data-theme="blockfall"] {
-  color-scheme: dark;
-  --bg: #1c1f3a;
-  --surface: #12142b;
-  --surface-2: #262a4d;
-  --text: #f2f3ff;
-  --text-dim: #9da2c7;
-  --gold: #ffc53d;
-  --brand: #ffc53d;
-  --border: #2e3358;
-  --on-brand: #1c1f3a;
-  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.45);
-}
-
-/* Warm pastel palette from the game's PastelPalette in ui/GameColors.kt, with the
-   dim text darkened (#8A7B75 -> #6E5F58) and the gold darkened (#F5B301 -> #8A5E00)
-   so both clear 4.5:1 on cream. Ratios are recorded in README.md. */
-:root[data-theme="paws"] {
+:root[data-mode="light"]:not([data-theme]) {
   color-scheme: light;
-  --bg: #fff7ec;
-  --surface: #ffffff;
-  --surface-2: #ffebd2;
-  --text: #3b2f2f;
-  --text-dim: #6e5f58;
-  --gold: #8a5e00;
-  --brand: #ff8a5b;
-  --border: #f0dcc4;
-  --on-brand: #3b2f2f;
-  --shadow: 0 1px 2px rgb(59 47 47 / 0.06), 0 12px 32px -16px rgb(59 47 47 / 0.22);
-}
-
-/* Synapsy's Calm Dusk palette from the game's DuskPalette in ui/theme/GamePalette.kt:
-   navy background, teal primary, gold for stars and streaks. The muted text and gold
-   both clear 4.5:1 on the navy. Ratios are recorded in README.md. */
-:root[data-theme="synapsy"] {
-  color-scheme: dark;
-  --bg: #0f1626;
-  --surface: #1b2438;
-  --surface-2: #26314a;
-  --text: #e8ecf4;
-  --text-dim: #9aa6bd;
-  --gold: #f2b441;
-  --brand: #3fc1b0;
-  --border: #26314a;
-  --on-brand: #08201c;
-  --shadow: 0 1px 2px rgb(0 0 0 / 0.35), 0 12px 32px -12px rgb(0 0 0 / 0.5);
+  --bg: #f3f1ec;
+  --surface: #e9e6de;
+  --surface-2: #e2dfd6;
+  --text: #14171a;
+  --text-dim: #585e66;
+  --gold: #b8430a;
+  --border: #d6d2c8;
+  --sun: none;
+  --moon: block;
 }
 
 *,
@@ -638,6 +610,42 @@ img {
   color: var(--text);
 }
 
+/* The light / dark switch. It shows the theme you would switch to: a sun on the dark
+   theme, a moon on the light one. Hidden until theme.js runs, so it never does nothing. */
+.mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-left: 6px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 200ms var(--ease), background-color 200ms var(--ease), border-color 200ms var(--ease);
+}
+
+.mode-toggle[hidden] {
+  display: none;
+}
+
+.mode-toggle:hover {
+  color: var(--text);
+  background: var(--surface-2);
+  border-color: var(--text-dim);
+}
+
+.mode-toggle .sun {
+  display: var(--sun);
+}
+
+.mode-toggle .moon {
+  display: var(--moon);
+}
+
 .intro {
   padding-block: clamp(40px, 8vw, 104px) clamp(28px, 4vw, 48px);
 }
@@ -1018,8 +1026,9 @@ pre {
   margin: 20px 0 0;
   padding: 18px 20px;
   overflow-x: auto;
-  background: var(--surface);
-  border-left: 3px solid var(--border);
+  background: var(--code-bg);
+  color: var(--code-text);
+  border-left: 3px solid #34383e;
   line-height: 1.6;
   tab-size: 4;
 }
@@ -1140,6 +1149,45 @@ pre.out {
 
 .footer-links a[aria-current="page"] {
   color: var(--text);
+}
+
+/* ---------- game and policy pages ---------- */
+/* These pages use the same identity and the same two themes as the rest of the site.
+   The rules below restate a few of the older ones above for the display face. */
+
+.hero h1 {
+  font-size: clamp(3.25rem, 9vw, 6rem);
+  font-weight: 800;
+  line-height: 0.95;
+  max-width: 14ch;
+}
+
+.eyebrow {
+  margin-bottom: 14px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-dim);
+}
+
+.section-head h2 {
+  font-size: clamp(2.25rem, 5.5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.game-head h3,
+.prose h2 {
+  font-family: var(--font-body);
+  letter-spacing: 0;
+}
+
+.prose h1 {
+  font-size: clamp(2.75rem, 7vw, 4.5rem);
+  font-weight: 800;
+  line-height: 0.95;
 }
 
 /* ---------- motion ---------- */

@@ -22,10 +22,17 @@ from pathlib import Path
 HERE = Path(__file__).parent
 
 ARRAY_MARK = """      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
-        <rect width="48" height="48" rx="5" fill="#1d2024"/>
-        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="#f3f1ec" stroke-width="8.4" stroke-linejoin="round"/>
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
         <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
       </svg>
+"""
+
+STUDIO_NAV = [("Games", "/#games"), ("Videos", "/#videos"), ("Articles", "/articles/"), ("Work", "/work/")]
+
+MODE_TOGGLE = """      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
 """
 
 PLAY_URL = "https://play.google.com/store/apps/details?id=com.codesarray.blockfall"
@@ -39,10 +46,10 @@ SITES = {
             "saves, Google AdMob advertising and optional Google Play Games sign-in."
         ),
         "og_title": "Blockfall Privacy Policy",
-        "theme_attr": ' data-theme="blockfall"',
-        "theme_color": "#1c1f3a",
+        "theme_attr": "",
+        "theme_color": "#1d2024",
         "mark": ARRAY_MARK,
-        "nav": [("Home", "/"), ("Paws &amp; Perils", "/pawsandperils/"), ("Synapsy", "/synapsy/")],
+        "nav": STUDIO_NAV,
         "store": ("Google Play", PLAY_URL),
     },
     "pawsandperils": {
@@ -54,10 +61,10 @@ SITES = {
             "sign-in and the one-time Premium purchase."
         ),
         "og_title": "Paws &amp; Perils Privacy Policy",
-        "theme_attr": ' data-theme="paws"',
-        "theme_color": "#fff7ec",
+        "theme_attr": "",
+        "theme_color": "#1d2024",
         "mark": ARRAY_MARK,
-        "nav": [("Home", "/"), ("Blockfall", "/blockfall/"), ("Synapsy", "/synapsy/")],
+        "nav": STUDIO_NAV,
         "store": ("Coming soon to Google Play", None),
     },
     "synapsy": {
@@ -69,10 +76,10 @@ SITES = {
             "and cloud save, and the one-time Remove Ads purchase."
         ),
         "og_title": "Synapsy Privacy Policy",
-        "theme_attr": ' data-theme="synapsy"',
-        "theme_color": "#0f1626",
+        "theme_attr": "",
+        "theme_color": "#1d2024",
         "mark": ARRAY_MARK,
-        "nav": [("Home", "/"), ("Blockfall", "/blockfall/"), ("Paws &amp; Perils", "/pawsandperils/")],
+        "nav": STUDIO_NAV,
         "store": ("Coming soon to Google Play", None),
     },
 }
@@ -93,21 +100,23 @@ HEAD = """<!doctype html>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/styles.css">
+<script>try{{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}}catch(e){{}}</script>
+<script src="/theme.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="site-header">
   <div class="container">
-    <a class="wordmark" href="/">
+    <a class="wordmark brand" href="/">
 {mark}
-      Codesarray
+      CODESARRAY
     </a>
     <nav class="site-nav" aria-label="Primary">
 {nav}
-    </nav>
+{toggle}    </nav>
   </div>
 </header>
 
@@ -225,7 +234,8 @@ def build(slug: str) -> None:
         canonical="https://codesarray.com/%s/privacy-policy.html" % slug,
         theme_color=site["theme_color"],
         og_title=site["og_title"],
-        mark=site["mark"],
+        mark=site["mark"].rstrip("\n"),
+        toggle=MODE_TOGGLE,
         nav=nav,
     )
     # utf-8 on both sides: the Windows default (cp1252) wrote the dashes as bytes browsers cannot read
