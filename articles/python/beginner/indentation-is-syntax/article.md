@@ -1,9 +1,10 @@
 title: Python has no braces: the whitespace is the code
 summary: Why four spaces decide what your program does, shown with one line that moves.
 date: 2026-10-05
-topic: Python
 read: 3 min read
+follows: 1
 video: Hello, Python | https://youtu.be/NExcPTw_LvQ
+aliases: /articles/python-indentation-is-syntax/
 ---
 Most languages mark a block of code with curly braces. Python does not have them. It decides which lines belong to an `if` by how far they are indented, so moving a line sideways changes what the program does.
 
@@ -53,4 +54,4 @@ A twelve-year-old can vote. The words in the file are identical; only the whites
 
 What you see is what runs. That is the trade Python makes: no braces to match, and in return the layout has to be right.
 
-New to Python? Start with [Your first Python program](/articles/your-first-python-program/).
+New to Python? Start with [Your first Python program](/articles/python/beginner/your-first-python-program/).

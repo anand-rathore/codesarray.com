@@ -1,9 +1,10 @@
 title: Your first Python program
 summary: Install Python 3.14, run it two ways, and read an eleven-line program one line at a time.
 date: 2026-10-02
-topic: Python
 read: 4 min read
+lesson: 1
 video: Hello, Python | https://youtu.be/NExcPTw_LvQ
+aliases: /articles/your-first-python-program/
 ---
 By the end of this page you will have Python installed, you will have run a program two different ways, and you will know the one rule that makes Python look different from every other language.
 

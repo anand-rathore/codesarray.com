@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The REPL or a file: two ways to run Python: Codesarray</title>
+<meta name="description" content="When to type into the interactive shell, when to save a file, and what Python 3.14 added to the shell.">
+<link rel="canonical" href="https://codesarray.com/articles/python/beginner/repl-vs-file/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="The REPL or a file: two ways to run Python">
+<meta property="og:description" content="When to type into the interactive shell, when to save a file, and what Python 3.14 added to the shell.">
+<meta property="og:url" content="https://codesarray.com/articles/python/beginner/repl-vs-file/">
+<meta property="og:image" content="https://codesarray.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="#f3f1ec" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/beginner/">Beginner</a></li></ol></nav>
+    <p class="meta">Short note, 5 October 2026, 3 min read</p>
+    <h1>The REPL or a file: two ways to run Python</h1>
+    <p class="standfirst">When to type into the interactive shell, when to save a file, and what Python 3.14 added to the shell.</p>
+<p>There are two ways to run Python, and beginners usually only know one. You can run it one line at a time and get an answer after each line, or you can save your code in a file and run the whole thing.</p>
+<h2>The REPL: ask, get an answer</h2>
+<p>Type <code>python</code> in a terminal and press enter. You get the REPL, the interactive shell, with a <code>&gt;&gt;&gt;</code> prompt:</p>
+<pre><code>&gt; python
+&gt;&gt;&gt; 40 * 0.2
+8.0
+&gt;&gt;&gt; price = 40
+&gt;&gt;&gt; price + price * 0.2
+48.0</code></pre>
+<p>Each line runs the moment you press enter. Ask it forty times zero point two, and it answers <code>8.0</code> straight away. Store a price, use it on the next line, and you get <code>48.0</code>. No file, and no run button.</p>
+<p>Since Python 3.14 the shell also colours your code as you type, the way an editor does.</p>
+<p>The catch: close the window and everything is gone. The REPL remembers <code>price</code> only for as long as it is open.</p>
+<h2>A file: keep it, run it again</h2>
+<p>Put the same three lines in a file called <code>total.py</code>:</p>
+<pre><code>price = 40
+tax = price * 0.2
+print(&quot;total:&quot;, price + tax)</code></pre>
+<p>Run it with:</p>
+<pre><code>python total.py</code></pre>
+<pre class="out"><code>total: 48.0</code></pre>
+<p>Same answer, and this time you keep it. You can run it again tomorrow, change one number, or send it to someone.</p>
+<p>Notice the <code>print</code>. The REPL shows the value of every line for you. A file shows only what you print.</p>
+<h2>Which one to use</h2>
+<ul>
+  <li>Use the <strong>REPL</strong> to experiment: check what a function returns, try an expression, test an idea in ten seconds.</li>
+  <li>Use a <strong>file</strong> for anything you want to keep, run again, or build on.</li>
+</ul>
+<p>REPL to experiment, file to keep.</p>
+<p>Both are covered step by step in <a href="/articles/python/beginner/your-first-python-program/">Your first Python program</a>.</p>
+    <p class="watch">This article goes with the video <strong>Hello, Python</strong>. <a href="https://youtu.be/NExcPTw_LvQ">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/beginner/indentation-is-syntax/"><span>Previous</span>Python has no braces: the whitespace is the code</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>

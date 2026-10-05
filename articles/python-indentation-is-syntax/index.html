@@ -3,103 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Python has no braces: the whitespace is the code: Codesarray</title>
-<meta name="description" content="Why four spaces decide what your program does, shown with one line that moves.">
-<link rel="canonical" href="https://codesarray.com/articles/python-indentation-is-syntax/">
+<meta http-equiv="refresh" content="0; url=/articles/python/beginner/indentation-is-syntax/">
+<title>Python has no braces: the whitespace is the code has moved: Codesarray</title>
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://codesarray.com/articles/python/beginner/indentation-is-syntax/">
 <meta name="theme-color" content="#1d2024">
-<meta property="og:type" content="article">
-<meta property="og:site_name" content="Codesarray">
-<meta property="og:title" content="Python has no braces: the whitespace is the code">
-<meta property="og:description" content="Why four spaces decide what your program does, shown with one line that moves.">
-<meta property="og:url" content="https://codesarray.com/articles/python-indentation-is-syntax/">
-<meta property="og:image" content="https://codesarray.com/og.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@codesarray">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
-
-<header class="site-header">
-  <div class="container">
-    <a class="wordmark brand" href="/">
-      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
-        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="#f3f1ec" stroke-width="8.4" stroke-linejoin="round"/>
-        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
-      </svg>
-      CODESARRAY
-    </a>
-    <nav class="site-nav" aria-label="Primary">
-      <a href="/#games">Games</a>
-      <a href="/#videos">Videos</a>
-      <a href="/articles/">Articles</a>
-      <a href="/work/">Work</a>
-    </nav>
-  </div>
-</header>
-
 <main id="main">
   <div class="container">
   <article class="article">
-    <p class="meta">Python, 5 October 2026, 3 min read</p>
-    <h1>Python has no braces: the whitespace is the code</h1>
-    <p class="standfirst">Why four spaces decide what your program does, shown with one line that moves.</p>
-<p>Most languages mark a block of code with curly braces. Python does not have them. It decides which lines belong to an <code>if</code> by how far they are indented, so moving a line sideways changes what the program does.</p>
-<h2>Five lines</h2>
-<pre><code>age = 12
-if age &gt;= 18:
-    print(&quot;adult&quot;)
-    print(&quot;can vote&quot;)
-print(&quot;done&quot;)</code></pre>
-<p>Line 2 asks: is <code>age</code> at least 18? Lines 3 and 4 are indented under the <code>if</code>, so they belong to it. Twelve is not at least eighteen, so both are skipped, and the program prints one line:</p>
-<pre class="out"><code>done</code></pre>
-<h2>Move one line</h2>
-<p>Now delete four spaces from line 4. Nothing else changes.</p>
-<pre><code>age = 12
-if age &gt;= 18:
-    print(&quot;adult&quot;)
-print(&quot;can vote&quot;)
-print(&quot;done&quot;)</code></pre>
-<p>That line has left the block. It no longer depends on the <code>if</code>, so it always runs:</p>
-<pre class="out"><code>can vote
-done</code></pre>
-<p>A twelve-year-old can vote. The words in the file are identical; only the whitespace moved.</p>
-<h2>What to take from this</h2>
-<ul>
-  <li>The indentation is not decoration. It is how Python knows where a block starts and ends.</li>
-  <li>A block ends at the first line that goes back to the left.</li>
-  <li>Use four spaces per level, and never mix tabs and spaces in one file.</li>
-  <li>If a line should depend on an <code>if</code>, a loop or a function, check that it is indented under it. This is the first thing to look at when a program runs the wrong lines.</li>
-</ul>
-<p>What you see is what runs. That is the trade Python makes: no braces to match, and in return the layout has to be right.</p>
-<p>New to Python? Start with <a href="/articles/your-first-python-program/">Your first Python program</a>.</p>
-    <p class="watch">This article goes with the video <strong>Hello, Python</strong>. <a href="https://youtu.be/NExcPTw_LvQ">Watch it on YouTube</a>.</p>
-    <p><a class="back-link" href="/articles/">All articles</a></p>
+    <h1>This article has moved</h1>
+    <p><a href="/articles/python/beginner/indentation-is-syntax/">Python has no braces: the whitespace is the code</a> now lives at codesarray.com/articles/python/beginner/indentation-is-syntax/. You should be sent there automatically; if not, follow the link.</p>
   </article>
   </div>
 </main>
-
-<footer class="site-footer">
-  <div class="container">
-    <p>&copy; 2026 Codesarray</p>
-    <nav class="footer-links social" aria-label="Codesarray elsewhere">
-      <a href="https://www.youtube.com/@codesarray">YouTube</a>
-      <a href="https://www.instagram.com/codesarray/">Instagram</a>
-      <a href="https://x.com/codesarray">X</a>
-      <a href="https://www.facebook.com/codesarray">Facebook</a>
-    </nav>
-    <nav class="footer-links" aria-label="Footer">
-      <a href="/">Home</a>
-      <a href="/articles/">Articles</a>
-      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
-    </nav>
-  </div>
-</footer>
-
 </body>
 </html>

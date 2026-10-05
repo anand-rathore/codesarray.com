@@ -1,9 +1,10 @@
 title: The REPL or a file: two ways to run Python
 summary: When to type into the interactive shell, when to save a file, and what Python 3.14 added to the shell.
 date: 2026-10-05
-topic: Python
 read: 3 min read
+follows: 1
 video: Hello, Python | https://youtu.be/NExcPTw_LvQ
+aliases: /articles/python-repl-vs-file/
 ---
 There are two ways to run Python, and beginners usually only know one. You can run it one line at a time and get an answer after each line, or you can save your code in a file and run the whole thing.
 
@@ -57,4 +58,4 @@ Notice the `print`. The REPL shows the value of every line for you. A file shows
 
 REPL to experiment, file to keep.
 
-Both are covered step by step in [Your first Python program](/articles/your-first-python-program/).
+Both are covered step by step in [Your first Python program](/articles/python/beginner/your-first-python-program/).

@@ -3,28 +3,49 @@
 
     python3 build-articles.py
 
-Reads every articles/<slug>/article.md and writes articles/<slug>/index.html, then
-rewrites articles/index.html (the list, newest first). The three newest articles are
-also listed by hand on the front page (index.html, the #articles section); update
-those rows when you add one.
+Articles are filed by language (the category), then by level (the sub-category):
+
+    articles/categories.json                      the languages and levels, in display order
+    articles/<language>/<level>/<slug>/article.md  one article (source of truth)
+
+and the script writes:
+
+    articles/<language>/<level>/<slug>/index.html  the article
+    articles/<language>/<level>/index.html         every article in that level
+    articles/<language>/index.html                 the language, grouped by level
+    articles/index.html                            everything, grouped by language then level
+    <alias>/index.html                             a forwarding page for each old address
+
+To add a language, add it to categories.json and create its folder. A language or
+level with no articles is left off the site until it has one.
 
 article.md starts with a header, then a line of three dashes, then the text:
 
     title: Your first Python program
-    summary: One or two sentences, shown under the title and in the list.
-    date: 2026-10-05
-    topic: Python
+    summary: One or two sentences, shown under the title and in the lists.
+    date: 2026-10-02
     read: 4 min read
+    lesson: 1
     video: Hello, Python | https://youtu.be/NExcPTw_LvQ
+    aliases: /articles/your-first-python-program/
     ---
     Text. Supported: ## headings, paragraphs, - and 1. lists, **bold**, `code`,
     [links](https://example.com), and fenced code blocks. A block fenced with
     ```output is styled as program output.
 
-Needs only the standard library.
+    lesson    the number of the long-form video in its track; these come first, in order
+    follows   for an article made from a short: the lesson number it belongs after
+    video     the name of the video and its YouTube URL
+    aliases   optional old addresses of this article, comma separated; each gets a
+              page that forwards here, so a published link never breaks
+
+The three newest articles are also listed by hand on the front page (index.html,
+the #articles section). Needs only the standard library.
 """
 import html
+import json
 import re
+import sys
 from datetime import date
 from pathlib import Path
 
@@ -103,12 +124,41 @@ FOOT = """</main>
 </html>
 """
 
+MOVED = """<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="0; url={path}">
+<title>{title} has moved: Codesarray</title>
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="{canonical}">
+<meta name="theme-color" content="#1d2024">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <h1>This article has moved</h1>
+    <p><a href="{path}">{title}</a> now lives at codesarray.com{path}. You should be sent there automatically; if not, follow the link.</p>
+  </article>
+  </div>
+</main>
+</body>
+</html>
+"""
+
+
+def esc(s):
+    return html.escape(s, quote=True)
+
 
 def inline(text):
     """Escape, then apply `code`, **bold** and [links](url)."""
-    parts = re.split(r"(`[^`]+`)", text)
     out = []
-    for part in parts:
+    for part in re.split(r"(`[^`]+`)", text):
         if part.startswith("`") and part.endswith("`") and len(part) > 2:
             out.append(f"<code>{html.escape(part[1:-1])}</code>")
             continue
@@ -165,55 +215,139 @@ def render(md):
     return "\n".join(out)
 
 
-def load(path):
+def load(path, languages, levels):
+    lang, level, slug = path.parts[-4:-1]
+    if lang not in languages or level not in levels:
+        sys.exit(f"{path}: '{lang}/{level}' is not in articles/categories.json")
     head, _, body = path.read_text(encoding="utf-8").partition("\n---\n")
-    meta = dict((k.strip(), v.strip()) for k, v in (l.split(":", 1) for l in head.splitlines() if ":" in l))
-    meta["slug"] = path.parent.name
-    meta["body"] = body
-    meta["day"] = date.fromisoformat(meta["date"])
-    return meta
+    a = dict((k.strip(), v.strip()) for k, v in (l.split(":", 1) for l in head.splitlines() if ":" in l))
+    for key in ("title", "summary", "date", "read"):
+        if not a.get(key):
+            sys.exit(f"{path}: the header needs '{key}:'")
+    a.update(lang=lang, level=level, slug=slug, body=body, day=date.fromisoformat(a["date"]),
+             path=f"/articles/{lang}/{level}/{slug}/")
+    # lessons in track order; an article made from a short sits after the lesson it follows
+    a["sort"] = (float(a.get("lesson") or a.get("follows") or 9999), 0 if a.get("lesson") else 1, a["day"])
+    a["label"] = f"Lesson {a['lesson']}" if a.get("lesson") else "Short note"
+    a["aliases"] = [s.strip() for s in a.get("aliases", "").split(",") if s.strip()]
+    return a
 
 
 def write(path, text):
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8", newline="\n")
     print(f"wrote {path.relative_to(HERE).as_posix()}")
 
 
-def build():
-    articles = sorted((load(p) for p in ARTICLES.glob("*/article.md")), key=lambda a: a["day"], reverse=True)
-    for a in articles:
-        url = f"{SITE}/articles/{a['slug']}/"
-        day = f"{a['day'].day} {a['day']:%B %Y}"
-        page = HEAD.format(title=html.escape(a["title"]), description=html.escape(a["summary"], quote=True),
-                           canonical=url, og_type="article", articles_current="")
-        page += '  <div class="container">\n  <article class="article">\n'
-        page += f'    <p class="meta">{html.escape(a["topic"])}, {day}, {html.escape(a["read"])}</p>\n'
-        page += f'    <h1>{html.escape(a["title"])}</h1>\n'
-        page += f'    <p class="standfirst">{inline(a["summary"])}</p>\n'
-        page += render(a["body"]) + "\n"
-        if a.get("video"):
-            name, _, link = (s.strip() for s in a["video"].partition("|"))
-            page += (f'    <p class="watch">This article goes with the video <strong>{html.escape(name)}</strong>. '
-                     f'<a href="{link}">Watch it on YouTube</a>.</p>\n')
-        page += '    <p><a class="back-link" href="/articles/">All articles</a></p>\n'
-        page += "  </article>\n  </div>\n" + FOOT
-        write(ARTICLES / a["slug"] / "index.html", page)
+def head(title, description, path, og_type="website", current=False):
+    return HEAD.format(title=esc(title), description=esc(description), canonical=SITE + path, og_type=og_type,
+                       articles_current=' aria-current="page"' if current else "")
 
-    page = HEAD.format(title="Articles", canonical=f"{SITE}/articles/", og_type="website",
-                       description="Short written lessons on coding, algorithms and data structures, with code you can copy.",
-                       articles_current=' aria-current="page"')
-    page += ('  <section class="intro small">\n    <div class="container">\n      <h1>Articles</h1>\n'
-             '      <p class="lede">The lessons from the videos, written down, with code you can copy.</p>\n'
-             '    </div>\n  </section>\n\n  <div class="container board">\n    <ul class="rows">\n')
+
+def crumbs(trail):
+    """Breadcrumb. trail is [(name, path), ...]; the page itself is not included."""
+    items = "".join(f'<li><a href="{p}">{esc(n)}</a></li>' for n, p in trail)
+    return f'<nav aria-label="Breadcrumb"><ol class="crumbs">{items}</ol></nav>\n'
+
+
+def rows(articles, indent="      "):
+    out = [f'{indent}<ul class="rows">']
     for a in articles:
-        href = f"/articles/{a['slug']}/"
-        page += (f'      <li class="row text">\n'
-                 f'        <div class="kind"><b>{html.escape(a["topic"])}</b>{html.escape(a["read"])}</div>\n'
-                 f'        <div>\n          <h3><a href="{href}">{html.escape(a["title"])}</a></h3>\n'
-                 f'          <p>{inline(a["summary"])}</p>\n        </div>\n'
-                 f'        <div class="go"><a class="more" href="{href}">Read the article</a></div>\n'
-                 f'      </li>\n')
-    page += "    </ul>\n  </div>\n" + FOOT
+        out.append(f'{indent}  <li class="row text">\n'
+                   f'{indent}    <div class="kind"><b>{a["label"]}</b>{esc(a["read"])}</div>\n'
+                   f'{indent}    <div>\n{indent}      <h3><a href="{a["path"]}">{esc(a["title"])}</a></h3>\n'
+                   f'{indent}      <p>{inline(a["summary"])}</p>\n{indent}    </div>\n'
+                   f'{indent}    <div class="go"><a class="more" href="{a["path"]}">Read the article</a></div>\n'
+                   f'{indent}  </li>')
+    out.append(f"{indent}</ul>")
+    return "\n".join(out) + "\n"
+
+
+def intro(title, lede, trail=None):
+    return ('  <section class="intro small">\n    <div class="container">\n'
+            + (f"      {crumbs(trail)}" if trail else "")
+            + f"      <h1>{esc(title)}</h1>\n      <p class=\"lede\">{esc(lede)}</p>\n    </div>\n  </section>\n\n")
+
+
+def build():
+    cats = json.loads((ARTICLES / "categories.json").read_text(encoding="utf-8"))
+    languages = {l["slug"]: l for l in cats["languages"]}
+    levels = {l["slug"]: l for l in cats["levels"]}
+    articles = sorted((load(p, languages, levels) for p in ARTICLES.glob("*/*/*/article.md")), key=lambda a: a["sort"])
+    tree = {}       # language -> level -> [articles], both in categories.json order
+    for lang in languages:
+        for level in levels:
+            found = [a for a in articles if (a["lang"], a["level"]) == (lang, level)]
+            if found:
+                tree.setdefault(lang, {})[level] = found
+
+    for lang, by_level in tree.items():
+        L = languages[lang]
+        for level, group in by_level.items():
+            V = levels[level]
+            trail = [("Articles", "/articles/"), (L["name"], f"/articles/{lang}/"),
+                     (V["name"], f"/articles/{lang}/{level}/")]
+            for i, a in enumerate(group):
+                day = f"{a['day'].day} {a['day']:%B %Y}"
+                page = head(a["title"], a["summary"], a["path"], og_type="article")
+                page += '  <div class="container">\n  <article class="article">\n    ' + crumbs(trail)
+                page += f'    <p class="meta">{a["label"]}, {day}, {esc(a["read"])}</p>\n'
+                page += f'    <h1>{esc(a["title"])}</h1>\n'
+                page += f'    <p class="standfirst">{inline(a["summary"])}</p>\n'
+                page += render(a["body"]) + "\n"
+                if a.get("video"):
+                    name, _, link = (s.strip() for s in a["video"].partition("|"))
+                    page += (f'    <p class="watch">This article goes with the video <strong>{esc(name)}</strong>. '
+                             f'<a href="{link}">Watch it on YouTube</a>.</p>\n')
+                page += '    <nav class="pager" aria-label="More in this level">\n'
+                if i > 0:
+                    page += f'      <a href="{group[i - 1]["path"]}"><span>Previous</span>{esc(group[i - 1]["title"])}</a>\n'
+                if i < len(group) - 1:
+                    page += f'      <a class="next" href="{group[i + 1]["path"]}"><span>Next</span>{esc(group[i + 1]["title"])}</a>\n'
+                page += "    </nav>\n  </article>\n  </div>\n" + FOOT
+                write(HERE / a["path"].strip("/") / "index.html", page)
+                for alias in a["aliases"]:
+                    write(HERE / alias.strip("/") / "index.html",
+                          MOVED.format(title=esc(a["title"]), path=a["path"], canonical=SITE + a["path"]))
+
+            # the level: /articles/<language>/<level>/
+            title = f"{V['name']} {L['name']}"
+            page = head(title, f"{L['name']} articles for the {V['name'].lower()} track. {V['summary']}",
+                        f"/articles/{lang}/{level}/")
+            page += intro(title, V["summary"], trail[:2])
+            page += '  <div class="container board">\n' + rows(group, "    ") + "  </div>\n" + FOOT
+            write(ARTICLES / lang / level / "index.html", page)
+
+        # the language: /articles/<language>/
+        page = head(f"{L['name']} articles", L["summary"], f"/articles/{lang}/")
+        page += intro(L["name"], L["summary"], [("Articles", "/articles/")])
+        page += '  <div class="container board">\n'
+        for level, group in by_level.items():
+            V = levels[level]
+            page += (f'    <section class="block" id="{level}">\n'
+                     f'      <h2><a href="/articles/{lang}/{level}/">{V["name"]}</a></h2>\n'
+                     f'      <p class="about">{esc(V["summary"])}</p>\n' + rows(group) + "    </section>\n")
+        page += "  </div>\n" + FOOT
+        write(ARTICLES / lang / "index.html", page)
+
+    # everything: /articles/
+    page = head("Articles", "Short written lessons on coding, algorithms and data structures, "
+                "filed by language and level, with code you can copy.", "/articles/", current=True)
+    page += intro("Articles", "The lessons from the videos, written down, with code you can copy. "
+                  "Filed by language, then by level, in the order they are taught.")
+    page += '  <div class="container board">\n'
+    for lang, by_level in tree.items():
+        L = languages[lang]
+        page += (f'    <section class="block" id="{lang}">\n'
+                 f'      <h2><a href="/articles/{lang}/">{L["name"]}</a></h2>\n'
+                 f'      <p class="about">{esc(L["summary"])}</p>\n')
+        for level, group in by_level.items():
+            V = levels[level]
+            count = f"{len(group)} article" + ("" if len(group) == 1 else "s")
+            page += (f'      <h3 class="level"><a href="/articles/{lang}/{level}/">{V["name"]}</a>'
+                     f'<span>{count}</span></h3>\n' + rows(group))
+        page += "    </section>\n"
+    page += "  </div>\n" + FOOT
     write(ARTICLES / "index.html", page)
 
 

@@ -1,0 +1,26 @@
+{
+  "languages": [
+    {
+      "slug": "python",
+      "name": "Python",
+      "summary": "From the first line to data structures and algorithms, in the order the videos teach them."
+    }
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "name": "Beginner",
+      "summary": "Syntax, types, control flow, functions, the built-in collections, errors, files and modules. No experience needed."
+    },
+    {
+      "slug": "intermediate",
+      "name": "Intermediate",
+      "summary": "The language's own idioms, classic data structures and algorithms, testing and packaging."
+    },
+    {
+      "slug": "advanced",
+      "name": "Advanced",
+      "summary": "Concurrency, performance, metaprogramming, graphs, dynamic programming and internals."
+    }
+  ]
+}

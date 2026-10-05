@@ -3,135 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Your first Python program: Codesarray</title>
-<meta name="description" content="Install Python 3.14, run it two ways, and read an eleven-line program one line at a time.">
-<link rel="canonical" href="https://codesarray.com/articles/your-first-python-program/">
+<meta http-equiv="refresh" content="0; url=/articles/python/beginner/your-first-python-program/">
+<title>Your first Python program has moved: Codesarray</title>
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://codesarray.com/articles/python/beginner/your-first-python-program/">
 <meta name="theme-color" content="#1d2024">
-<meta property="og:type" content="article">
-<meta property="og:site_name" content="Codesarray">
-<meta property="og:title" content="Your first Python program">
-<meta property="og:description" content="Install Python 3.14, run it two ways, and read an eleven-line program one line at a time.">
-<meta property="og:url" content="https://codesarray.com/articles/your-first-python-program/">
-<meta property="og:image" content="https://codesarray.com/og.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@codesarray">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
-
-<header class="site-header">
-  <div class="container">
-    <a class="wordmark brand" href="/">
-      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
-        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="#f3f1ec" stroke-width="8.4" stroke-linejoin="round"/>
-        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
-      </svg>
-      CODESARRAY
-    </a>
-    <nav class="site-nav" aria-label="Primary">
-      <a href="/#games">Games</a>
-      <a href="/#videos">Videos</a>
-      <a href="/articles/">Articles</a>
-      <a href="/work/">Work</a>
-    </nav>
-  </div>
-</header>
-
 <main id="main">
   <div class="container">
   <article class="article">
-    <p class="meta">Python, 2 October 2026, 4 min read</p>
-    <h1>Your first Python program</h1>
-    <p class="standfirst">Install Python 3.14, run it two ways, and read an eleven-line program one line at a time.</p>
-<p>By the end of this page you will have Python installed, you will have run a program two different ways, and you will know the one rule that makes Python look different from every other language.</p>
-<h2>Install it</h2>
-<p>Go to <a href="https://www.python.org/downloads/">python.org</a> and download Python 3.14. On Windows, tick the box that says <strong>Add Python to PATH</strong> before you click install. Without it, the terminal will not know what <code>python</code> means.</p>
-<p>Then open a terminal and check:</p>
-<pre><code>python --version</code></pre>
-<pre class="out"><code>Python 3.14.7</code></pre>
-<p>If you see a version that starts with 3.14, you are ready.</p>
-<h2>Two ways to run Python</h2>
-<p>The first is the REPL, the interactive shell. Type <code>python</code> on its own and press enter. You get a prompt with three angle brackets, and Python answers each line as soon as you type it:</p>
-<pre><code>&gt;&gt;&gt; 2 + 3
-5</code></pre>
-<p>The REPL is for experimenting. Since 3.14 it even colours your code as you type.</p>
-<p>The second way is a file. Save your code as <code>hello.py</code> and run it with:</p>
-<pre><code>python hello.py</code></pre>
-<p>Files are for programs you want to keep and run again. Everything in this series lives in files.</p>
-<h2>The program</h2>
-<pre><code># my first Python program
-print(&quot;Hello, World!&quot;)
-
-name = &quot;Ada&quot;
-print(&quot;Hello,&quot;, name)
-
-age = 36
-if age &gt;= 18:
-    print(name, &quot;is an adult&quot;)
-    print(&quot;Welcome aboard&quot;)
-print(&quot;Done&quot;)</code></pre>
-<p>Line by line:</p>
-<ul>
-  <li><strong>Line 1</strong> is a comment. Anything after a <code>#</code> is ignored by Python; it is a note for humans.</li>
-  <li><strong>Line 2</strong> calls <code>print</code>, the function that shows text on screen.</li>
-  <li><strong>Line 4</strong> stores the text <code>&quot;Ada&quot;</code> in a variable called <code>name</code>.</li>
-  <li><strong>Line 5</strong> prints two things at once. <code>print</code> puts a space between them.</li>
-  <li><strong>Line 7</strong> stores a number.</li>
-  <li><strong>Line 8</strong> asks a question: is <code>age</code> at least 18?</li>
-  <li><strong>Lines 9 and 10</strong> run only if the answer is yes.</li>
-  <li><strong>Line 11</strong> always runs.</li>
-</ul>
-<h2>The rule: indentation is the code</h2>
-<p>Python has no curly braces. The lines that belong to the <code>if</code> are the ones indented underneath it. Four spaces is the convention. The moment you go back to the left margin, you are outside the block.</p>
-<p>If you forget to indent, Python refuses to run the file:</p>
-<pre class="out"><code>IndentationError: expected an indented block after &#x27;if&#x27; statement on line 2</code></pre>
-<p>In Python, the whitespace is the code.</p>
-<h2>Run it</h2>
-<p>Python reads the file from top to bottom:</p>
-<pre class="out"><code>Hello, World!
-Hello, Ada
-Ada is an adult
-Welcome aboard
-Done</code></pre>
-<p>Because 36 is at least 18, both lines inside the <code>if</code> run, and then <code>Done</code>.</p>
-<h2>What you learned</h2>
-<ul>
-  <li><code>python --version</code> checks your install.</li>
-  <li><code>python</code> on its own opens the REPL.</li>
-  <li><code>python hello.py</code> runs a file.</li>
-  <li><code>print(...)</code> shows output.</li>
-  <li><code>#</code> starts a comment.</li>
-  <li>Four spaces of indentation make a block.</li>
-</ul>
-<p>Next in the series: variables and types.</p>
-    <p class="watch">This article goes with the video <strong>Hello, Python</strong>. <a href="https://youtu.be/NExcPTw_LvQ">Watch it on YouTube</a>.</p>
-    <p><a class="back-link" href="/articles/">All articles</a></p>
+    <h1>This article has moved</h1>
+    <p><a href="/articles/python/beginner/your-first-python-program/">Your first Python program</a> now lives at codesarray.com/articles/python/beginner/your-first-python-program/. You should be sent there automatically; if not, follow the link.</p>
   </article>
   </div>
 </main>
-
-<footer class="site-footer">
-  <div class="container">
-    <p>&copy; 2026 Codesarray</p>
-    <nav class="footer-links social" aria-label="Codesarray elsewhere">
-      <a href="https://www.youtube.com/@codesarray">YouTube</a>
-      <a href="https://www.instagram.com/codesarray/">Instagram</a>
-      <a href="https://x.com/codesarray">X</a>
-      <a href="https://www.facebook.com/codesarray">Facebook</a>
-    </nav>
-    <nav class="footer-links" aria-label="Footer">
-      <a href="/">Home</a>
-      <a href="/articles/">Articles</a>
-      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
-    </nav>
-  </div>
-</footer>
-
 </body>
 </html>

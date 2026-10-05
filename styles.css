@@ -1035,6 +1035,103 @@ pre.out {
   border-top: 1px solid var(--border);
 }
 
+/* Where an article sits: Articles / Python / Beginner. */
+.crumbs,
+.article .crumbs {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 18px;
+  padding: 0;
+  color: var(--text-dim);
+  font-size: 0.9375rem;
+}
+
+.crumbs li,
+.article .crumbs li {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+}
+
+.crumbs li + li::before {
+  content: "/";
+  margin-inline: 10px;
+  color: var(--text-dim);
+}
+
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--text-dim);
+  text-decoration: none;
+}
+
+.crumbs a:hover {
+  color: var(--gold);
+}
+
+/* A level inside a language on the all-articles page. */
+.block h3.level {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-top: clamp(32px, 5vw, 48px);
+  font-size: 1.75rem;
+  font-weight: 800;
+}
+
+.block h3.level a,
+.block > h2 a {
+  text-decoration: none;
+}
+
+.block h3.level span {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--text-dim);
+}
+
+.block h3.level + .rows {
+  margin-top: 14px;
+}
+
+/* Previous and next article in the same level. */
+.pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.pager:empty {
+  display: none;
+}
+
+.pager a {
+  display: block;
+  min-height: 44px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.pager a.next {
+  grid-column: 2;
+  text-align: right;
+}
+
+.pager span {
+  display: block;
+  color: var(--text-dim);
+  font-size: 0.9375rem;
+  font-weight: 400;
+}
+
 .social {
   display: flex;
   flex-wrap: wrap;
