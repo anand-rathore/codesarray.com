@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Variables and types in Python: Codesarray</title>
+<meta name="description" content="The five basic types, how to ask Python what type a value is, and how to turn one type into another.">
+<link rel="canonical" href="https://codesarray.com/articles/python/beginner/variables-and-types/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Variables and types in Python">
+<meta property="og:description" content="The five basic types, how to ask Python what type a value is, and how to turn one type into another.">
+<meta property="og:url" content="https://codesarray.com/articles/python/beginner/variables-and-types/">
+<meta property="og:image" content="https://codesarray.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/beginner/">Beginner</a></li></ol></nav>
+    <p class="meta">Lesson 2, 5 October 2026, 4 min read</p>
+    <h1>Variables and types in Python</h1>
+    <p class="standfirst">The five basic types, how to ask Python what type a value is, and how to turn one type into another.</p>
+<p>By the end of this page you will know the five basic kinds of value in Python, how to ask Python what type a value is, and how to turn one type into another.</p>
+<h2>What a variable is</h2>
+<p>A variable is a name for a value. Write the name, an equals sign, and the value:</p>
+<pre><code>score = 10</code></pre>
+<p>Python stores <code>10</code> and calls it <code>score</code>. There is no keyword and no type to declare. Use the name and you get the value back. Assign again and the name points to the new value:</p>
+<pre><code>print(score)
+score = score + 5
+print(score)</code></pre>
+<pre class="out"><code>10
+15</code></pre>
+<h2>The five basic types</h2>
+<p>Every value has a type.</p>
+<ul>
+  <li><code>42</code> is an <strong>int</strong>: a whole number.</li>
+  <li><code>3.14</code> is a <strong>float</strong>: a number with a decimal point.</li>
+  <li><code>&quot;hello&quot;</code> is a <strong>str</strong>, short for string: text in quotes.</li>
+  <li><code>True</code> and <code>False</code> are <strong>bool</strong>.</li>
+  <li><code>None</code> means no value at all.</li>
+</ul>
+<p>Ask Python with the <code>type</code> function and it tells you:</p>
+<pre><code>&gt;&gt;&gt; type(42)
+&lt;class &#x27;int&#x27;&gt;</code></pre>
+<h2>Dynamic typing</h2>
+<p>The type belongs to the value, not to the name. So the same name can hold a number now and text later:</p>
+<pre><code>x = 5
+x = &quot;five&quot;</code></pre>
+<p>Python checks types while the program runs. That is called dynamic typing.</p>
+<h2>Arithmetic</h2>
+<p>Plus, minus and times work as you expect. Division has two forms, and the difference matters:</p>
+<pre><code>&gt;&gt;&gt; 7 / 2
+3.5
+&gt;&gt;&gt; 7 // 2
+3
+&gt;&gt;&gt; 7 % 2
+1
+&gt;&gt;&gt; 2 ** 10
+1024</code></pre>
+<p>A single slash always gives a float. A double slash drops the fraction. Percent gives the remainder, and two stars is a power.</p>
+<h2>Comparisons and logic</h2>
+<p>A comparison asks a question and answers with a bool. A double equals tests whether two values are equal; a single equals assigns. Combine answers with <code>and</code>, <code>or</code> and <code>not</code>:</p>
+<pre><code>&gt;&gt;&gt; age = 36
+&gt;&gt;&gt; is_admin = True
+&gt;&gt;&gt; age &gt;= 18
+True
+&gt;&gt;&gt; age == 36
+True
+&gt;&gt;&gt; age &gt;= 18 and not is_admin
+False</code></pre>
+<h2>Converting between types</h2>
+<p>Types do not mix by themselves. Adding text to a number is an error:</p>
+<pre><code>&gt;&gt;&gt; &quot;3&quot; + 4</code></pre>
+<pre class="out"><code>TypeError: can only concatenate str (not &quot;int&quot;) to str</code></pre>
+<p>Convert first. <code>int</code> turns text into a whole number, <code>str</code> turns a number into text, and <code>float</code> handles decimals:</p>
+<pre><code>&gt;&gt;&gt; int(&quot;3&quot;) + 4
+7
+&gt;&gt;&gt; &quot;3&quot; + str(4)
+&#x27;34&#x27;
+&gt;&gt;&gt; float(&quot;3.5&quot;)
+3.5</code></pre>
+<h2>The whole program</h2>
+<pre><code>name = &quot;Ada&quot;
+age = 36
+height = 1.68
+is_admin = True
+nickname = None
+
+print(type(name), type(age))
+next_year = age + 1
+half = age / 2
+print(next_year, half)
+
+print(age &gt;= 18 and not is_admin)
+print(&quot;Age: &quot; + str(age))
+print(int(&quot;42&quot;) + 8)</code></pre>
+<p>Lines 1 to 5 store five values, one of each type. Line 7 prints two of the types. Line 8 adds one to <code>age</code> and line 9 halves it; the slash makes a float. Line 12 asks a question and prints the answer. Line 13 converts <code>age</code> to text so it can join the label, and line 14 converts text to a number before adding.</p>
+<pre class="out"><code>&lt;class &#x27;str&#x27;&gt; &lt;class &#x27;int&#x27;&gt;
+37 18.0
+False
+Age: 36
+50</code></pre>
+<h2>What you learned</h2>
+<ul>
+  <li><code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code> and <code>None</code> are the basic types.</li>
+  <li><code>type(x)</code> tells you which one you have.</li>
+  <li><code>7 / 2</code> gives a float; <code>7 // 2</code> gives a whole number.</li>
+  <li>Comparisons give a bool.</li>
+  <li><code>int()</code>, <code>float()</code> and <code>str()</code> convert between types.</li>
+</ul>
+<p>This lesson follows on from <a href="/articles/python/beginner/your-first-python-program/">Your first Python program</a>. Next in the series: control flow.</p>
+    <p class="watch">This article goes with the video <strong>Variables and types</strong>. <a href="https://youtu.be/goptyPZ-XuM">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/beginner/repl-vs-file/"><span>Previous</span>The REPL or a file: two ways to run Python</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
