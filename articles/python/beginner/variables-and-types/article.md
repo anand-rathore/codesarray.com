@@ -1,7 +1,7 @@
 title: Variables and types in Python
 summary: The five basic types, how to ask Python what type a value is, and how to turn one type into another.
 date: 2026-10-05
-read: 4 min read
+read: 3 min read
 lesson: 2
 video: Variables and types | https://youtu.be/goptyPZ-XuM
 ---
