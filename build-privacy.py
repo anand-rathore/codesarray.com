@@ -21,12 +21,10 @@ from pathlib import Path
 
 HERE = Path(__file__).parent
 
-ARRAY_MARK = """      <svg class="mark" viewBox="0 0 32 32" role="img" aria-label="Codesarray">
-        <rect width="32" height="32" rx="7" fill="#1c1f3a"/>
-        <path d="M11 8H7.5v16H11M21 8h3.5v16H21" fill="none" stroke="#f2f3ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="11.2" cy="16" r="1.6" fill="#ffc53d"/>
-        <circle cx="16" cy="16" r="1.6" fill="#ffc53d"/>
-        <circle cx="20.8" cy="16" r="1.6" fill="#ffc53d"/>
+ARRAY_MARK = """      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <rect width="48" height="48" rx="5" fill="#1d2024"/>
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="#f3f1ec" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
       </svg>
 """
 
@@ -230,7 +228,9 @@ def build(slug: str) -> None:
         mark=site["mark"],
         nav=nav,
     )
-    out.write_text(head + render(src.read_text(), slug, site["name"]) + FOOT.format(store=store))
+    # utf-8 on both sides: the Windows default (cp1252) wrote the dashes as bytes browsers cannot read
+    out.write_text(head + render(src.read_text(encoding="utf-8"), slug, site["name"]) + FOOT.format(store=store),
+                   encoding="utf-8", newline="\n")
     print("wrote %s (%d bytes)" % (out.relative_to(HERE), out.stat().st_size))
 
 
