@@ -25,8 +25,10 @@ level with no articles is left off the site until it has one.
 
 article.md starts with a header, then a line of three dashes, then the text:
 
-    title: Your first Python program
+    title: Python Hello World: your first program, step by step
     summary: One or two sentences, shown under the title and in the lists.
+    description: Optional. What search results show (120 to 155 characters, the search
+                 term near the start); the summary is used when it is missing.
     date: 2026-10-02
     read: 4 min read
     lesson: 1

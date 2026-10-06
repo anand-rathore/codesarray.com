@@ -1,6 +1,6 @@
 title: Python REPL vs .py file: two ways to run Python
 summary: When to type into the interactive shell, when to save a file, and what Python 3.14 added to the shell.
-description: The difference between the Python REPL (interactive shell) and running a .py file, when to use each, and the syntax colouring Python 3.14 added to the shell.
+description: The difference between the Python REPL (interactive shell) and running a .py file, when to use each, and the syntax colouring added in Python 3.14.
 date: 2026-10-05
 read: 2 min read
 follows: 1
