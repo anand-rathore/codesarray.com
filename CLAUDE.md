@@ -33,6 +33,11 @@ articles\<language>\<level>\<slug>\article.md    one article (source of truth)
 - The slug does not repeat the language or the level.
 - Never edit a generated `index.html` under `articles\` by hand. Edit the
   `article.md` or `build-articles.py`, then run `python build-articles.py`.
+  The build also writes `sitemap.xml` and `robots.txt`; never edit those by
+  hand either, and add any new non-article page to `STATIC_PAGES` in the
+  builder.
+- Every article has `image: cover.png` in its header and the file beside
+  it; it is the preview image for shared links and search results.
 - The three newest articles are also listed by hand in the `#articles`
   section of the front page.
 

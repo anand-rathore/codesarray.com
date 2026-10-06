@@ -4,6 +4,7 @@ date: 2026-10-02
 read: 4 min read
 lesson: 1
 video: Hello, Python | https://youtu.be/NExcPTw_LvQ
+image: cover.png
 aliases: /articles/your-first-python-program/
 ---
 By the end of this page you will have Python installed, you will have run a program two different ways, and you will know the one rule that makes Python look different from every other language.
@@ -105,4 +106,16 @@ Because 36 is at least 18, both lines inside the `if` run, and then `Done`.
 - `#` starts a comment.
 - Four spaces of indentation make a block.
 
-Next in the series: variables and types.
+## Common questions
+
+**Which editor should I write Python in?** Any text editor that saves plain text works: the file just has to end in `.py`. Visual Studio Code is free and the most common choice; Python also installs a small editor of its own called IDLE. Do not use a word processor, which adds formatting Python cannot read.
+
+**The terminal says `python` is not recognised. What now?** On Windows that almost always means the "Add Python to PATH" box was not ticked. Run the installer again, choose Modify, and tick it. On macOS and Linux the command is often `python3` instead of `python`; try that first.
+
+**Does `print("Hello, World!")` need the brackets?** Yes. In Python 3, `print` is a function, and a function is called with brackets around what you give it. Writing `print "Hello"` without them is a syntax error.
+
+**Do I have to use exactly four spaces?** Python accepts any consistent indentation inside one block, but four spaces is the convention the whole Python world follows, and mixing tabs and spaces in one file is an error. Set your editor to insert four spaces when you press Tab and you will never think about it again.
+
+**What happens if I run the file twice?** The same thing twice. A file is a recipe: every run starts from the top with nothing remembered from before. That is the difference from the REPL, which keeps values until you close it.
+
+Next in the series: [Variables and types](/articles/python/beginner/variables-and-types/).

@@ -12,9 +12,13 @@
 <meta property="og:title" content="Variables and types in Python">
 <meta property="og:description" content="The five basic types, how to ask Python what type a value is, and how to turn one type into another.">
 <meta property="og:url" content="https://codesarray.com/articles/python/beginner/variables-and-types/">
-<meta property="og:image" content="https://codesarray.com/og.png">
+<meta property="og:image" content="https://codesarray.com/articles/python/beginner/variables-and-types/cover.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-05">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Variables and types in Python","description":"The five basic types, how to ask Python what type a value is, and how to turn one type into another.","image":"https://codesarray.com/articles/python/beginner/variables-and-types/cover.png","datePublished":"2026-10-05","dateModified":"2026-10-05","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/beginner/variables-and-types/"},"proficiencyLevel":"Beginner","articleSection":"Python","video":{"@type":"VideoObject","name":"Variables and types","url":"https://youtu.be/goptyPZ-XuM","embedUrl":"https://youtu.be/goptyPZ-XuM","thumbnailUrl":"https://codesarray.com/articles/python/beginner/variables-and-types/cover.png","uploadDate":"2026-10-05","description":"The five basic types, how to ask Python what type a value is, and how to turn one type into another."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/python/beginner/"},{"@type":"ListItem","position":4,"name":"Variables and types in Python"}]}</script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,7 +57,7 @@
   <div class="container">
   <article class="article">
     <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/beginner/">Beginner</a></li></ol></nav>
-    <p class="meta">Lesson 2, 5 October 2026, 3 min read</p>
+    <p class="meta">Lesson 2, by Codesarray, <time datetime="2026-10-05">5 October 2026</time>, 5 min read</p>
     <h1>Variables and types in Python</h1>
     <p class="standfirst">The five basic types, how to ask Python what type a value is, and how to turn one type into another.</p>
 <p>By the end of this page you will know the five basic kinds of value in Python, how to ask Python what type a value is, and how to turn one type into another.</p>
@@ -144,6 +148,12 @@ Age: 36
   <li>Comparisons give a bool.</li>
   <li><code>int()</code>, <code>float()</code> and <code>str()</code> convert between types.</li>
 </ul>
+<h2>Common questions</h2>
+<p>**Why does <code>7 / 2</code> give <code>3.5</code> and not <code>3</code>?** In Python a single slash is true division and always gives a float, even when the numbers divide exactly: <code>8 / 2</code> is <code>4.0</code>. When you want the whole-number part, use <code>//</code>, which gives <code>3</code> for <code>7 // 2</code>.</p>
+<p>**Why does my number print as <code>18.0</code> instead of <code>18</code>?** Because it came from a division. <code>age / 2</code> is a float, so it prints with a decimal point. Use <code>age // 2</code> if you want an int, or <code>int(age / 2)</code> to convert the result.</p>
+<p>**What is the difference between <code>=</code> and <code>==</code>?** A single equals assigns: <code>age = 36</code> stores 36 under the name <code>age</code>. A double equals compares: <code>age == 36</code> asks whether <code>age</code> is 36 and answers <code>True</code> or <code>False</code>. Writing <code>=</code> where you meant <code>==</code> inside an <code>if</code> is a syntax error, so Python will tell you.</p>
+<p>**Is <code>None</code> the same as <code>0</code> or an empty string?** No. <code>None</code> is its own value, meaning "nothing here". <code>None == 0</code> is <code>False</code>, and so is <code>None == &quot;&quot;</code>. Use <code>None</code> when a variable has no value yet, and a real <code>0</code> or <code>&quot;&quot;</code> when the value is genuinely zero or empty.</p>
+<p><strong>Do I have to declare a type like in other languages?</strong> No. The type belongs to the value, and Python reads it from the value you assign. The same name can hold an int now and a str later. That freedom is why conversions matter: Python will not guess what you meant by <code>&quot;3&quot; + 4</code>.</p>
 <p>This lesson follows on from <a href="/articles/python/beginner/your-first-python-program/">Your first Python program</a>. Next in the series: control flow.</p>
     <p class="watch">This article goes with the video <strong>Variables and types</strong>. <a href="https://youtu.be/goptyPZ-XuM">Watch it on YouTube</a>.</p>
     <nav class="pager" aria-label="More in this level">

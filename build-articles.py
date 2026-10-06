@@ -15,6 +15,10 @@ and the script writes:
     articles/<language>/index.html                 the language, grouped by level
     articles/index.html                            everything, grouped by language then level
     <alias>/index.html                             a forwarding page for each old address
+    sitemap.xml, robots.txt                        every indexable page, for search engines
+
+Every article page also carries Open Graph tags, its own preview image, and
+TechArticle and BreadcrumbList structured data (JSON-LD) built from the header.
 
 To add a language, add it to categories.json and create its folder. A language or
 level with no articles is left off the site until it has one.
@@ -27,6 +31,7 @@ article.md starts with a header, then a line of three dashes, then the text:
     read: 4 min read
     lesson: 1
     video: Hello, Python | https://youtu.be/NExcPTw_LvQ
+    image: cover.png
     aliases: /articles/your-first-python-program/
     ---
     Text. Supported: ## headings, paragraphs, - and 1. lists, **bold**, `code`,
@@ -36,6 +41,8 @@ article.md starts with a header, then a line of three dashes, then the text:
     lesson    the number of the long-form video in its track; these come first, in order
     follows   for an article made from a short: the lesson number it belongs after
     video     the name of the video and its YouTube URL
+    image     optional preview image in the article's folder (the video's thumbnail, or
+              the first post slide for a short note); shared links and search results use it
     aliases   optional old addresses of this article, comma separated; each gets a
               page that forwards here, so a published link never breaks
 
@@ -67,9 +74,9 @@ HEAD = """<!doctype html>
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{description}">
 <meta property="og:url" content="{canonical}">
-<meta property="og:image" content="https://codesarray.com/og.png">
+<meta property="og:image" content="{image}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@codesarray">
+<meta name="twitter:site" content="@codesarray">{extra}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -247,9 +254,40 @@ def write(path, text):
     print(f"wrote {path.relative_to(HERE).as_posix()}")
 
 
-def head(title, description, path, og_type="website", current=False):
+def head(title, description, path, og_type="website", current=False, image=None, extra=""):
     return HEAD.format(title=esc(title), description=esc(description), canonical=SITE + path, og_type=og_type,
-                       articles_current=' aria-current="page"' if current else "")
+                       articles_current=' aria-current="page"' if current else "",
+                       image=image or f"{SITE}/og.png", extra=extra)
+
+
+def jsonld(data):
+    """A JSON-LD block for search engines. The data is what the builder already knows."""
+    text = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+    return '\n<script type="application/ld+json">' + text.replace("</", "<\\/") + "</script>"
+
+
+def article_ld(a, trail, image):
+    day = a["day"].isoformat()
+    org = {"@type": "Organization", "name": "Codesarray", "url": SITE + "/",
+           "logo": {"@type": "ImageObject", "url": f"{SITE}/brand/logo/mark-tile-1024.png"}}
+    article = {"@context": "https://schema.org", "@type": "TechArticle", "headline": a["title"],
+               "description": a["summary"], "image": image, "datePublished": day, "dateModified": day,
+               "inLanguage": "en", "author": org, "publisher": org,
+               "mainEntityOfPage": {"@type": "WebPage", "@id": SITE + a["path"]},
+               "proficiencyLevel": a["level"].capitalize(),
+               "articleSection": trail[1][0]}
+    if a.get("video"):
+        name, _, link = (s.strip() for s in a["video"].partition("|"))
+        article["video"] = {"@type": "VideoObject", "name": name, "url": link, "embedUrl": link,
+                            "thumbnailUrl": image, "uploadDate": day, "description": a["summary"]}
+    crumbs_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": i, "name": n, "item": SITE + p} for i, (n, p) in enumerate(trail, 1)
+    ] + [{"@type": "ListItem", "position": len(trail) + 1, "name": a["title"]}]}
+    return jsonld(article) + jsonld(crumbs_ld)
+
+
+def pretty_date(day):
+    return f"{day.day} {day:%B %Y}"
 
 
 def crumbs(trail):
@@ -262,7 +300,8 @@ def rows(articles, indent="      "):
     out = [f'{indent}<ul class="rows">']
     for a in articles:
         out.append(f'{indent}  <li class="row text">\n'
-                   f'{indent}    <div class="kind"><b>{a["label"]}</b>{esc(a["read"])}</div>\n'
+                   f'{indent}    <div class="kind"><b>{a["label"]}</b>{esc(a["read"])}'
+                   f'<time datetime="{a["day"].isoformat()}">{pretty_date(a["day"])}</time></div>\n'
                    f'{indent}    <div>\n{indent}      <h3><a href="{a["path"]}">{esc(a["title"])}</a></h3>\n'
                    f'{indent}      <p>{inline(a["summary"])}</p>\n{indent}    </div>\n'
                    f'{indent}    <div class="go"><a class="more" href="{a["path"]}">Read the article</a></div>\n'
@@ -296,10 +335,18 @@ def build():
             trail = [("Articles", "/articles/"), (L["name"], f"/articles/{lang}/"),
                      (V["name"], f"/articles/{lang}/{level}/")]
             for i, a in enumerate(group):
-                day = f"{a['day'].day} {a['day']:%B %Y}"
-                page = head(a["title"], a["summary"], a["path"], og_type="article")
+                day = pretty_date(a["day"])
+                # the preview image: the article's own cover.png (the video's thumbnail), else the site's
+                image = SITE + a["path"] + a["image"] if a.get("image") else None
+                if a.get("image") and not (HERE / a["path"].strip("/") / a["image"]).exists():
+                    sys.exit(f"{a['path']}: image '{a['image']}' is missing")
+                published = (f'\n<meta property="article:published_time" content="{a["day"].isoformat()}">'
+                             f'\n<meta property="article:section" content="{esc(trail[1][0])}">')
+                page = head(a["title"], a["summary"], a["path"], og_type="article", image=image,
+                            extra=published + article_ld(a, trail, image or f"{SITE}/og.png"))
                 page += '  <div class="container">\n  <article class="article">\n    ' + crumbs(trail)
-                page += f'    <p class="meta">{a["label"]}, {day}, {esc(a["read"])}</p>\n'
+                page += (f'    <p class="meta">{a["label"]}, by Codesarray, '
+                         f'<time datetime="{a["day"].isoformat()}">{day}</time>, {esc(a["read"])}</p>\n')
                 page += f'    <h1>{esc(a["title"])}</h1>\n'
                 page += f'    <p class="standfirst">{inline(a["summary"])}</p>\n'
                 page += render(a["body"]) + "\n"
@@ -357,6 +404,22 @@ def build():
         page += "    </section>\n"
     page += "  </div>\n" + FOOT
     write(ARTICLES / "index.html", page)
+
+    # sitemap.xml and robots.txt: every page worth indexing, articles with their dates
+    entries = [(p, None) for p in STATIC_PAGES]
+    entries += [(f"/articles/{lang}/", None) for lang in tree]
+    entries += [(f"/articles/{lang}/{level}/", None) for lang in tree for level in tree[lang]]
+    entries += [(a["path"], a["day"].isoformat()) for a in articles]
+    urls = "".join(f"  <url>\n    <loc>{SITE}{p}</loc>\n" + (f"    <lastmod>{d}</lastmod>\n" if d else "") + "  </url>\n"
+                   for p, d in entries)
+    write(HERE / "sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n'
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "</urlset>\n")
+    write(HERE / "robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
+
+
+# Pages that are not articles but belong in the sitemap. Add a page here when you add one.
+STATIC_PAGES = ["/", "/work/", "/articles/", "/blockfall/", "/pawsandperils/", "/synapsy/",
+                "/blockfall/privacy-policy.html", "/pawsandperils/privacy-policy.html", "/synapsy/privacy-policy.html"]
 
 
 if __name__ == "__main__":

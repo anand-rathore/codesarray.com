@@ -12,9 +12,13 @@
 <meta property="og:title" content="Your first Python program">
 <meta property="og:description" content="Install Python 3.14, run it two ways, and read an eleven-line program one line at a time.">
 <meta property="og:url" content="https://codesarray.com/articles/python/beginner/your-first-python-program/">
-<meta property="og:image" content="https://codesarray.com/og.png">
+<meta property="og:image" content="https://codesarray.com/articles/python/beginner/your-first-python-program/cover.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-02">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Your first Python program","description":"Install Python 3.14, run it two ways, and read an eleven-line program one line at a time.","image":"https://codesarray.com/articles/python/beginner/your-first-python-program/cover.png","datePublished":"2026-10-02","dateModified":"2026-10-02","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/beginner/your-first-python-program/"},"proficiencyLevel":"Beginner","articleSection":"Python","video":{"@type":"VideoObject","name":"Hello, Python","url":"https://youtu.be/NExcPTw_LvQ","embedUrl":"https://youtu.be/NExcPTw_LvQ","thumbnailUrl":"https://codesarray.com/articles/python/beginner/your-first-python-program/cover.png","uploadDate":"2026-10-02","description":"Install Python 3.14, run it two ways, and read an eleven-line program one line at a time."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/python/beginner/"},{"@type":"ListItem","position":4,"name":"Your first Python program"}]}</script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,7 +57,7 @@
   <div class="container">
   <article class="article">
     <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/beginner/">Beginner</a></li></ol></nav>
-    <p class="meta">Lesson 1, 2 October 2026, 4 min read</p>
+    <p class="meta">Lesson 1, by Codesarray, <time datetime="2026-10-02">2 October 2026</time>, 4 min read</p>
     <h1>Your first Python program</h1>
     <p class="standfirst">Install Python 3.14, run it two ways, and read an eleven-line program one line at a time.</p>
 <p>By the end of this page you will have Python installed, you will have run a program two different ways, and you will know the one rule that makes Python look different from every other language.</p>
@@ -116,7 +120,13 @@ Done</code></pre>
   <li><code>#</code> starts a comment.</li>
   <li>Four spaces of indentation make a block.</li>
 </ul>
-<p>Next in the series: variables and types.</p>
+<h2>Common questions</h2>
+<p><strong>Which editor should I write Python in?</strong> Any text editor that saves plain text works: the file just has to end in <code>.py</code>. Visual Studio Code is free and the most common choice; Python also installs a small editor of its own called IDLE. Do not use a word processor, which adds formatting Python cannot read.</p>
+<p>**The terminal says <code>python</code> is not recognised. What now?** On Windows that almost always means the "Add Python to PATH" box was not ticked. Run the installer again, choose Modify, and tick it. On macOS and Linux the command is often <code>python3</code> instead of <code>python</code>; try that first.</p>
+<p>**Does <code>print(&quot;Hello, World!&quot;)</code> need the brackets?** Yes. In Python 3, <code>print</code> is a function, and a function is called with brackets around what you give it. Writing <code>print &quot;Hello&quot;</code> without them is a syntax error.</p>
+<p><strong>Do I have to use exactly four spaces?</strong> Python accepts any consistent indentation inside one block, but four spaces is the convention the whole Python world follows, and mixing tabs and spaces in one file is an error. Set your editor to insert four spaces when you press Tab and you will never think about it again.</p>
+<p><strong>What happens if I run the file twice?</strong> The same thing twice. A file is a recipe: every run starts from the top with nothing remembered from before. That is the difference from the REPL, which keeps values until you close it.</p>
+<p>Next in the series: <a href="/articles/python/beginner/variables-and-types/">Variables and types</a>.</p>
     <p class="watch">This article goes with the video <strong>Hello, Python</strong>. <a href="https://youtu.be/NExcPTw_LvQ">Watch it on YouTube</a>.</p>
     <nav class="pager" aria-label="More in this level">
       <a class="next" href="/articles/python/beginner/indentation-is-syntax/"><span>Next</span>Python has no braces: the whitespace is the code</a>

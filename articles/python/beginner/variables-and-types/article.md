@@ -1,9 +1,10 @@
 title: Variables and types in Python
 summary: The five basic types, how to ask Python what type a value is, and how to turn one type into another.
 date: 2026-10-05
-read: 3 min read
+read: 5 min read
 lesson: 2
 video: Variables and types | https://youtu.be/goptyPZ-XuM
+image: cover.png
 ---
 By the end of this page you will know the five basic kinds of value in Python, how to ask Python what type a value is, and how to turn one type into another.
 
@@ -147,5 +148,17 @@ Age: 36
 - `7 / 2` gives a float; `7 // 2` gives a whole number.
 - Comparisons give a bool.
 - `int()`, `float()` and `str()` convert between types.
+
+## Common questions
+
+**Why does `7 / 2` give `3.5` and not `3`?** In Python a single slash is true division and always gives a float, even when the numbers divide exactly: `8 / 2` is `4.0`. When you want the whole-number part, use `//`, which gives `3` for `7 // 2`.
+
+**Why does my number print as `18.0` instead of `18`?** Because it came from a division. `age / 2` is a float, so it prints with a decimal point. Use `age // 2` if you want an int, or `int(age / 2)` to convert the result.
+
+**What is the difference between `=` and `==`?** A single equals assigns: `age = 36` stores 36 under the name `age`. A double equals compares: `age == 36` asks whether `age` is 36 and answers `True` or `False`. Writing `=` where you meant `==` inside an `if` is a syntax error, so Python will tell you.
+
+**Is `None` the same as `0` or an empty string?** No. `None` is its own value, meaning "nothing here". `None == 0` is `False`, and so is `None == ""`. Use `None` when a variable has no value yet, and a real `0` or `""` when the value is genuinely zero or empty.
+
+**Do I have to declare a type like in other languages?** No. The type belongs to the value, and Python reads it from the value you assign. The same name can hold an int now and a str later. That freedom is why conversions matter: Python will not guess what you meant by `"3" + 4`.
 
 This lesson follows on from [Your first Python program](/articles/python/beginner/your-first-python-program/). Next in the series: control flow.

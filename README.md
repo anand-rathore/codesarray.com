@@ -68,10 +68,19 @@ Articles are filed by language, then by level, matching the video tracks:
 2. For a new language, add it to `articles/categories.json` first. The levels
    are shared by every language. A language or level with no articles stays off
    the site until it has one.
-3. Run `python3 build-articles.py`. It rebuilds every article, the three kinds
-   of listing page, and the forwarding pages.
-4. Add a row to the `#articles` section of `index.html` if it should appear on
+3. Copy the preview image into the article's folder as `cover.png` (the
+   video's thumbnail, or the first post slide for a short note) and add
+   `image: cover.png` to the header.
+4. Run `python3 build-articles.py`. It rebuilds every article, the three kinds
+   of listing page, the forwarding pages, `sitemap.xml` and `robots.txt`.
+5. Add a row to the `#articles` section of `index.html` if it should appear on
    the front page (the three newest).
+
+Each article page carries its own Open Graph tags, preview image, published
+date and TechArticle and BreadcrumbList structured data, all generated from the
+header. The sitemap is registered in Google Search Console, which picks new
+articles up from it after a push. A new non-article page goes in `STATIC_PAGES`
+in `build-articles.py` so the sitemap lists it.
 
 An article's address is permanent once pushed. If one ever has to move, add its
 old address to the `aliases:` line of its header and the build writes a page

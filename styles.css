@@ -843,6 +843,12 @@ img {
   font-weight: 600;
 }
 
+.row .kind time {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.875rem;
+}
+
 .row .go {
   display: flex;
   flex-wrap: wrap;

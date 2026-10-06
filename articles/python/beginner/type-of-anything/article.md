@@ -4,6 +4,7 @@ date: 2026-10-06
 read: 2 min read
 follows: 2
 video: Python knows the type | https://youtube.com/shorts/Tdcc6wRlv_M
+image: cover.png
 ---
 Three, three point zero, and three in quotes look alike. Python knows they are three different things, and you never had to say so.
 
