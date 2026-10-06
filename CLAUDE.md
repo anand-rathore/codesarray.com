@@ -38,6 +38,13 @@ articles\<language>\<level>\<slug>\article.md    one article (source of truth)
   builder.
 - Every article has `image: cover.png` in its header and the file beside
   it; it is the preview image for shared links and search results.
+- Every article is written for search: one search phrase, at the front
+  of the title (under 60 characters where possible, 70 at most, never
+  bait), in the first paragraph, in the `description:` line (120 to 155
+  characters) and in the slug. Name exact things (`type()`,
+  `IndentationError`). Lessons run 700 to 1,000 words and end with a
+  "Common questions" section; short notes 200 to 400. The full rule is
+  "Search" in `G:\youtube\CLAUDE.md`.
 - The three newest articles are also listed by hand in the `#articles`
   section of the front page.
 
