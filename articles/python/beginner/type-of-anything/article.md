@@ -1,12 +1,13 @@
-title: Python knows the type: 3, 3.0 and "3" are not the same
+title: Python type() function: why 3, 3.0 and "3" are different
 summary: Three values that look alike are an int, a float and a str. type() shows the difference, and mixing them shows why it matters.
+description: What the Python type() function returns for 3, 3.0, "3", True and None, and why adding an int to a str raises a TypeError until you convert.
 date: 2026-10-06
 read: 2 min read
 follows: 2
 video: Python knows the type | https://youtube.com/shorts/Tdcc6wRlv_M
 image: cover.png
 ---
-Three, three point zero, and three in quotes look alike. Python knows they are three different things, and you never had to say so.
+Three, three point zero, and three in quotes look alike. Python knows they are three different data types, and the `type()` function shows you which is which. You never had to say so.
 
 ## Ask it with type()
 

@@ -342,7 +342,7 @@ def build():
                     sys.exit(f"{a['path']}: image '{a['image']}' is missing")
                 published = (f'\n<meta property="article:published_time" content="{a["day"].isoformat()}">'
                              f'\n<meta property="article:section" content="{esc(trail[1][0])}">')
-                page = head(a["title"], a["summary"], a["path"], og_type="article", image=image,
+                page = head(a["title"], a.get("description") or a["summary"], a["path"], og_type="article", image=image,
                             extra=published + article_ld(a, trail, image or f"{SITE}/og.png"))
                 page += '  <div class="container">\n  <article class="article">\n    ' + crumbs(trail)
                 page += (f'    <p class="meta">{a["label"]}, by Codesarray, '

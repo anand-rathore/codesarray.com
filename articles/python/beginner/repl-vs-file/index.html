@@ -3,22 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The REPL or a file: two ways to run Python: Codesarray</title>
-<meta name="description" content="When to type into the interactive shell, when to save a file, and what Python 3.14 added to the shell.">
+<title>Python REPL vs .py file: two ways to run Python: Codesarray</title>
+<meta name="description" content="The difference between the Python REPL (interactive shell) and running a .py file, when to use each, and the syntax colouring Python 3.14 added to the shell.">
 <link rel="canonical" href="https://codesarray.com/articles/python/beginner/repl-vs-file/">
 <meta name="theme-color" content="#1d2024">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Codesarray">
-<meta property="og:title" content="The REPL or a file: two ways to run Python">
-<meta property="og:description" content="When to type into the interactive shell, when to save a file, and what Python 3.14 added to the shell.">
+<meta property="og:title" content="Python REPL vs .py file: two ways to run Python">
+<meta property="og:description" content="The difference between the Python REPL (interactive shell) and running a .py file, when to use each, and the syntax colouring Python 3.14 added to the shell.">
 <meta property="og:url" content="https://codesarray.com/articles/python/beginner/repl-vs-file/">
 <meta property="og:image" content="https://codesarray.com/articles/python/beginner/repl-vs-file/cover.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@codesarray">
 <meta property="article:published_time" content="2026-10-05">
 <meta property="article:section" content="Python">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"The REPL or a file: two ways to run Python","description":"When to type into the interactive shell, when to save a file, and what Python 3.14 added to the shell.","image":"https://codesarray.com/articles/python/beginner/repl-vs-file/cover.png","datePublished":"2026-10-05","dateModified":"2026-10-05","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/beginner/repl-vs-file/"},"proficiencyLevel":"Beginner","articleSection":"Python","video":{"@type":"VideoObject","name":"Run Python one line at a time","url":"https://youtube.com/shorts/7aIQ590QE34","embedUrl":"https://youtube.com/shorts/7aIQ590QE34","thumbnailUrl":"https://codesarray.com/articles/python/beginner/repl-vs-file/cover.png","uploadDate":"2026-10-05","description":"When to type into the interactive shell, when to save a file, and what Python 3.14 added to the shell."}}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/python/beginner/"},{"@type":"ListItem","position":4,"name":"The REPL or a file: two ways to run Python"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python REPL vs .py file: two ways to run Python","description":"When to type into the interactive shell, when to save a file, and what Python 3.14 added to the shell.","image":"https://codesarray.com/articles/python/beginner/repl-vs-file/cover.png","datePublished":"2026-10-05","dateModified":"2026-10-05","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/beginner/repl-vs-file/"},"proficiencyLevel":"Beginner","articleSection":"Python","video":{"@type":"VideoObject","name":"Run Python one line at a time","url":"https://youtube.com/shorts/7aIQ590QE34","embedUrl":"https://youtube.com/shorts/7aIQ590QE34","thumbnailUrl":"https://codesarray.com/articles/python/beginner/repl-vs-file/cover.png","uploadDate":"2026-10-05","description":"When to type into the interactive shell, when to save a file, and what Python 3.14 added to the shell."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/python/beginner/"},{"@type":"ListItem","position":4,"name":"Python REPL vs .py file: two ways to run Python"}]}</script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,9 +58,9 @@
   <article class="article">
     <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/beginner/">Beginner</a></li></ol></nav>
     <p class="meta">Short note, by Codesarray, <time datetime="2026-10-05">5 October 2026</time>, 2 min read</p>
-    <h1>The REPL or a file: two ways to run Python</h1>
+    <h1>Python REPL vs .py file: two ways to run Python</h1>
     <p class="standfirst">When to type into the interactive shell, when to save a file, and what Python 3.14 added to the shell.</p>
-<p>There are two ways to run Python, and beginners usually only know one. You can run it one line at a time and get an answer after each line, or you can save your code in a file and run the whole thing.</p>
+<p>There are two ways to run Python code, and beginners usually only know one. You can type into the Python REPL, the interactive shell, and get an answer after each line, or you can save your code in a <code>.py</code> file and run the whole thing.</p>
 <h2>The REPL: ask, get an answer</h2>
 <p>Type <code>python</code> in a terminal and press enter. You get the REPL, the interactive shell, with a <code>&gt;&gt;&gt;</code> prompt:</p>
 <pre><code>&gt; python
@@ -91,8 +91,8 @@ print(&quot;total:&quot;, price + tax)</code></pre>
 <p>Both are covered step by step in <a href="/articles/python/beginner/your-first-python-program/">Your first Python program</a>.</p>
     <p class="watch">This article goes with the video <strong>Run Python one line at a time</strong>. <a href="https://youtube.com/shorts/7aIQ590QE34">Watch it on YouTube</a>.</p>
     <nav class="pager" aria-label="More in this level">
-      <a href="/articles/python/beginner/indentation-is-syntax/"><span>Previous</span>Python has no braces: the whitespace is the code</a>
-      <a class="next" href="/articles/python/beginner/variables-and-types/"><span>Next</span>Variables and types in Python</a>
+      <a href="/articles/python/beginner/indentation-is-syntax/"><span>Previous</span>Python IndentationError explained: whitespace is syntax</a>
+      <a class="next" href="/articles/python/beginner/variables-and-types/"><span>Next</span>Python variables and data types: int, float, str, bool, None</a>
     </nav>
   </article>
   </div>

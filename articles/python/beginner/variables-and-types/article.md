@@ -1,12 +1,13 @@
-title: Variables and types in Python
+title: Python variables and data types: int, float, str, bool, None
 summary: The five basic types, how to ask Python what type a value is, and how to turn one type into another.
+description: Python variables and data types for beginners: int, float, str, bool and None, the type() function, dynamic typing, and how to convert between types.
 date: 2026-10-05
 read: 5 min read
 lesson: 2
 video: Variables and types | https://youtu.be/goptyPZ-XuM
 image: cover.png
 ---
-By the end of this page you will know the five basic kinds of value in Python, how to ask Python what type a value is, and how to turn one type into another.
+Every value in Python has a data type. By the end of this page you will know the five basic Python data types, how to ask Python what type a value is with the `type()` function, and how to turn one type into another.
 
 ## What a variable is
 

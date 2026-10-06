@@ -1,5 +1,6 @@
-title: Python has no braces: the whitespace is the code
+title: Python IndentationError explained: whitespace is syntax
 summary: Why four spaces decide what your program does, shown with one line that moves.
+description: Why Python has no curly braces, how indentation decides which lines belong to an if, and what an IndentationError means, shown with one line that moves.
 date: 2026-10-05
 read: 2 min read
 follows: 1
@@ -7,7 +8,7 @@ video: Python has no braces | https://youtube.com/shorts/G8KzcByjnUw
 image: cover.png
 aliases: /articles/python-indentation-is-syntax/
 ---
-Most languages mark a block of code with curly braces. Python does not have them. It decides which lines belong to an `if` by how far they are indented, so moving a line sideways changes what the program does.
+Most languages mark a block of code with curly braces. Python does not have them: Python indentation is syntax. It decides which lines belong to an `if` by how far they are indented, so moving a line sideways changes what the program does, and getting it wrong is the `IndentationError` every beginner meets.
 
 ## Five lines
 

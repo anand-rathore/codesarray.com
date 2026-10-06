@@ -1,5 +1,6 @@
-title: Your first Python program
+title: Python Hello World: your first program, step by step
 summary: Install Python 3.14, run it two ways, and read an eleven-line program one line at a time.
+description: Python Hello World for beginners: install Python 3.14, run code in the REPL and from a .py file, and read your first program line by line.
 date: 2026-10-02
 read: 4 min read
 lesson: 1
@@ -7,7 +8,7 @@ video: Hello, Python | https://youtu.be/NExcPTw_LvQ
 image: cover.png
 aliases: /articles/your-first-python-program/
 ---
-By the end of this page you will have Python installed, you will have run a program two different ways, and you will know the one rule that makes Python look different from every other language.
+This is the Python Hello World lesson, the first in the beginner track. By the end of this page you will have Python 3.14 installed, you will have run a Python program two different ways, and you will know the one rule that makes Python look different from every other language.
 
 ## Install it
 

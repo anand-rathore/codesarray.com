@@ -1,5 +1,6 @@
-title: The REPL or a file: two ways to run Python
+title: Python REPL vs .py file: two ways to run Python
 summary: When to type into the interactive shell, when to save a file, and what Python 3.14 added to the shell.
+description: The difference between the Python REPL (interactive shell) and running a .py file, when to use each, and the syntax colouring Python 3.14 added to the shell.
 date: 2026-10-05
 read: 2 min read
 follows: 1
@@ -7,7 +8,7 @@ video: Run Python one line at a time | https://youtube.com/shorts/7aIQ590QE34
 image: cover.png
 aliases: /articles/python-repl-vs-file/
 ---
-There are two ways to run Python, and beginners usually only know one. You can run it one line at a time and get an answer after each line, or you can save your code in a file and run the whole thing.
+There are two ways to run Python code, and beginners usually only know one. You can type into the Python REPL, the interactive shell, and get an answer after each line, or you can save your code in a `.py` file and run the whole thing.
 
 ## The REPL: ask, get an answer
 
