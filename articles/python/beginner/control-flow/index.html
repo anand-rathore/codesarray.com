@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python if else and loops: if, elif, for, while, break, continue: Codesarray</title>
+<meta name="description" content="Python if else and loops for beginners: if, elif and else, chained comparisons, for over range(), while, break, continue, and the else a loop can have.">
+<link rel="canonical" href="https://codesarray.com/articles/python/beginner/control-flow/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python if else and loops: if, elif, for, while, break, continue">
+<meta property="og:description" content="Python if else and loops for beginners: if, elif and else, chained comparisons, for over range(), while, break, continue, and the else a loop can have.">
+<meta property="og:url" content="https://codesarray.com/articles/python/beginner/control-flow/">
+<meta property="og:image" content="https://codesarray.com/articles/python/beginner/control-flow/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-06">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python if else and loops: if, elif, for, while, break, continue","description":"How a program decides with if, elif and else, repeats with for and while, and stops or skips a round with break and continue.","image":"https://codesarray.com/articles/python/beginner/control-flow/cover.png","datePublished":"2026-10-06","dateModified":"2026-10-06","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/beginner/control-flow/"},"proficiencyLevel":"Beginner","articleSection":"Python","video":{"@type":"VideoObject","name":"Control flow","url":"https://youtu.be/NqTma5wsLjs","embedUrl":"https://youtu.be/NqTma5wsLjs","thumbnailUrl":"https://codesarray.com/articles/python/beginner/control-flow/cover.png","uploadDate":"2026-10-06","description":"How a program decides with if, elif and else, repeats with for and while, and stops or skips a round with break and continue."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/python/beginner/"},{"@type":"ListItem","position":4,"name":"Python if else and loops: if, elif, for, while, break, continue"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/beginner/">Beginner</a></li></ol></nav>
+    <p class="meta">Lesson 3, by Codesarray, <time datetime="2026-10-06">6 October 2026</time>, 5 min read</p>
+    <h1>Python if else and loops: if, elif, for, while, break, continue</h1>
+    <p class="standfirst">How a program decides with if, elif and else, repeats with for and while, and stops or skips a round with break and continue.</p>
+<p>Python if else and loops are how a program decides what to do and does it again. By the end of this page your programs will make decisions with <code>if</code>, <code>elif</code> and <code>else</code>, repeat work with <code>for</code> and <code>while</code>, and stop a loop early with <code>break</code> or skip one round with <code>continue</code>.</p>
+<h2>Decide with if, elif and else</h2>
+<p>Write <code>if</code>, a condition, and a colon. The indented lines run only when the condition is <code>True</code>. <code>elif</code> checks another condition if the first one was <code>False</code>, and <code>else</code> catches everything that is left:</p>
+<pre><code>temperature = 23
+if temperature &gt; 30:
+    print(&quot;hot&quot;)
+elif 20 &lt;= temperature &lt;= 30:
+    print(&quot;warm&quot;)
+else:
+    print(&quot;cold&quot;)</code></pre>
+<pre class="out"><code>warm</code></pre>
+<p>Python tries the conditions in order, runs the first block that matches, and skips the rest. <code>temperature</code> is 23, so the first test fails, the second passes, and only <code>warm</code> is printed.</p>
+<h2>Chained comparisons</h2>
+<p>That middle condition, <code>20 &lt;= temperature &lt;= 30</code>, is a chained comparison. In most languages you would write two comparisons joined by <code>and</code>:</p>
+<pre><code>20 &lt;= temperature and temperature &lt;= 30</code></pre>
+<p>Python lets you write it the way you would on paper, and it means exactly the same thing. Any comparisons chain this way:</p>
+<pre><code>&gt;&gt;&gt; 0 &lt; 5 &lt; 10
+True
+&gt;&gt;&gt; 0 &lt; 15 &lt; 10
+False</code></pre>
+<h2>Repeat with for</h2>
+<p>A <code>for</code> loop repeats a block once for each item in a sequence. <code>range(1, 6)</code> gives the numbers from 1 up to, but not including, 6:</p>
+<pre><code>for n in range(1, 6):
+    print(n)</code></pre>
+<pre class="out"><code>1
+2
+3
+4
+5</code></pre>
+<p>So <code>n</code> takes 1, 2, 3, 4, 5 and the block runs five times. A <code>for</code> loop works on any collection: <code>for word in [&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;]:</code> visits each word, and <code>for letter in &quot;abc&quot;:</code> visits each letter.</p>
+<h2>Repeat with while</h2>
+<p>A <code>while</code> loop repeats as long as a condition stays <code>True</code>:</p>
+<pre><code>count = 3
+while count &gt; 0:
+    print(count)
+    count -= 1</code></pre>
+<pre class="out"><code>3
+2
+1</code></pre>
+<p><code>count</code> starts at 3. Each time round, the loop prints <code>count</code> and subtracts one. When <code>count</code> reaches 0, the condition <code>count &gt; 0</code> is <code>False</code> and the loop ends. Make sure something inside the loop changes the condition, or it runs forever.</p>
+<h2>break and continue</h2>
+<p>Two keywords change a loop from inside. <code>continue</code> skips the rest of this round and goes straight to the next item:</p>
+<pre><code>for n in range(1, 6):
+    if n == 3:
+        continue
+    print(n)</code></pre>
+<pre class="out"><code>1
+2
+4
+5</code></pre>
+<p><code>break</code> stops the whole loop at once:</p>
+<pre><code>for word in [&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;]:
+    if word == &quot;green&quot;:
+        print(&quot;found&quot;, word)
+        break</code></pre>
+<pre class="out"><code>found green</code></pre>
+<p>The loop ends as soon as it finds <code>green</code>, so <code>blue</code> is never visited.</p>
+<h2>The else on a loop</h2>
+<p>A loop can have an <code>else</code> too. Its block runs only when the loop finished without a <code>break</code>:</p>
+<pre><code>for word in [&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;]:
+    if word == &quot;green&quot;:
+        print(&quot;found&quot;, word)
+        break
+else:
+    print(&quot;not found&quot;)</code></pre>
+<pre class="out"><code>found green</code></pre>
+<p>Searching for <code>green</code>, <code>break</code> fires, so the <code>else</code> is skipped. If <code>green</code> were not in the list, say <code>[&quot;red&quot;, &quot;blue&quot;]</code>, the loop would run out of words and the <code>else</code> would print <code>not found</code>. It is Python's way of saying the search failed.</p>
+<h2>The whole program</h2>
+<pre><code>temperature = 23
+if temperature &gt; 30:
+    print(&quot;hot&quot;)
+elif 20 &lt;= temperature &lt;= 30:
+    print(&quot;warm&quot;)
+else:
+    print(&quot;cold&quot;)
+
+for n in range(1, 6):
+    if n == 3:
+        continue
+    print(n)
+
+count = 3
+while count &gt; 0:
+    print(count)
+    count -= 1</code></pre>
+<p>Lines 2 to 7 decide between hot, warm and cold, and line 4 is the chained comparison. Lines 9 to 12 loop over 1 to 5, and line 11 skips the 3. Lines 14 to 17 count down from 3 with <code>while</code>, and line 17 is what makes the loop end.</p>
+<pre class="out"><code>warm
+1
+2
+4
+5
+3
+2
+1</code></pre>
+<h2>What you learned</h2>
+<ul>
+  <li><code>if</code>, <code>elif</code> and <code>else</code> choose one block: the first condition that is <code>True</code> wins.</li>
+  <li>A chained comparison like <code>0 &lt; x &lt; 10</code> reads like maths and means the same as two tests joined by <code>and</code>.</li>
+  <li><code>for</code> repeats once per item; <code>while</code> repeats while a condition holds.</li>
+  <li><code>break</code> stops a loop, <code>continue</code> skips to the next round.</li>
+  <li>A loop's <code>else</code> runs only when there was no <code>break</code>.</li>
+</ul>
+<h2>Common questions</h2>
+<p>**Why does <code>range(5)</code> stop at 4?** <code>range</code> counts from the start up to, but not including, the end, and the start is 0 when you give only one number, so <code>range(5)</code> is 0, 1, 2, 3, 4. A third number is the step: <code>range(1, 10, 2)</code> gives 1, 3, 5, 7, 9.</p>
+<p>**What happens if I write <code>if x = 3:</code>?** Python refuses to run it. A single equals assigns, a double equals compares, and in Python 3.14 the error message even suggests the fix: <code>SyntaxError: invalid syntax. Maybe you meant &#x27;==&#x27; or &#x27;:=&#x27; instead of &#x27;=&#x27;?</code></p>
+<p><strong>When should I use while instead of for?</strong> Use <code>for</code> when you know what you are looping over: a range, a list, a string. Use <code>while</code> when you do not know in advance how many rounds it will take, such as reading input until the user types <code>quit</code> or halving a number until it drops below 1.</p>
+<p><strong>Does break leave every loop I am inside?</strong> No, only the innermost one. The outer loop carries on with its next item. To leave both, put the inner loop in a function and <code>return</code> from it.</p>
+<p><strong>Can a while loop have an else as well?</strong> Yes, with the same rule: the <code>else</code> runs when the condition became <code>False</code> on its own, and is skipped when a <code>break</code> ended the loop.</p>
+<p>This lesson follows on from <a href="/articles/python/beginner/variables-and-types/">Variables and types</a>. Next in the series: strings.</p>
+    <p class="watch">This article goes with the video <strong>Control flow</strong>. <a href="https://youtu.be/NqTma5wsLjs">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/beginner/type-of-anything/"><span>Previous</span>Python type() function: why 3, 3.0 and &quot;3&quot; are different</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
