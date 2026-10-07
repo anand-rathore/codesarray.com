@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python strings: indexing, slicing, methods and f-strings: Codesarray</title>
+<meta name="description" content="Python strings for beginners: index with word[0], slice with word[::-1], clean text with strip and split, and build text with f-strings.">
+<link rel="canonical" href="https://codesarray.com/articles/python/beginner/strings/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python strings: indexing, slicing, methods and f-strings">
+<meta property="og:description" content="Python strings for beginners: index with word[0], slice with word[::-1], clean text with strip and split, and build text with f-strings.">
+<meta property="og:url" content="https://codesarray.com/articles/python/beginner/strings/">
+<meta property="og:image" content="https://codesarray.com/articles/python/beginner/strings/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-07">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python strings: indexing, slicing, methods and f-strings","description":"Pick characters out of a Python string, slice pieces off it, clean it up with methods like strip and split, and build new text with f-strings.","image":"https://codesarray.com/articles/python/beginner/strings/cover.png","datePublished":"2026-10-07","dateModified":"2026-10-07","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/beginner/strings/"},"proficiencyLevel":"Beginner","articleSection":"Python","video":{"@type":"VideoObject","name":"Strings","url":"https://youtu.be/x7J8t9UehDA","embedUrl":"https://youtu.be/x7J8t9UehDA","thumbnailUrl":"https://codesarray.com/articles/python/beginner/strings/cover.png","uploadDate":"2026-10-07","description":"Pick characters out of a Python string, slice pieces off it, clean it up with methods like strip and split, and build new text with f-strings."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/python/beginner/"},{"@type":"ListItem","position":4,"name":"Python strings: indexing, slicing, methods and f-strings"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/beginner/">Beginner</a></li></ol></nav>
+    <p class="meta">Lesson 4, by Codesarray, <time datetime="2026-10-07">7 October 2026</time>, 5 min read</p>
+    <h1>Python strings: indexing, slicing, methods and f-strings</h1>
+    <p class="standfirst">Pick characters out of a Python string, slice pieces off it, clean it up with methods like strip and split, and build new text with f-strings.</p>
+<p>Python strings are text you can index, slice, clean up and format. By the end of this page you will pick characters out of a string, slice pieces off it, tidy it with methods like <code>strip()</code> and <code>split()</code>, and build new text with f-strings.</p>
+<h2>Index and slice a string</h2>
+<p>A string is a sequence of characters, and each one has a position counted from zero. Negative positions count from the end, and <code>len()</code> tells you how many characters there are. A slice takes a piece: <code>word[0:3]</code> runs from 0 up to, but not including, 3. Leave out the start and it begins at the beginning, leave out the end and it runs to the end. A third number is the step, and a step of <code>-1</code> walks backwards:</p>
+<pre><code>word = &quot;Python&quot;
+print(word[0], word[-1])
+print(word[0:3], word[2:])
+print(word[::-1])</code></pre>
+<pre class="out"><code>P n
+Pyt thon
+nohtyP</code></pre>
+<p><code>word[0]</code> is the first letter and <code>word[-1]</code> the last. <code>word[0:3]</code> is <code>Pyt</code>, <code>word[2:]</code> is <code>thon</code>, and <code>word[::-1]</code> is the whole word reversed.</p>
+<h2>Strings are immutable</h2>
+<p>You cannot change a character in place:</p>
+<pre><code>word[0] = &quot;J&quot;</code></pre>
+<pre class="out"><code>TypeError: &#x27;str&#x27; object does not support item assignment</code></pre>
+<p>A string never changes after it is made. Every method that looks like it changes one actually returns a new string. <code>word.upper()</code> gives <code>&#x27;PYTHON&#x27;</code>, but <code>word</code> is still <code>&#x27;Python&#x27;</code>. If you want the new value, assign it back, as the next section does with <code>name = name.strip()</code>.</p>
+<h2>Python string methods: strip, split, replace</h2>
+<p>Strings come with dozens of methods. <code>strip()</code> removes spaces at both ends, <code>upper()</code> and <code>lower()</code> change the case, <code>split()</code> cuts a string into a list at a separator, <code>join()</code> glues a list back together with the string you call it on, and <code>replace()</code> swaps one piece of text for another. The <code>in</code> test tells you whether a piece is there at all:</p>
+<pre><code>name = &quot;  Ada Lovelace  &quot;
+name = name.strip()
+print(name.upper())
+print(name.split(&quot; &quot;))
+print(name.replace(&quot;Ada&quot;, &quot;A.&quot;))</code></pre>
+<pre class="out"><code>ADA LOVELACE
+[&#x27;Ada&#x27;, &#x27;Lovelace&#x27;]
+A. Lovelace</code></pre>
+<p>Because strings are immutable, line 2 assigns the stripped text back to <code>name</code>. The three prints then work on the cleaned string and leave it unchanged.</p>
+<h2>Build text with f-strings</h2>
+<p>To build text from values, put an <code>f</code> before the quotes. Anything in curly braces is evaluated and dropped into the text, and any expression works, such as <code>{age + 1}</code>. After a colon you say how to format it: <code>:.2f</code> rounds to two decimal places and <code>:,</code> adds thousands separators. Put an equals sign inside the braces and Python prints the name and the value together, which is handy for debugging:</p>
+<pre><code>age = 36
+print(f&quot;{name} is {age}&quot;)
+print(f&quot;{age=}&quot;)
+print(f&quot;{age / 7:.2f}&quot;)</code></pre>
+<pre class="out"><code>Ada Lovelace is 36
+age=36
+5.14</code></pre>
+<p><code>name</code> still holds <code>Ada Lovelace</code> from the last section. <code>f&quot;{age=}&quot;</code> printed <code>age=36</code>, and <code>age / 7</code> is 5.142857..., rounded to <code>5.14</code>.</p>
+<h2>A glance at t-strings</h2>
+<p>Python 3.14 added t-strings: the same syntax with a <code>t</code> instead of an <code>f</code>. A t-string does not give you text. It gives a <code>Template</code> object that keeps the pieces of text and the values separate, so a library can escape them safely before building HTML or SQL:</p>
+<pre><code>name = &quot;Ada&quot;
+t = t&quot;Hello {name}&quot;
+print(t.strings, t.values)</code></pre>
+<pre class="out"><code>(&#x27;Hello &#x27;, &#x27;&#x27;) (&#x27;Ada&#x27;,)</code></pre>
+<p>You do not need them yet. For everyday text, f-strings are what you want.</p>
+<h2>What you learned</h2>
+<ul>
+  <li><code>word[0]</code> picks a character and negative numbers count from the end.</li>
+  <li><code>word[1:4]</code> slices a piece, and a step of <code>-1</code> reverses the string.</li>
+  <li>Strings are immutable: methods return new strings, so assign the result back.</li>
+  <li><code>strip()</code>, <code>split()</code>, <code>join()</code> and <code>replace()</code> do most of the everyday cleaning.</li>
+  <li>f-strings put values into text, with a format after a colon and <code>{x=}</code> for debugging.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>What happens if I index past the end?</strong> <code>&quot;Python&quot;[10]</code> raises <code>IndexError: string index out of range</code>. A slice is more forgiving: <code>&quot;Python&quot;[2:100]</code> gives <code>&#x27;thon&#x27;</code> and <code>&quot;Python&quot;[10:]</code> gives an empty string.</p>
+<p><strong>What is the difference between split() and split(" ")?</strong> With no argument, <code>split()</code> treats any run of spaces as one gap, so <code>&quot;a  b   c&quot;.split()</code> gives <code>[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;]</code>. <code>split(&quot; &quot;)</code> cuts at every single space and keeps the empty pieces: <code>[&#x27;a&#x27;, &#x27;&#x27;, &#x27;b&#x27;, &#x27;&#x27;, &#x27;&#x27;, &#x27;c&#x27;]</code>.</p>
+<p><strong>Why does "age: " + 36 fail?</strong> Python will not guess how to join text and a number. It raises <code>TypeError: can only concatenate str (not &quot;int&quot;) to str</code>. Use an f-string instead: <code>f&quot;age: {36}&quot;</code>.</p>
+<p><strong>Does len() count letters or bytes?</strong> It counts characters, so <code>len(&quot;héllo&quot;)</code> is 5 and <code>len(&quot;🐍&quot;)</code> is 1.</p>
+<p><strong>How do I remove spaces from only one end?</strong> Use <code>lstrip()</code> for the left end and <code>rstrip()</code> for the right. Give any of the three a string such as <code>&quot;xxhixx&quot;.strip(&quot;x&quot;)</code> and it removes those characters instead of spaces.</p>
+<p>This lesson follows on from <a href="/articles/python/beginner/control-flow/">Python if else and loops</a>. Next in the series: lists.</p>
+    <p class="watch">This article goes with the video <strong>Strings</strong>. <a href="https://youtu.be/x7J8t9UehDA">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/beginner/loop-else/"><span>Previous</span>Python for else: the else that means no break</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
