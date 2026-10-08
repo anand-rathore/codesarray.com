@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python lists: index, slice, append, pop and sort: Codesarray</title>
+<meta name="description" content="Python lists for beginners: index with nums[0], slice with nums[1:3], use append, insert, pop and sort, and avoid the b = a copy trap.">
+<link rel="canonical" href="https://codesarray.com/articles/python/beginner/lists/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python lists: index, slice, append, pop and sort">
+<meta property="og:description" content="Python lists for beginners: index with nums[0], slice with nums[1:3], use append, insert, pop and sort, and avoid the b = a copy trap.">
+<meta property="og:url" content="https://codesarray.com/articles/python/beginner/lists/">
+<meta property="og:image" content="https://codesarray.com/articles/python/beginner/lists/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-08">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python lists: index, slice, append, pop and sort","description":"Build a Python list, index and slice it, grow and shrink it with append, insert and pop, sort it, and learn what each move costs.","image":"https://codesarray.com/articles/python/beginner/lists/cover.png","datePublished":"2026-10-08","dateModified":"2026-10-08","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/beginner/lists/"},"proficiencyLevel":"Beginner","articleSection":"Python","video":{"@type":"VideoObject","name":"Lists","url":"https://youtu.be/YTe0ls2tLTM","embedUrl":"https://youtu.be/YTe0ls2tLTM","thumbnailUrl":"https://codesarray.com/articles/python/beginner/lists/cover.png","uploadDate":"2026-10-08","description":"Build a Python list, index and slice it, grow and shrink it with append, insert and pop, sort it, and learn what each move costs."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/python/beginner/"},{"@type":"ListItem","position":4,"name":"Python lists: index, slice, append, pop and sort"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/beginner/">Beginner</a></li></ol></nav>
+    <p class="meta">Lesson 5, by Codesarray, <time datetime="2026-10-08">8 October 2026</time>, 5 min read</p>
+    <h1>Python lists: index, slice, append, pop and sort</h1>
+    <p class="standfirst">Build a Python list, index and slice it, grow and shrink it with append, insert and pop, sort it, and learn what each move costs.</p>
+<p>A Python list is an ordered collection you can index, slice, grow, shrink and sort. By the end of this page you will build a list, pick items out of it, change it with <code>append()</code>, <code>insert()</code>, <code>pop()</code> and <code>sort()</code>, know which of those are fast, and avoid the trap where <code>b = a</code> is not a copy.</p>
+<h2>Create, index and slice a list</h2>
+<p>A list is written in square brackets, and like a string, each item has a position counted from zero. Negative positions count from the end, <code>len()</code> tells you how many items there are, and a slice such as <code>nums[1:3]</code> runs from 1 up to, but not including, 3. Unlike a string, a list is mutable: <code>nums[0] = 5</code> changes the item in place. Asking for a position past the end raises <code>IndexError: list index out of range</code>.</p>
+<h2>Grow and shrink a list</h2>
+<p><code>append()</code> adds one item to the end. It is fast, O(1), because Python keeps spare room at the end of the list. <code>insert()</code> puts an item at any position, but every item after it has to shift along, so it costs O(n). <code>pop()</code> with no argument removes and returns the last item, which is O(1). <code>pop(0)</code> takes the first item, and then everything shifts down, so that one is O(n).</p>
+<pre><code>nums = [30, 10, 20]
+nums.append(40)
+nums.insert(0, 5)
+print(nums)
+print(nums[0], nums[-1])
+print(nums[1:3])
+
+last = nums.pop()
+print(last, nums)
+nums.sort()
+print(nums)
+print(20 in nums)</code></pre>
+<pre class="out"><code>[5, 30, 10, 20, 40]
+5 40
+[30, 10]
+40 [5, 30, 10, 20]
+[5, 10, 20, 30]
+True</code></pre>
+<p>Lines 2 and 3 grow the list, line 4 shows <code>[5, 30, 10, 20, 40]</code>, and lines 5 and 6 print the two ends and the slice. Line 8 pops <code>40</code> into <code>last</code>, line 10 sorts the list in place, and line 12 asks whether <code>20</code> is in it.</p>
+<h2>sort, sorted and the in test</h2>
+<p><code>sort()</code> orders the list in place and returns <code>None</code>, so <code>nums = nums.sort()</code> leaves you with <code>None</code> instead of a list. If you want a new sorted list and want to keep the original, use the function <code>sorted()</code>. Pass <code>reverse=True</code> to go from largest to smallest, or <code>key=len</code> to sort by length.</p>
+<p>The <code>in</code> test checks the items one by one from the left, so it is O(n). If you test membership a lot, a set is faster, and sets are coming in the next lesson.</p>
+<h2>Why b = a is not a copy</h2>
+<p><code>b = a</code> does not copy a list. It gives the same list a second name:</p>
+<pre><code>a = [1, 2, 3]
+b = a
+b.append(4)
+print(a)
+c = a.copy()
+c.append(5)
+print(a, c)</code></pre>
+<pre class="out"><code>[1, 2, 3, 4]
+[1, 2, 3, 4] [1, 2, 3, 4, 5]</code></pre>
+<p>Appending to <code>b</code> changed <code>a</code> too, because there is only one list. <code>a.copy()</code>, or the slice <code>a[:]</code>, makes a real copy, so appending to <code>c</code> leaves <code>a</code> alone.</p>
+<h2>What you learned</h2>
+<ul>
+  <li>A list is an ordered, mutable collection in square brackets.</li>
+  <li><code>nums[0]</code> indexes, <code>nums[-1]</code> counts from the end, and <code>nums[1:3]</code> slices.</li>
+  <li><code>append()</code> and <code>pop()</code> at the end are O(1); <code>insert()</code> and <code>pop(0)</code> shift everything, so they are O(n).</li>
+  <li><code>sort()</code> changes the list and returns <code>None</code>; <code>sorted()</code> returns a new list.</li>
+  <li><code>b = a</code> is not a copy: use <code>a.copy()</code>.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>What happens if I pop from an empty list?</strong> <code>[].pop()</code> raises <code>IndexError: pop from empty list</code>. Check the list first with <code>if nums:</code> when it might be empty.</p>
+<p><strong>Is slicing past the end an error?</strong> No. With <code>nums = [30, 10, 20]</code>, <code>nums[1:100]</code> gives <code>[10, 20]</code> and <code>nums[10:]</code> gives an empty list. Only a single index such as <code>nums[10]</code> raises <code>IndexError</code>.</p>
+<p><strong>How do I remove an item by value?</strong> Use <code>remove()</code>: <code>nums.remove(10)</code> deletes the first <code>10</code> it finds and returns <code>None</code>. If the value is not there it raises <code>ValueError: list.remove(x): x not in list</code>.</p>
+<p><strong>Can a list hold different types?</strong> Yes. <code>[1, &quot;two&quot;, 3.0, [4]]</code> is a valid list, and it can even contain another list.</p>
+<p>**Does <code>copy()</code> copy the lists inside a list?** No, it makes a shallow copy. With <code>a = [[1], [2]]</code> and <code>b = a.copy()</code>, appending to <code>b[0]</code> also changes <code>a[0]</code>, because both outer lists hold the same inner list.</p>
+<p>This lesson follows on from <a href="/articles/python/beginner/strings/">Python strings</a>. Next in the series: tuples and sets.</p>
+    <p class="watch">This article goes with the video <strong>Lists</strong>. <a href="https://youtu.be/YTe0ls2tLTM">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/beginner/string-reverse/"><span>Previous</span>Reverse a string in Python with slicing: [::-1]</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
