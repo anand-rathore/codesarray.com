@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python list insert at the front is slow: use deque appendleft: Codesarray</title>
+<meta name="description" content="Python list insert at the front is slow: insert(0, x) moves every item, which costs O(n). collections.deque with appendleft adds to the front in O(1).">
+<link rel="canonical" href="https://codesarray.com/articles/python/beginner/insert-is-slow/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python list insert at the front is slow: use deque appendleft">
+<meta property="og:description" content="Python list insert at the front is slow: insert(0, x) moves every item, which costs O(n). collections.deque with appendleft adds to the front in O(1).">
+<meta property="og:url" content="https://codesarray.com/articles/python/beginner/insert-is-slow/">
+<meta property="og:image" content="https://codesarray.com/articles/python/beginner/insert-is-slow/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-09">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python list insert at the front is slow: use deque appendleft","description":"nums.insert(0, x) shifts every item in a Python list one place right, so it gets slower as the list grows. A deque adds to the front without moving anything.","image":"https://codesarray.com/articles/python/beginner/insert-is-slow/cover.png","datePublished":"2026-10-09","dateModified":"2026-10-09","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/beginner/insert-is-slow/"},"proficiencyLevel":"Beginner","articleSection":"Python","video":{"@type":"VideoObject","name":"insert(0, x) is slow in Python","url":"https://youtube.com/shorts/hwHY_FSHqc8","embedUrl":"https://youtube.com/shorts/hwHY_FSHqc8","thumbnailUrl":"https://codesarray.com/articles/python/beginner/insert-is-slow/cover.png","uploadDate":"2026-10-09","description":"nums.insert(0, x) shifts every item in a Python list one place right, so it gets slower as the list grows. A deque adds to the front without moving anything."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/python/beginner/"},{"@type":"ListItem","position":4,"name":"Python list insert at the front is slow: use deque appendleft"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/beginner/">Beginner</a></li></ol></nav>
+    <p class="meta">Short note, by Codesarray, <time datetime="2026-10-09">9 October 2026</time>, 2 min read</p>
+    <h1>Python list insert at the front is slow: use deque appendleft</h1>
+    <p class="standfirst">nums.insert(0, x) shifts every item in a Python list one place right, so it gets slower as the list grows. A deque adds to the front without moving anything.</p>
+<p>Adding to the front of a Python list with <code>nums.insert(0, x)</code> looks cheap, but it moves every item in the list. A <code>deque</code> from <code>collections</code> adds to the front with <code>appendleft</code> and moves nothing.</p>
+<h2>What insert(0, x) does</h2>
+<pre><code>from collections import deque
+nums = [10, 20, 30, 40]
+nums.insert(0, 5)
+line = deque([10, 20, 30, 40])
+line.appendleft(5)
+print(nums)
+print(line)</code></pre>
+<pre class="out"><code>[5, 10, 20, 30, 40]
+deque([5, 10, 20, 30, 40])</code></pre>
+<p>Line 3 puts <code>5</code> at the front of <code>nums</code>. To make room, Python shifts <code>10</code>, <code>20</code>, <code>30</code> and <code>40</code> one place to the right. A list is stored as an array, so a front insert costs O(n): the longer the list, the more items have to move.</p>
+<h2>Add to the front with deque</h2>
+<p>Line 5 does the same job with <code>line.appendleft(5)</code>. A <code>deque</code> can add at either end in O(1), so nothing else moves, however long it is. Both versions print the same five numbers.</p>
+<h2>Things to know</h2>
+<ul>
+  <li><code>nums.insert(0, x)</code> is fine on a short list. The cost only matters when the list is long or you do it in a loop.</li>
+  <li><code>nums.append(x)</code> adds at the end and does not have this problem.</li>
+  <li>A <code>deque</code> is built for both ends. Indexing into the middle of one is slower than on a list, so keep a list when you mostly read by position.</li>
+</ul>
+<p>This is a short note on <a href="/articles/python/beginner/lists/">Lists</a>, lesson 5 of the Python beginner track.</p>
+    <p class="watch">This article goes with the video <strong>insert(0, x) is slow in Python</strong>. <a href="https://youtube.com/shorts/hwHY_FSHqc8">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/beginner/lists/"><span>Previous</span>Python lists: index, slice, append, pop and sort</a>
+      <a class="next" href="/articles/python/beginner/negative-indexing/"><span>Next</span>Python negative indexing: get the last item with nums[-1]</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
