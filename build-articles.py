@@ -281,7 +281,7 @@ def article_ld(a, trail, image):
     if a.get("video"):
         name, _, link = (s.strip() for s in a["video"].partition("|"))
         article["video"] = {"@type": "VideoObject", "name": name, "url": link, "embedUrl": link,
-                            "thumbnailUrl": image, "uploadDate": day, "description": a["summary"]}
+                            "thumbnailUrl": image, "uploadDate": f"{day}T00:00:00+05:30", "description": a["summary"]}
     crumbs_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": i, "name": n, "item": SITE + p} for i, (n, p) in enumerate(trail, 1)
     ] + [{"@type": "ListItem", "position": len(trail) + 1, "name": a["title"]}]}
