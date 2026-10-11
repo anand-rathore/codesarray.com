@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python errors and exceptions: try, except, else, finally, raise: Codesarray</title>
+<meta name="description" content="Python errors and exceptions for beginners: use try, except, else and finally, raise your own error, and read a traceback without panic.">
+<link rel="canonical" href="https://codesarray.com/articles/python/beginner/errors-and-exceptions/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python errors and exceptions: try, except, else, finally, raise">
+<meta property="og:description" content="Python errors and exceptions for beginners: use try, except, else and finally, raise your own error, and read a traceback without panic.">
+<meta property="og:url" content="https://codesarray.com/articles/python/beginner/errors-and-exceptions/">
+<meta property="og:image" content="https://codesarray.com/articles/python/beginner/errors-and-exceptions/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-11">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python errors and exceptions: try, except, else, finally, raise","description":"Catch a Python error with try and except instead of crashing, run cleanup with finally, raise your own errors, and read a traceback from the bottom up.","image":"https://codesarray.com/articles/python/beginner/errors-and-exceptions/cover.png","datePublished":"2026-10-11","dateModified":"2026-10-11","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/beginner/errors-and-exceptions/"},"proficiencyLevel":"Beginner","articleSection":"Python","video":{"@type":"VideoObject","name":"Errors and exceptions","url":"https://youtu.be/OWmknV3P8Jg","embedUrl":"https://youtu.be/OWmknV3P8Jg","thumbnailUrl":"https://codesarray.com/articles/python/beginner/errors-and-exceptions/cover.png","uploadDate":"2026-10-11T00:00:00+05:30","description":"Catch a Python error with try and except instead of crashing, run cleanup with finally, raise your own errors, and read a traceback from the bottom up."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/python/beginner/"},{"@type":"ListItem","position":4,"name":"Python errors and exceptions: try, except, else, finally, raise"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/beginner/">Beginner</a></li></ol></nav>
+    <p class="meta">Lesson 10, by Codesarray, <time datetime="2026-10-11">11 October 2026</time>, 4 min read</p>
+    <h1>Python errors and exceptions: try, except, else, finally, raise</h1>
+    <p class="standfirst">Catch a Python error with try and except instead of crashing, run cleanup with finally, raise your own errors, and read a traceback from the bottom up.</p>
+<p>When Python hits a problem it raises an exception, and the program stops. By the end of this page you will catch Python errors with <code>try</code> and <code>except</code> instead of crashing, run cleanup code with <code>finally</code>, raise your own errors, and read a traceback.</p>
+<h2>try and except</h2>
+<p>Wrap the risky line in <code>try</code>, and add an <code>except</code> for the error you expect. <code>int(&quot;abc&quot;)</code> raises a <code>ValueError</code>. The <code>except ValueError</code> block catches it, and the program carries on. Always name the error you expect: a bare <code>except</code> hides real bugs, including ones you never meant to catch.</p>
+<h2>else and finally</h2>
+<p>Two more blocks finish the picture. <code>else</code> runs only when nothing went wrong. <code>finally</code> runs every time, error or not, which makes it the place for cleanup. The order is: <code>try</code>, then <code>except</code> if it failed or <code>else</code> if it worked, and <code>finally</code> at the end either way. It runs even when the function returns from inside the <code>try</code> or <code>except</code>.</p>
+<h2>raise and custom exceptions</h2>
+<p>You can raise errors yourself. Write <code>raise</code>, then the exception and a message, when your code finds something it cannot accept, like <code>raise ValueError(&quot;negative age&quot;)</code>. For your own kind of problem, make a custom exception: a class that inherits from <code>Exception</code>, such as <code>class AgeError(Exception): pass</code>. It gives callers one clear name to catch.</p>
+<p>From Python 3.14 you can also list several errors after <code>except</code> without parentheses: <code>except ZeroDivisionError, ValueError:</code>. On older versions, write <code>except (ZeroDivisionError, ValueError):</code>.</p>
+<h2>Reading a traceback</h2>
+<p>When an error is not caught, Python prints a traceback. Read it from the bottom. The last line names the error and says what went wrong. The lines above show where, from the call that started it down to the exact line that failed.</p>
+<pre><code>Traceback (most recent call last):
+  File &quot;main.py&quot;, line 4, in &lt;module&gt;
+    parse_age(&quot;abc&quot;)
+  File &quot;main.py&quot;, line 2, in parse_age
+    return int(text)
+ValueError: invalid literal for int() with base 10: &#x27;abc&#x27;</code></pre>
+<h2>The whole program</h2>
+<pre><code>def parse_age(text):
+    try:
+        age = int(text)
+    except ValueError:
+        print(&quot;not a number&quot;)
+        return None
+    else:
+        print(&quot;parsed&quot;)
+    finally:
+        print(&quot;done&quot;)
+    if age &lt; 0:
+        raise ValueError(&quot;negative age&quot;)
+    return age
+
+print(parse_age(&quot;42&quot;))
+print(parse_age(&quot;abc&quot;))</code></pre>
+<pre class="out"><code>parsed
+done
+42
+not a number
+done
+None</code></pre>
+<p>Line 1 defines <code>parse_age</code>. Line 3 tries to turn the text into a number. Line 4 catches a <code>ValueError</code>, line 5 reports it, and line 6 returns <code>None</code>. Line 7 is <code>else</code>, and line 8 prints <code>parsed</code> when it worked. Line 9 is <code>finally</code>, and line 10 prints <code>done</code> every time. Line 11 checks the age, and line 12 raises an error if it is negative. Line 13 returns the age. Lines 15 and 16 call it with <code>&quot;42&quot;</code>, then with <code>&quot;abc&quot;</code>. Notice that <code>done</code> prints in both calls, even though the second one returned early.</p>
+<h2>What you learned</h2>
+<ul>
+  <li><code>try</code> wraps risky code, and <code>except</code> catches a named error.</li>
+  <li><code>else</code> runs when nothing went wrong, and <code>finally</code> always runs.</li>
+  <li><code>raise</code> signals your own error, and a class that inherits from <code>Exception</code> makes a custom one.</li>
+  <li>A traceback reads from the bottom up: the last line says what, the lines above say where.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>Why not just write a bare except?</strong> It catches everything, including typos and bugs you want to see. Name the error you expect, such as <code>except ValueError</code>, so anything else still shows up.</p>
+<p><strong>Does finally run if the function returns inside try?</strong> Yes. <code>finally</code> runs before the function actually returns, which is why it is the right place for cleanup.</p>
+<p><strong>What is the difference between an error and an exception?</strong> For everyday Python they are the same thing. An error is raised as an exception object, and <code>ValueError</code>, <code>KeyError</code> and <code>ZeroDivisionError</code> are all exceptions you can catch.</p>
+<p><strong>Can I catch more than one kind of error?</strong> Yes. Put them in a tuple: <code>except (ZeroDivisionError, ValueError):</code>. In Python 3.14 the parentheses are optional.</p>
+<p><strong>Which line of a traceback should I read first?</strong> The last one. It names the error and the message, and the lines above it lead back to the call that caused it.</p>
+<p>This lesson follows on from <a href="/articles/python/beginner/comprehensions/">Python comprehensions</a>. Next in the series: files and JSON.</p>
+    <p class="watch">This article goes with the video <strong>Errors and exceptions</strong>. <a href="https://youtu.be/OWmknV3P8Jg">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/beginner/comprehensions/"><span>Previous</span>Python list comprehensions: lists, dicts, sets, if, any and all</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
