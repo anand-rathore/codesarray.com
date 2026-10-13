@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python modules, import and uv: the standard library, packages and pyproject.toml: Codesarray</title>
+<meta name="description" content="Python modules, import and uv for beginners: import, from and as, the standard library, uv init, add and run, virtual environments, pyproject.toml and ruff.">
+<link rel="canonical" href="https://codesarray.com/articles/python/beginner/modules-and-uv/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python modules, import and uv: the standard library, packages and pyproject.toml">
+<meta property="og:description" content="Python modules, import and uv for beginners: import, from and as, the standard library, uv init, add and run, virtual environments, pyproject.toml and ruff.">
+<meta property="og:url" content="https://codesarray.com/articles/python/beginner/modules-and-uv/">
+<meta property="og:image" content="https://codesarray.com/articles/python/beginner/modules-and-uv/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-13">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python modules, import and uv: the standard library, packages and pyproject.toml","description":"Use code other people wrote with import, from and as, install packages with uv add, keep each project in its own virtual environment, and tidy it with pyproject.toml and ruff.","image":"https://codesarray.com/articles/python/beginner/modules-and-uv/cover.png","datePublished":"2026-10-13","dateModified":"2026-10-13","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/beginner/modules-and-uv/"},"proficiencyLevel":"Beginner","articleSection":"Python","video":{"@type":"VideoObject","name":"Modules and uv","url":"https://youtu.be/O7UeCbjo268","embedUrl":"https://youtu.be/O7UeCbjo268","thumbnailUrl":"https://codesarray.com/articles/python/beginner/modules-and-uv/cover.png","uploadDate":"2026-10-13T00:00:00+05:30","description":"Use code other people wrote with import, from and as, install packages with uv add, keep each project in its own virtual environment, and tidy it with pyproject.toml and ruff."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/python/beginner/"},{"@type":"ListItem","position":4,"name":"Python modules, import and uv: the standard library, packages and pyproject.toml"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/beginner/">Beginner</a></li></ol></nav>
+    <p class="meta">Lesson 12, by Codesarray, <time datetime="2026-10-13">13 October 2026</time>, 4 min read</p>
+    <h1>Python modules, import and uv: the standard library, packages and pyproject.toml</h1>
+    <p class="standfirst">Use code other people wrote with import, from and as, install packages with uv add, keep each project in its own virtual environment, and tidy it with pyproject.toml and ruff.</p>
+<p>You do not have to write everything yourself. By the end of this page you will import code that other people wrote, set up a project with <code>uv</code>, and keep it tidy with a <code>pyproject.toml</code> file and <code>ruff</code>.</p>
+<h2>import and the standard library</h2>
+<p>A module is just a Python file full of code you can reuse. <code>import</code> brings it in. After <code>import math</code>, the call <code>math.sqrt(144)</code> runs a function that lives inside that module. <code>from statistics import mean</code> pulls out one name, so you call <code>mean</code> directly. And <code>as</code> gives a module a shorter name.</p>
+<pre><code>import math
+import statistics as stats
+from statistics import mean
+
+math.sqrt(144)
+stats.mean([88, 92, 79, 95])</code></pre>
+<p>Python ships with hundreds of modules like these. Together they are called the standard library, and they are already installed.</p>
+<h2>uv and pip</h2>
+<p>Beyond the standard library, other people publish packages. The tool for them is <code>uv</code>. Run <code>uv init</code> to start a project. Run <code>uv add requests</code> to install a package into it. Run <code>uv run main.py</code> to run your code with everything it needs.</p>
+<pre><code>uv init
+uv add requests
+uv run main.py</code></pre>
+<p>You will also see <code>pip install requests</code> everywhere. It does the same job. <code>uv</code> is simply faster, and it manages the environment for you.</p>
+<h2>Virtual environments, pyproject.toml and ruff</h2>
+<p>Each project gets its own virtual environment, a private folder of packages, so one project never breaks another. <code>uv</code> creates it for you, in a folder named <code>.venv</code>.</p>
+<p>The project file is <code>pyproject.toml</code>. It lists the project name, its Python version and its dependencies:</p>
+<pre><code>[project]
+name = &quot;demo&quot;
+requires-python = &quot;&gt;=3.12&quot;
+dependencies = [&quot;requests&quot;]</code></pre>
+<p><code>ruff</code> keeps the code tidy. Add it to the project, then check and format:</p>
+<pre><code>uv add --dev ruff
+uv run ruff check
+uv run ruff format</code></pre>
+<p><code>ruff check</code> finds mistakes, and <code>ruff format</code> tidies your code.</p>
+<h2>The whole program</h2>
+<pre><code>import math
+import statistics as stats
+from pathlib import Path
+
+scores = [88, 92, 79, 95]
+
+print(math.sqrt(144))
+print(math.pi)
+print(stats.mean(scores))
+print(Path(&quot;report.txt&quot;).suffix)</code></pre>
+<pre class="out"><code>12.0
+3.141592653589793
+88.5
+.txt</code></pre>
+<p>Line 1 imports <code>math</code>. Line 2 imports <code>statistics</code> and calls it <code>stats</code>. Line 3 imports <code>Path</code> from <code>pathlib</code>. Line 5 is a list of scores. Line 7 prints the square root of 144. Line 8 prints pi. Line 9 prints the mean of the scores. Line 10 prints the suffix of a file name. All of it comes from modules we never wrote.</p>
+<h2>What you learned</h2>
+<ul>
+  <li><code>import</code> brings in a module, <code>as</code> gives it a shorter name, and <code>from</code> pulls out one name.</li>
+  <li>The standard library is already installed with Python.</li>
+  <li><code>uv add</code> installs a package into your project, and <code>uv run</code> runs your code with it.</li>
+  <li><code>pyproject.toml</code> describes the project and its dependencies, and <code>ruff</code> checks and formats the code.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>What is the difference between a module and a package?</strong> A module is one Python file. A package is a folder of modules, usually something you install, such as <code>requests</code>.</p>
+<p><strong>Do I need uv, or is pip enough?</strong> <code>pip install</code> works and you will see it in many tutorials. <code>uv</code> does the same job faster and also creates and manages the virtual environment for you.</p>
+<p><strong>Why does every project need its own virtual environment?</strong> Two projects can need different versions of the same package. A private <code>.venv</code> per project keeps them from breaking each other.</p>
+<p>**What does <code>from statistics import mean</code> do differently from <code>import statistics</code>?** It brings in just the name <code>mean</code>, so you write <code>mean(scores)</code> instead of <code>statistics.mean(scores)</code>.</p>
+<p><strong>What goes in pyproject.toml?</strong> The project name, the Python version it needs, and its dependencies. <code>uv add</code> updates the dependencies for you.</p>
+<p>This lesson follows on from <a href="/articles/python/beginner/files-and-json/">Python files and JSON</a>. Next in the series: classes.</p>
+    <p class="watch">This article goes with the video <strong>Modules and uv</strong>. <a href="https://youtu.be/O7UeCbjo268">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/beginner/files-and-json/"><span>Previous</span>Python read and write files and JSON: open, pathlib, json.dump and json.load</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
