@@ -34,8 +34,15 @@
     <loc>https://codesarray.com/articles/python/beginner/</loc>
   </url>
   <url>
+    <loc>https://codesarray.com/articles/python/intermediate/</loc>
+  </url>
+  <url>
     <loc>https://codesarray.com/articles/python/beginner/your-first-python-program/</loc>
     <lastmod>2026-10-02</lastmod>
+  </url>
+  <url>
+    <loc>https://codesarray.com/articles/python/intermediate/big-o-in-python/</loc>
+    <lastmod>2026-10-14</lastmod>
   </url>
   <url>
     <loc>https://codesarray.com/articles/python/beginner/indentation-is-syntax/</loc>
