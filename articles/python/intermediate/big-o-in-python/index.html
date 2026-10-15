@@ -109,9 +109,10 @@ for n in (1_000, 10_000, 100_000):
 <p><strong>Why use the last item in the list test?</strong> It is the worst case. <code>x in nums</code> stops at the first match, so the first item would be found at once and tell you nothing about growth.</p>
 <p><strong>Why 1,000 runs per timing?</strong> One lookup takes microseconds, which is too small and too noisy to read. A thousand runs give a total you can compare.</p>
 <p><strong>Should I optimise every O(n) in my code?</strong> No. Measure first. A single O(n) pass over a small list is fine. The ones to fix are the O(n) lookups inside loops, which turn into O(n squared).</p>
-<p>Next in the series: iterators and generators, and how to process a million items without holding them all in memory.</p>
+<p>Next: <a href="/articles/python/intermediate/iterators-and-generators/">Python iterators and generators</a>, and how to process a million items without holding them all in memory.</p>
     <p class="watch">This article goes with the video <strong>Big O in Python</strong>. <a href="https://youtu.be/XbqzPFlTjQM">Watch it on YouTube</a>.</p>
     <nav class="pager" aria-label="More in this level">
+      <a class="next" href="/articles/python/intermediate/iterators-and-generators/"><span>Next</span>Python iterators and generators: yield, next and itertools</a>
     </nav>
   </article>
   </div>

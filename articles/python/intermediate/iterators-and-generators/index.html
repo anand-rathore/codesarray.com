@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python iterators and generators: yield, next and itertools: Codesarray</title>
+<meta name="description" content="Python iterators and generators explained: iter and next, yield, generator expressions that save memory, why a generator runs once, and itertools count, islice and chain.">
+<link rel="canonical" href="https://codesarray.com/articles/python/intermediate/iterators-and-generators/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python iterators and generators: yield, next and itertools">
+<meta property="og:description" content="Python iterators and generators explained: iter and next, yield, generator expressions that save memory, why a generator runs once, and itertools count, islice and chain.">
+<meta property="og:url" content="https://codesarray.com/articles/python/intermediate/iterators-and-generators/">
+<meta property="og:image" content="https://codesarray.com/articles/python/intermediate/iterators-and-generators/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-15">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python iterators and generators: yield, next and itertools","description":"What a for loop really does with iter and next, how yield turns a function into a generator, why a generator expression uses almost no memory, and the lazy tools in itertools.","image":"https://codesarray.com/articles/python/intermediate/iterators-and-generators/cover.png","datePublished":"2026-10-15","dateModified":"2026-10-15","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/intermediate/iterators-and-generators/"},"proficiencyLevel":"Intermediate","articleSection":"Python","video":{"@type":"VideoObject","name":"Iterators and Generators in Python","url":"https://youtu.be/bTNl4SKsV30","embedUrl":"https://youtu.be/bTNl4SKsV30","thumbnailUrl":"https://codesarray.com/articles/python/intermediate/iterators-and-generators/cover.png","uploadDate":"2026-10-15T00:00:00+05:30","description":"What a for loop really does with iter and next, how yield turns a function into a generator, why a generator expression uses almost no memory, and the lazy tools in itertools."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Intermediate","item":"https://codesarray.com/articles/python/intermediate/"},{"@type":"ListItem","position":4,"name":"Python iterators and generators: yield, next and itertools"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/intermediate/">Intermediate</a></li></ol></nav>
+    <p class="meta">Lesson 2, by Codesarray, <time datetime="2026-10-15">15 October 2026</time>, 4 min read</p>
+    <h1>Python iterators and generators: yield, next and itertools</h1>
+    <p class="standfirst">What a for loop really does with iter and next, how yield turns a function into a generator, why a generator expression uses almost no memory, and the lazy tools in itertools.</p>
+<p>By the end of this page you will know what a Python <code>for</code> loop does behind the scenes, be able to write your own generator with <code>yield</code>, and understand why a generator can process a million items without holding them all in memory.</p>
+<h2>Python iterators: what a for loop really does</h2>
+<p>Every <code>for</code> loop runs on one idea. Python calls <code>iter()</code> on the thing you loop over and gets an iterator back. Then it calls <code>next()</code> again and again. Each call hands you one item and remembers where it was. When there is nothing left, <code>next()</code> raises <code>StopIteration</code>, and the loop quietly ends.</p>
+<p>A list is iterable, but it is not an iterator itself. <code>iter(nums)</code> gives you one, and that is the object that remembers the position.</p>
+<h2>Generators: yield pauses a function</h2>
+<p>You can write your own iterator with a function. Put <code>yield</code> inside it and it becomes a generator function. Calling it does not run the body. It hands you a generator. Each <code>next()</code> runs the body until the next <code>yield</code>, gives you that value, and pauses with all its variables intact. The next call resumes on the very next line. When the body ends, the loop is over.</p>
+<h2>Generator expressions: lazy and small</h2>
+<p>A list comprehension with square brackets builds every value up front. The same expression in parentheses is a generator expression. It holds only its place, and makes each value when something asks for it.</p>
+<p>For a million squares, measured with <code>sys.getsizeof</code>, the list is 8,448,728 bytes and the generator is 208. The catch is that a generator can be used once. Loop over it a second time and it is empty.</p>
+<h2>itertools: lazy building blocks</h2>
+<p>The <code>itertools</code> module is a toolbox of lazy pieces:</p>
+<ul>
+  <li><code>count(1)</code> gives numbers forever.</li>
+  <li><code>islice(count(1), 5)</code> takes just the first five, so <code>list(islice(count(1), 5))</code> is <code>[1, 2, 3, 4, 5]</code>.</li>
+  <li><code>chain([1, 2], &quot;ab&quot;)</code> joins several iterables into one stream.</li>
+</ul>
+<p>None of them build a list, so you can pipe them together and nothing is computed until you ask. That is how you can describe an endless sequence, take only the part you need, and never pay for the rest.</p>
+<h2>The countdown generator, line by line</h2>
+<pre><code>def countdown(n):
+    while n &gt; 0:
+        yield n
+        n -= 1
+
+steps = countdown(3)
+print(next(steps))
+print(next(steps))
+print(list(steps))
+print(list(steps))</code></pre>
+<p><code>countdown</code> loops while <code>n</code> is above zero. The <code>yield</code> hands <code>n</code> to the caller and pauses. The <code>n -= 1</code> line only runs when the next value is asked for. <code>countdown(3)</code> runs nothing yet. The two <code>next()</code> calls give 3 and 2. <code>list(steps)</code> collects what is left, which is just 1. The last line tries again, and the generator is used up, so the list is empty.</p>
+<pre class="out"><code>3
+2
+[1]
+[]</code></pre>
+<h2>What you learned</h2>
+<ul>
+  <li>A <code>for</code> loop calls <code>iter()</code> once, then <code>next()</code> until <code>StopIteration</code>.</li>
+  <li>A function with <code>yield</code> is a generator, and it pauses between values.</li>
+  <li>Parentheses instead of square brackets give a lazy generator expression.</li>
+  <li><code>itertools</code> lets you build pipelines that never hold the whole data.</li>
+  <li>A generator is single use.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>What is the difference between an iterable and an iterator?</strong> An iterable is anything you can loop over, like a list. An iterator is the object that does the looping and remembers the position. <code>iter()</code> turns an iterable into an iterator.</p>
+<p><strong>Does a generator run when I call the function?</strong> No. Calling a generator function returns a generator and runs none of the body. The body starts on the first <code>next()</code>.</p>
+<p><strong>Why is my generator empty the second time?</strong> It was used up. A generator produces each value once. If you need the values again, call the function again, or build a list.</p>
+<p><strong>When should I use a list instead?</strong> When you need the values more than once, need <code>len()</code>, or need to index into them. Use a generator when you only need to pass over the values one time.</p>
+<p><strong>Is a generator faster than a list?</strong> Not by itself. It saves memory, and it can stop early. Building the whole list can be faster for small data.</p>
+<p>Next in the series: closures and scope, and how a function can remember the variables around it.</p>
+    <p class="watch">This article goes with the video <strong>Iterators and Generators in Python</strong>. <a href="https://youtu.be/bTNl4SKsV30">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/intermediate/big-o-in-python/"><span>Previous</span>Python Big O notation: measure speed with timeit</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>

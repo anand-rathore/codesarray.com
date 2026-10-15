@@ -76,4 +76,4 @@ The exact seconds will differ on your machine. The shape will not. The list time
 
 **Should I optimise every O(n) in my code?** No. Measure first. A single O(n) pass over a small list is fine. The ones to fix are the O(n) lookups inside loops, which turn into O(n squared).
 
-Next in the series: iterators and generators, and how to process a million items without holding them all in memory.
+Next: [Python iterators and generators](/articles/python/intermediate/iterators-and-generators/), and how to process a million items without holding them all in memory.
