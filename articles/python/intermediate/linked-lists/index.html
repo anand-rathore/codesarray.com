@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python linked lists from scratch: Node class and head: Codesarray</title>
+<meta name="description" content="Python linked lists from scratch: build a Node class, link nodes from a head to None, walk the chain, and see why adding at the front is O(1).">
+<link rel="canonical" href="https://codesarray.com/articles/python/intermediate/linked-lists/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python linked lists from scratch: Node class and head">
+<meta property="og:description" content="Python linked lists from scratch: build a Node class, link nodes from a head to None, walk the chain, and see why adding at the front is O(1).">
+<meta property="og:url" content="https://codesarray.com/articles/python/intermediate/linked-lists/">
+<meta property="og:image" content="https://codesarray.com/articles/python/intermediate/linked-lists/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-16">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python linked lists from scratch: Node class and head","description":"How a linked list works in Python: a Node class that holds a value and a link, the head, the None that ends the chain, how to walk it, and why adding at the front is O(1) but finding an item is not.","image":"https://codesarray.com/articles/python/intermediate/linked-lists/cover.png","datePublished":"2026-10-16","dateModified":"2026-10-16","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/intermediate/linked-lists/"},"proficiencyLevel":"Intermediate","articleSection":"Python","video":{"@type":"VideoObject","name":"Python Linked Lists from Scratch","url":"https://youtu.be/LV1J7lLj6zY","embedUrl":"https://youtu.be/LV1J7lLj6zY","thumbnailUrl":"https://codesarray.com/articles/python/intermediate/linked-lists/cover.png","uploadDate":"2026-10-16T00:00:00+05:30","description":"How a linked list works in Python: a Node class that holds a value and a link, the head, the None that ends the chain, how to walk it, and why adding at the front is O(1) but finding an item is not."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Intermediate","item":"https://codesarray.com/articles/python/intermediate/"},{"@type":"ListItem","position":4,"name":"Python linked lists from scratch: Node class and head"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/intermediate/">Intermediate</a></li></ol></nav>
+    <p class="meta">Lesson 8, by Codesarray, <time datetime="2026-10-16">16 October 2026</time>, 4 min read</p>
+    <h1>Python linked lists from scratch: Node class and head</h1>
+    <p class="standfirst">How a linked list works in Python: a Node class that holds a value and a link, the head, the None that ends the chain, how to walk it, and why adding at the front is O(1) but finding an item is not.</p>
+<p>By the end of this page you will be able to build a linked list in Python from a small class, walk it from the first node to the last, and explain why adding at the front is fast while finding an item is slow. It builds on <a href="/articles/python/intermediate/stacks-and-queues/">Python stacks and queues</a> and <a href="/articles/python/intermediate/type-hints/">Python type hints</a>.</p>
+<h2>What is a linked list in Python</h2>
+<p>A linked list is made of nodes. A node is a small box with two parts: it holds a value, and it holds a link to the next node. That link is just a reference, the same kind of reference a variable holds. Python has no built-in linked list type, so you build one from a class.</p>
+<p>Here is the whole example. It is used for every section below.</p>
+<pre><code>class Node:
+    def __init__(self, value, next=None):
+        self.value = value
+        self.next = next
+
+head = Node(&quot;a&quot;, Node(&quot;b&quot;, Node(&quot;c&quot;)))
+
+node = head
+while node:
+    print(node.value)
+    node = node.next</code></pre>
+<pre class="out"><code>a
+b
+c</code></pre>
+<h2>How nodes link into a chain</h2>
+<p>Link nodes together and you get a chain. The first node is called the head. Each node points to the next one, and the last node points to <code>None</code>, which means the end. The list is only a variable, <code>head</code>, that holds the first node. Everything else is reached by following the links.</p>
+<p>In the example, <code>Node(&quot;a&quot;, Node(&quot;b&quot;, Node(&quot;c&quot;)))</code> builds all three nodes in one expression. The innermost <code>Node(&quot;c&quot;)</code> has no second argument, so its <code>next</code> stays <code>None</code>. The <code>Node(&quot;b&quot;, ...)</code> node links to it, and the <code>Node(&quot;a&quot;, ...)</code> node links to that.</p>
+<h2>Walk a linked list from the head</h2>
+<p>To read the list, start at the head and follow the links. Line 8 sets <code>node = head</code>. Line 9, <code>while node:</code>, keeps going while there is a node. A <code>Node</code> object is always truthy, and <code>None</code> is falsy, so the loop stops when the link is <code>None</code>. Line 10 prints the value. Line 11, <code>node = node.next</code>, moves to the next node.</p>
+<p>That is why it prints <code>a</code>, then <code>b</code>, then <code>c</code>, one node at a time.</p>
+<h2>Why add at the front of a linked list</h2>
+<p>Adding at the front is the strength of a linked list. Make a new node, and point it at the old head:</p>
+<pre><code>head = Node(&quot;z&quot;, head)</code></pre>
+<p>Nothing else moves. That costs O(1). A Python list has to shift every item one place to the right to make room at the front with <code>insert(0, x)</code>, which costs O(n).</p>
+<p>The trade is that a linked list has no index. There is no <code>items[2]</code>. To find the third item, you have to walk there from the head:</p>
+<pre><code>head.next.next.value</code></pre>
+<p>Reaching an item by position costs O(n), because you follow one link for every step.</p>
+<h2>What you learned</h2>
+<ul>
+  <li>A node holds a value and a link to the next node.</li>
+  <li>The head is the first node, and the last node's link is <code>None</code>.</li>
+  <li>To read the list, start at the head and follow <code>node.next</code> until you reach <code>None</code>.</li>
+  <li>Adding at the front is O(1), but there is no index, so finding an item means walking the chain.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>Does Python have a built-in linked list?</strong> No. The standard library has <code>collections.deque</code>, which is built from linked blocks, but you cannot walk its nodes yourself. When you need to see the nodes, as in this lesson, you write a <code>Node</code> class.</p>
+<p>**Why is the argument called <code>next</code> when <code>next()</code> is a built-in?** <code>next</code> is also the name of the built-in function, and a parameter or attribute with that name hides it only inside that scope. It is the traditional name for the link, so the lesson uses it. If you ever need the built-in inside <code>__init__</code>, pick another name such as <code>next_node</code>.</p>
+<p><strong>Is a linked list faster than a list?</strong> Only for some jobs. Adding or removing at the front is O(1) for a linked list and O(n) for a list. Reading an item by position is O(1) for a list and O(n) for a linked list. For most Python code, a plain list or a <code>deque</code> is the better choice.</p>
+<p><strong>What is a doubly linked list?</strong> Each node also keeps a link to the previous node, so you can walk both ways. It costs one more reference per node. This lesson covers the singly linked list, where each node links only forward.</p>
+<p><strong>What happens if a link points back to an earlier node?</strong> The chain becomes a loop, and <code>while node:</code> never reaches <code>None</code>, so it runs forever. Keep each node's link pointing forward.</p>
+<p>Next in the series: recursion, and how a function can call itself.</p>
+    <p class="watch">This article goes with the video <strong>Python Linked Lists from Scratch</strong>. <a href="https://youtu.be/LV1J7lLj6zY">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/intermediate/stacks-and-queues/"><span>Previous</span>Python stacks and queues: list, deque and why pop(0) is slow</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
