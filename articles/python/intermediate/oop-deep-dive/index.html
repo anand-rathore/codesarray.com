@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python classes explained: dunder methods, property and super: Codesarray</title>
+<meta name="description" content="Python classes explained: dunder methods like __repr__, @property, classmethod vs staticmethod, inheritance and super().__init__, with one runnable example.">
+<link rel="canonical" href="https://codesarray.com/articles/python/intermediate/oop-deep-dive/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python classes explained: dunder methods, property and super">
+<meta property="og:description" content="Python classes explained: dunder methods like __repr__, @property, classmethod vs staticmethod, inheritance and super().__init__, with one runnable example.">
+<meta property="og:url" content="https://codesarray.com/articles/python/intermediate/oop-deep-dive/">
+<meta property="og:image" content="https://codesarray.com/articles/python/intermediate/oop-deep-dive/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-16">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python classes explained: dunder methods, property and super","description":"How a Python class prints itself with dunder methods, hides a function behind an attribute with @property, builds objects with @classmethod, and extends a parent class with super().","image":"https://codesarray.com/articles/python/intermediate/oop-deep-dive/cover.png","datePublished":"2026-10-16","dateModified":"2026-10-16","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/intermediate/oop-deep-dive/"},"proficiencyLevel":"Intermediate","articleSection":"Python","video":{"@type":"VideoObject","name":"Python Classes Explained","url":"https://youtu.be/0ZjovHU6ZpY","embedUrl":"https://youtu.be/0ZjovHU6ZpY","thumbnailUrl":"https://codesarray.com/articles/python/intermediate/oop-deep-dive/cover.png","uploadDate":"2026-10-16T00:00:00+05:30","description":"How a Python class prints itself with dunder methods, hides a function behind an attribute with @property, builds objects with @classmethod, and extends a parent class with super()."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Intermediate","item":"https://codesarray.com/articles/python/intermediate/"},{"@type":"ListItem","position":4,"name":"Python classes explained: dunder methods, property and super"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/intermediate/">Intermediate</a></li></ol></nav>
+    <p class="meta">Lesson 5, by Codesarray, <time datetime="2026-10-16">16 October 2026</time>, 4 min read</p>
+    <h1>Python classes explained: dunder methods, property and super</h1>
+    <p class="standfirst">How a Python class prints itself with dunder methods, hides a function behind an attribute with @property, builds objects with @classmethod, and extends a parent class with super().</p>
+<p>By the end of this page you will know what dunder methods are and why <code>print(obj)</code> calls one, how <code>@property</code> makes a method read like an attribute, when to use <code>@classmethod</code>, and what <code>super()</code> does in a subclass. It builds on <a href="/articles/python/intermediate/decorators/">Python decorators</a> and the <a href="/articles/python/beginner/classes-intro/">classes intro</a>.</p>
+<h2>Python classes and dunder methods</h2>
+<p>Python runs your classes through special methods whose names start and end with double underscores, called dunder methods. Print an object and Python calls <code>__repr__</code>. Add two objects and it calls <code>__add__</code>. Compare them and it calls <code>__eq__</code>. You never call them yourself: you define them, and the syntax calls them for you.</p>
+<p>Here is the whole example. It is used for every section below.</p>
+<pre><code>class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return f&quot;{type(self).__name__}({self.name!r})&quot;
+
+    @property
+    def shout(self):
+        return self.name.upper() + &quot;!&quot;
+
+    @classmethod
+    def unnamed(cls):
+        return cls(&quot;Nobody&quot;)
+
+class Dog(Animal):
+    def __init__(self, name, tricks=0):
+        super().__init__(name)
+        self.tricks = tricks
+
+print(Dog(&quot;Rex&quot;, 3))
+print(Dog(&quot;Rex&quot;).shout)
+print(Dog.unnamed())</code></pre>
+<pre class="out"><code>Dog(&#x27;Rex&#x27;)
+REX!
+Dog(&#x27;Nobody&#x27;)</code></pre>
+<p><code>__init__</code> sets up a new object. <code>__repr__</code> decides what <code>print</code> shows: the class name and the name, so <code>Dog(&#x27;Rex&#x27;)</code>.</p>
+<h2>property: a method that reads like an attribute</h2>
+<p>Put <code>@property</code> above a method and callers write <code>rex.shout</code> with no brackets. The value is computed each time it is read, so it can never go stale. Later you can add checks inside it without changing a single caller. A property with no setter is read-only: <code>rex.shout = &quot;hi&quot;</code> raises an <code>AttributeError</code>.</p>
+<h2>Class methods and static methods</h2>
+<p>There are three kinds of method. A normal method gets <code>self</code>, the instance. A class method gets <code>cls</code>, the class itself, and is marked with <code>@classmethod</code>. A static method, marked with <code>@staticmethod</code>, gets neither: it is a plain function that lives inside the class.</p>
+<p>Use a class method for alternative constructors. In the example <code>unnamed</code> returns <code>cls(&quot;Nobody&quot;)</code>, so <code>Dog.unnamed()</code> builds a <code>Dog</code>, not an <code>Animal</code>, because <code>cls</code> is <code>Dog</code>.</p>
+<h2>Inheritance and super</h2>
+<p>A subclass inherits everything from its parent. <code>Dog(Animal)</code> gets <code>__repr__</code>, <code>shout</code> and <code>unnamed</code> for free. When the child needs its own <code>__init__</code>, call <code>super().__init__(name)</code> to run the parent's setup first, then add the new attributes. <code>super()</code> means the next class up in the chain.</p>
+<h2>The Animal and Dog example, line by line</h2>
+<p>Line 1 defines <code>Animal</code>. Lines 2 and 3 store the name. Lines 5 and 6 define <code>__repr__</code>. Lines 8 to 10 make <code>shout</code> a property. Lines 12 to 14 make <code>unnamed</code> a class method. Line 16 declares <code>Dog</code> as a subclass of <code>Animal</code>. Lines 17 to 19 call <code>super()</code> to set the name, then add <code>tricks</code>. Line 21 prints a dog, which calls <code>__repr__</code>.</p>
+<h2>What you learned</h2>
+<ul>
+  <li>Dunder methods let your objects work with <code>print</code>, <code>+</code> and <code>==</code>.</li>
+  <li><code>@property</code> makes a method read like an attribute.</li>
+  <li>A class method receives the class, which suits alternative constructors.</li>
+  <li><code>super()</code> calls the parent so a subclass can extend instead of replace.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>Do I have to call dunder methods myself?</strong> No. You define <code>__repr__</code> and Python calls it when you print the object. Calling <code>obj.__repr__()</code> directly works but is almost never what you want.</p>
+<p>**What happens if I forget <code>super().__init__()</code> in a subclass?** The parent's setup never runs. A <code>Dog</code> that defines its own <code>__init__</code> without it has no <code>name</code>, and reading it raises <code>AttributeError: &#x27;Dog&#x27; object has no attribute &#x27;name&#x27;</code>.</p>
+<p>**When should I use <code>@staticmethod</code>?** When a function belongs with the class by topic but needs neither the instance nor the class. If you find yourself never using it from the class, a plain module-level function is often clearer.</p>
+<p><strong>Can a property be assigned to?</strong> Not unless you add a setter. Without one, <code>p.double = 5</code> raises <code>AttributeError: property &#x27;double&#x27; of &#x27;P&#x27; object has no setter</code>.</p>
+<p><strong>How do I make two objects compare equal?</strong> Define <code>__eq__</code>. Without it, <code>==</code> on two separate instances compares identity and gives <code>False</code>, even when their attributes match. The <code>@dataclass</code> shortcut writes <code>__eq__</code> for you.</p>
+<p>Next in the series: type hints, and how to tell Python and your editor what your code expects.</p>
+    <p class="watch">This article goes with the video <strong>Python Classes Explained</strong>. <a href="https://youtu.be/0ZjovHU6ZpY">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/intermediate/decorators/"><span>Previous</span>Python decorators explained: @wraps, arguments and lru_cache</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
