@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python recursion explained: call stack and base case: Codesarray</title>
+<meta name="description" content="Python recursion explained: write a factorial function, see how calls pile up on the call stack, and why a base case stops a RecursionError.">
+<link rel="canonical" href="https://codesarray.com/articles/python/intermediate/recursion/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python recursion explained: call stack and base case">
+<meta property="og:description" content="Python recursion explained: write a factorial function, see how calls pile up on the call stack, and why a base case stops a RecursionError.">
+<meta property="og:url" content="https://codesarray.com/articles/python/intermediate/recursion/">
+<meta property="og:image" content="https://codesarray.com/articles/python/intermediate/recursion/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-17">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python recursion explained: call stack and base case","description":"How recursion works in Python: a function that calls itself on a smaller problem, the call stack that holds the waiting calls, the base case that stops them, and the RecursionError you get without one.","image":"https://codesarray.com/articles/python/intermediate/recursion/cover.png","datePublished":"2026-10-17","dateModified":"2026-10-17","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/intermediate/recursion/"},"proficiencyLevel":"Intermediate","articleSection":"Python","video":{"@type":"VideoObject","name":"Python Recursion Explained","url":"https://youtu.be/EaIIsJr_-0I","embedUrl":"https://youtu.be/EaIIsJr_-0I","thumbnailUrl":"https://codesarray.com/articles/python/intermediate/recursion/cover.png","uploadDate":"2026-10-17T00:00:00+05:30","description":"How recursion works in Python: a function that calls itself on a smaller problem, the call stack that holds the waiting calls, the base case that stops them, and the RecursionError you get without one."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Intermediate","item":"https://codesarray.com/articles/python/intermediate/"},{"@type":"ListItem","position":4,"name":"Python recursion explained: call stack and base case"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/intermediate/">Intermediate</a></li></ol></nav>
+    <p class="meta">Lesson 9, by Codesarray, <time datetime="2026-10-17">17 October 2026</time>, 4 min read</p>
+    <h1>Python recursion explained: call stack and base case</h1>
+    <p class="standfirst">How recursion works in Python: a function that calls itself on a smaller problem, the call stack that holds the waiting calls, the base case that stops them, and the RecursionError you get without one.</p>
+<p>By the end of this page you will be able to write a recursive function in Python, explain how the call stack keeps track of the calls, and say why every recursive function needs a base case. It builds on <a href="/articles/python/intermediate/closures-and-scope/">Python closures and scope</a>, since each call gets its own local variables.</p>
+<h2>What is recursion in Python</h2>
+<p>Recursion is a function that calls itself with a smaller problem. Each call solves a little of the job and hands the rest to the next call. A classic example is factorial: 4 factorial is 4 times 3 factorial, and 3 factorial is 3 times 2 factorial, and so on down to 0 factorial, which is 1.</p>
+<p>Here is the whole example. It is used for every section below.</p>
+<pre><code>def factorial(n):
+    if n == 0:
+        return 1
+    return n * factorial(n - 1)
+
+
+# try it
+print(factorial(4))
+print(factorial(0))</code></pre>
+<pre class="out"><code>24
+1</code></pre>
+<h2>The call stack</h2>
+<p>When <code>factorial(3)</code> calls <code>factorial(2)</code>, the first call cannot finish yet. It has to wait for the answer. Python keeps these waiting calls in a pile called the call stack. Each new call goes on top of the pile, so <code>factorial(3)</code>, <code>factorial(2)</code> and <code>factorial(1)</code> stack up, newest on top.</p>
+<p>The call on top is the only one running. The ones below it are waiting.</p>
+<h2>The base case</h2>
+<p>The pile has to stop growing. The base case is the one input the function answers without calling itself. Here it is lines 2 and 3: when <code>n</code> is 0, return 1.</p>
+<p>Once the base case answers, the calls finish one by one from the top down. Each waiting call takes the answer, multiplies it, and returns. For <code>factorial(3)</code> that is 1 times 1, then 2 times 1, then 3 times 2, and the answer is 6.</p>
+<h2>Without a base case: RecursionError</h2>
+<p>Remove the base case and the function calls itself forever. The pile keeps growing, so Python stops it. At about 1000 calls it raises a <code>RecursionError</code>:</p>
+<pre class="out"><code>RecursionError: maximum recursion depth exceeded</code></pre>
+<p>So the base case is not optional, and every call must move closer to it. Here <code>n - 1</code> moves toward 0.</p>
+<h2>The recursive example line by line</h2>
+<ul>
+  <li>Line 1 defines <code>factorial</code> with a number <code>n</code>.</li>
+  <li>Line 2 checks the base case, <code>n == 0</code>.</li>
+  <li>Line 3 returns 1 without calling again.</li>
+  <li>Line 4 is the recursive step: <code>n * factorial(n - 1)</code>.</li>
+  <li>Line 8 prints <code>factorial(4)</code>, which is 24.</li>
+  <li>Line 9 prints <code>factorial(0)</code>, which hits the base case straight away and gives 1.</li>
+</ul>
+<h2>What you learned</h2>
+<ul>
+  <li>Recursion is a function calling itself on a smaller problem.</li>
+  <li>Waiting calls pile up on the call stack.</li>
+  <li>A base case stops the pile, and the calls then finish from the top down.</li>
+  <li>Without a base case, Python raises <code>RecursionError</code> after about 1000 calls.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>What is the recursion limit in Python?</strong> The default is about 1000 calls deep. You can read it with <code>sys.getrecursionlimit()</code>. Raising it is rarely the right fix: a function that needs thousands of levels is usually better written as a loop.</p>
+<p><strong>Is recursion faster than a loop?</strong> No. In Python a loop is usually a little faster and uses less memory, because each recursive call adds a stack entry. Recursion is worth it when the problem is naturally nested, as in trees.</p>
+<p><strong>Why does factorial of 0 equal 1?</strong> It is a definition that makes the pattern work: 1 factorial is 1 times 0 factorial, so 0 factorial has to be 1.</p>
+<p><strong>Can a recursive function call itself more than once?</strong> Yes. Fibonacci calls itself twice per call, which repeats a lot of work. Caching the results with <code>functools.lru_cache</code> fixes that, and a later lesson shows how.</p>
+<p><strong>What happens with a negative number?</strong> <code>factorial(-1)</code> never reaches 0, because <code>n - 1</code> moves away from it, so it ends in a <code>RecursionError</code>. A real function would check for that first.</p>
+<p>Next in the series: binary search, and how to find an item by halving the problem.</p>
+    <p class="watch">This article goes with the video <strong>Python Recursion Explained</strong>. <a href="https://youtu.be/EaIIsJr_-0I">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/intermediate/linked-lists/"><span>Previous</span>Python linked lists from scratch: Node class and head</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
