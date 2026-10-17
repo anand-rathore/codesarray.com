@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python binary search explained: low, high and mid: Codesarray</title>
+<meta name="description" content="Python binary search explained: write a find function with low, high and mid, avoid the off-by-one trap, and see why it takes about log n steps.">
+<link rel="canonical" href="https://codesarray.com/articles/python/intermediate/binary-search/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python binary search explained: low, high and mid">
+<meta property="og:description" content="Python binary search explained: write a find function with low, high and mid, avoid the off-by-one trap, and see why it takes about log n steps.">
+<meta property="og:url" content="https://codesarray.com/articles/python/intermediate/binary-search/">
+<meta property="og:image" content="https://codesarray.com/articles/python/intermediate/binary-search/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-17">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python binary search explained: low, high and mid","description":"How binary search works in Python: check the middle of a sorted list, drop half, move low and high past the middle, and why a million items take about 20 steps.","image":"https://codesarray.com/articles/python/intermediate/binary-search/cover.png","datePublished":"2026-10-17","dateModified":"2026-10-17","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/intermediate/binary-search/"},"proficiencyLevel":"Intermediate","articleSection":"Python","video":{"@type":"VideoObject","name":"Python Binary Search Explained","url":"https://youtu.be/y--kDdf5zdU","embedUrl":"https://youtu.be/y--kDdf5zdU","thumbnailUrl":"https://codesarray.com/articles/python/intermediate/binary-search/cover.png","uploadDate":"2026-10-17T00:00:00+05:30","description":"How binary search works in Python: check the middle of a sorted list, drop half, move low and high past the middle, and why a million items take about 20 steps."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Intermediate","item":"https://codesarray.com/articles/python/intermediate/"},{"@type":"ListItem","position":4,"name":"Python binary search explained: low, high and mid"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/intermediate/">Intermediate</a></li></ol></nav>
+    <p class="meta">Lesson 10, by Codesarray, <time datetime="2026-10-17">17 October 2026</time>, 4 min read</p>
+    <h1>Python binary search explained: low, high and mid</h1>
+    <p class="standfirst">How binary search works in Python: check the middle of a sorted list, drop half, move low and high past the middle, and why a million items take about 20 steps.</p>
+<p>By the end of this page you will be able to write binary search in Python, explain why it only works on a sorted list, and say why it is so much faster than checking every item. It builds on <a href="/articles/python/intermediate/recursion/">Python recursion</a>, since both solve a big problem by shrinking it.</p>
+<h2>What is binary search in Python</h2>
+<p>Binary search finds an item in a sorted list by halving the problem. Checking every item one by one is O(n). But if the list is sorted, you can look at the middle item first. If it is too small, the target must be on the right, so the whole left half is gone. If it is too big, drop the right half. Each check throws away half of what is left.</p>
+<p>Here is the whole example. It is used for every section below.</p>
+<pre><code>def find(nums, target):
+    low, high = 0, len(nums) - 1
+    while low &lt;= high:
+        mid = (low + high) // 2
+        if nums[mid] == target:
+            return mid
+        if nums[mid] &lt; target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1
+
+
+nums = [2, 5, 8, 12, 16, 23, 38]
+print(find(nums, 23))
+print(find(nums, 7))</code></pre>
+<pre class="out"><code>5
+-1</code></pre>
+<h2>Low, high and mid</h2>
+<p>To track the part still in play, keep two positions: <code>low</code> and <code>high</code>. The middle is <code>(low + high) // 2</code>, which rounds down. If <code>nums[mid]</code> is less than the target, move <code>low</code> to <code>mid + 1</code>. If it is greater, move <code>high</code> to <code>mid - 1</code>.</p>
+<p>The plus one and the minus one matter. The middle has already been checked, so skip it. If you wrote <code>low = mid</code> instead, the loop could run forever. When <code>low</code> passes <code>high</code>, nothing is left, and the target is not in the list.</p>
+<h2>How fast is binary search</h2>
+<p>Halving a thousand items takes about ten steps. A million items take about twenty. That is O(log n). One catch: binary search only works on sorted data. On an unsorted list it gives wrong answers.</p>
+<h2>The find function line by line</h2>
+<ul>
+  <li>Line 2 sets <code>low</code> to 0 and <code>high</code> to the last position.</li>
+  <li>Line 3 loops while something is left.</li>
+  <li>Line 4 finds the middle.</li>
+  <li>Line 5 checks for a match, and line 6 returns its position.</li>
+  <li>Line 7 asks if the middle is too small, so line 8 moves <code>low</code> up.</li>
+  <li>Otherwise, line 10 moves <code>high</code> down.</li>
+  <li>Line 11 returns -1, which means not found.</li>
+  <li>Lines 15 and 16 search for 23, found at position 5, and for 7, which is missing.</li>
+</ul>
+<h2>What you learned</h2>
+<ul>
+  <li>Binary search needs a sorted list.</li>
+  <li>Check the middle and throw away half.</li>
+  <li>Move <code>low</code> or <code>high</code> past the middle, never onto it.</li>
+  <li>It takes about log n steps, even for a million items.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>Does binary search work on an unsorted list?</strong> No. It assumes everything left of the middle is smaller and everything right is bigger. On unsorted data it can miss an item that is there. Sort first, or use <code>in</code>.</p>
+<p><strong>Is there a built-in binary search in Python?</strong> Yes. The <code>bisect</code> module in the standard library finds where a value belongs in a sorted list. <code>bisect.bisect_left(nums, 23)</code> gives 5 for the list above.</p>
+<p>**Why <code>// 2</code> and not <code>/ 2</code>?** <code>//</code> rounds down to a whole number. A single <code>/</code> gives a float such as 3.0, and a float cannot be used as a list position.</p>
+<p>**When is a plain <code>in</code> check better?** For a short list, or one you search only once. Sorting costs more than a single scan, so binary search pays off when you search the same sorted list many times.</p>
+<p><strong>Can I write binary search with recursion?</strong> Yes. The function calls itself on the left or right half, and the base case is an empty range. The loop version is usually shorter in Python.</p>
+<p>Next in the series: sorting algorithms, and how to put a list in order.</p>
+    <p class="watch">This article goes with the video <strong>Python Binary Search Explained</strong>. <a href="https://youtu.be/y--kDdf5zdU">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/intermediate/recursion/"><span>Previous</span>Python recursion explained: call stack and base case</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
