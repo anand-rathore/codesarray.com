@@ -46,7 +46,7 @@ articles\<language>\<level>\<slug>\article.md    one article (source of truth)
   "Common questions" section; short notes 200 to 400. The full rule is
   "Search" in `G:\youtube\CLAUDE.md`.
 - The three newest articles are also listed by hand in the `#articles`
-  section of the front page.
+  section of the front page, and the three newest videos in `#videos`.
 
 The full rules for placing and writing an article, and the order of work
 that leads to one, are in `G:\youtube\CLAUDE.md` ("Articles" and "Order of
