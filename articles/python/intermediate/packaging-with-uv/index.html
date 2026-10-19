@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python packaging with uv: build and publish a package: Codesarray</title>
+<meta name="description" content="Python packaging with uv explained: uv init --package, the pyproject.toml scripts table, uv build for a wheel, and uv publish, with real output.">
+<link rel="canonical" href="https://codesarray.com/articles/python/intermediate/packaging-with-uv/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python packaging with uv: build and publish a package">
+<meta property="og:description" content="Python packaging with uv explained: uv init --package, the pyproject.toml scripts table, uv build for a wheel, and uv publish, with real output.">
+<meta property="og:url" content="https://codesarray.com/articles/python/intermediate/packaging-with-uv/">
+<meta property="og:image" content="https://codesarray.com/articles/python/intermediate/packaging-with-uv/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-19">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python packaging with uv: build and publish a package","description":"How to package Python code with uv: start a package with uv init, name a command in pyproject.toml, build a wheel with uv build, and publish it to PyPI. One small function with its real output.","image":"https://codesarray.com/articles/python/intermediate/packaging-with-uv/cover.png","datePublished":"2026-10-19","dateModified":"2026-10-19","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/intermediate/packaging-with-uv/"},"proficiencyLevel":"Intermediate","articleSection":"Python","video":{"@type":"VideoObject","name":"Python Packaging with uv: Build and Publish a Package","url":"https://youtu.be/iwxg14e4ro4","embedUrl":"https://youtu.be/iwxg14e4ro4","thumbnailUrl":"https://codesarray.com/articles/python/intermediate/packaging-with-uv/cover.png","uploadDate":"2026-10-19T00:00:00+05:30","description":"How to package Python code with uv: start a package with uv init, name a command in pyproject.toml, build a wheel with uv build, and publish it to PyPI. One small function with its real output."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Intermediate","item":"https://codesarray.com/articles/python/intermediate/"},{"@type":"ListItem","position":4,"name":"Python packaging with uv: build and publish a package"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/intermediate/">Intermediate</a></li></ol></nav>
+    <p class="meta">Lesson 17, by Codesarray, <time datetime="2026-10-19">19 October 2026</time>, 4 min read</p>
+    <h1>Python packaging with uv: build and publish a package</h1>
+    <p class="standfirst">How to package Python code with uv: start a package with uv init, name a command in pyproject.toml, build a wheel with uv build, and publish it to PyPI. One small function with its real output.</p>
+<p>By the end of this page you will know how to package Python code with uv: how to start a package, how a command gets its name from the project file, and how to build a wheel you can share. It builds on <a href="/articles/python/beginner/modules-and-uv/">Python modules and uv</a>, where you first met <code>pyproject.toml</code>.</p>
+<h2>Start a package</h2>
+<p>Run <code>uv init --package greet</code>. Uv makes a folder with two things. A <code>pyproject.toml</code> file, which describes the project, and a <code>src</code> folder with your code inside a folder named <code>greet</code>. That layout, a source folder holding a folder with the package name, is what makes it a package.</p>
+<h2>Name a command with an entry point</h2>
+<p>The project file can also name a command. It looks like this:</p>
+<pre><code>[project.scripts]
+greet = &quot;greet:main&quot;</code></pre>
+<p>This means: when someone types <code>greet</code>, call the function <code>main</code> in the <code>greet</code> package. That is called an entry point. Uv writes this table for you when you use <code>--package</code>.</p>
+<h2>Build a wheel and publish it</h2>
+<p>Run <code>uv build</code>. It writes two files into a <code>dist</code> folder:</p>
+<pre class="out"><code>Successfully built dist\greet-0.1.0.tar.gz
+Successfully built dist\greet-0.1.0-py3-none-any.whl</code></pre>
+<p>The wheel, the <code>.whl</code> file, is what people install. The <code>.tar.gz</code> is a copy of the source. Then <code>uv publish</code> uploads both to PyPI, the place that <code>pip</code> and <code>uv</code> install from. You need an account on PyPI and an API token to prove the package is yours, so it is the one step this page does not run.</p>
+<h2>The code</h2>
+<p>This is the code inside the package, in <code>src/greet/__init__.py</code>:</p>
+<pre><code>import sys
+
+
+def main():
+    name = sys.argv[1] if len(sys.argv) &gt; 1 else &quot;world&quot;
+    print(f&quot;Hello, {name}!&quot;)</code></pre>
+<p>Run it with <code>uv run greet Ada</code>:</p>
+<pre class="out"><code>Hello, Ada!</code></pre>
+<p>Type <code>uv run greet</code> with no name and it prints <code>Hello, world!</code>.</p>
+<h2>The code line by line</h2>
+<ul>
+  <li>Line 1 imports <code>sys</code>, which holds the words typed after the command.</li>
+  <li>Line 4 defines <code>main</code>, the function the entry point calls.</li>
+  <li>Line 5 takes the name you typed after the command, or <code>world</code> if you typed nothing.</li>
+  <li>Line 6 prints the greeting.</li>
+</ul>
+<h2>What you learned</h2>
+<ul>
+  <li><code>uv init --package</code> starts a package with a <code>pyproject.toml</code> and a <code>src</code> folder.</li>
+  <li>The <code>[project.scripts]</code> table names a command and the function it calls.</li>
+  <li><code>uv build</code> makes a wheel and a source copy in <code>dist</code>.</li>
+  <li><code>uv publish</code> uploads them to PyPI with a token.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>What is a wheel?</strong> A wheel is a ready-to-install file with the extension <code>.whl</code>. Installing it is quick because nothing has to be built on the user's machine.</p>
+<p><strong>What is the difference between a package and a module?</strong> A module is one Python file. A package is a folder of modules that you install and import by name.</p>
+<p><strong>Do I need uv to build a package?</strong> No. The <code>[build-system]</code> table in <code>pyproject.toml</code> names the build tool, and <code>python -m build</code> works with the same file. Uv is just the fastest way to run the steps.</p>
+<p><strong>Can I try publishing without the real PyPI?</strong> Yes. PyPI has a test site, and <code>uv publish --publish-url https://test.pypi.org/legacy/</code> uploads there. Check the name is free first, because a published version can never be replaced.</p>
+<p><strong>How do I change the version?</strong> Edit <code>version</code> in <code>pyproject.toml</code>, then run <code>uv build</code> again. PyPI refuses an upload of a version number that already exists.</p>
+<p>Next in the series: graphs, BFS and DFS.</p>
+    <p class="watch">This article goes with the video <strong>Python Packaging with uv: Build and Publish a Package</strong>. <a href="https://youtu.be/iwxg14e4ro4">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/intermediate/testing-with-pytest/"><span>Previous</span>Python testing with pytest: write and run tests</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
