@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python graphs: BFS and DFS explained, with the shortest path: Codesarray</title>
+<meta name="description" content="Python graphs, BFS and DFS explained: an adjacency list in a dict, breadth first search with a deque for the shortest path, and a seen set to stop loops.">
+<link rel="canonical" href="https://codesarray.com/articles/python/advanced/graphs-bfs-dfs/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python graphs: BFS and DFS explained, with the shortest path">
+<meta property="og:description" content="Python graphs, BFS and DFS explained: an adjacency list in a dict, breadth first search with a deque for the shortest path, and a seen set to stop loops.">
+<meta property="og:url" content="https://codesarray.com/articles/python/advanced/graphs-bfs-dfs/">
+<meta property="og:image" content="https://codesarray.com/articles/python/advanced/graphs-bfs-dfs/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-20">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python graphs: BFS and DFS explained, with the shortest path","description":"How to store a graph in Python as an adjacency list, find the shortest path with breadth first search and a deque, and when depth first search is the better walk. One small function with its real output.","image":"https://codesarray.com/articles/python/advanced/graphs-bfs-dfs/cover.png","datePublished":"2026-10-20","dateModified":"2026-10-20","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/advanced/graphs-bfs-dfs/"},"proficiencyLevel":"Advanced","articleSection":"Python","video":{"@type":"VideoObject","name":"Python Graphs: BFS and DFS Explained","url":"https://youtu.be/4WsKGZi4MUk","embedUrl":"https://youtu.be/4WsKGZi4MUk","thumbnailUrl":"https://codesarray.com/articles/python/advanced/graphs-bfs-dfs/cover.png","uploadDate":"2026-10-20T00:00:00+05:30","description":"How to store a graph in Python as an adjacency list, find the shortest path with breadth first search and a deque, and when depth first search is the better walk. One small function with its real output."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Advanced","item":"https://codesarray.com/articles/python/advanced/"},{"@type":"ListItem","position":4,"name":"Python graphs: BFS and DFS explained, with the shortest path"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/advanced/">Advanced</a></li></ol></nav>
+    <p class="meta">Lesson 1, by Codesarray, <time datetime="2026-10-20">20 October 2026</time>, 4 min read</p>
+    <h1>Python graphs: BFS and DFS explained, with the shortest path</h1>
+    <p class="standfirst">How to store a graph in Python as an adjacency list, find the shortest path with breadth first search and a deque, and when depth first search is the better walk. One small function with its real output.</p>
+<p>By the end of this page you will know how to store a graph in Python, how to find the shortest path through it with breadth first search, and when to walk it depth first instead. It builds on <a href="/articles/python/intermediate/trees-and-traversal/">trees and traversal</a>, because a tree is just a graph with no loops.</p>
+<h2>A graph is nodes joined by edges</h2>
+<p>A graph is a set of nodes joined by edges. In our example, A connects to B and C, B connects to D, and C connects to D. In Python you store it as a dictionary. Each key is a node, and its value is the list of its neighbours. That layout is called an adjacency list.</p>
+<pre><code>graph = {&quot;A&quot;: [&quot;B&quot;, &quot;C&quot;], &quot;B&quot;: [&quot;D&quot;],
+         &quot;C&quot;: [&quot;D&quot;], &quot;D&quot;: []}</code></pre>
+<p>D has an empty list because no edge leaves it.</p>
+<h2>Breadth first search finds the shortest path</h2>
+<p>Breadth first search, or BFS, goes level by level. It starts at A, which is zero steps away. Then it visits everything one step away, B and C. Then everything two steps away, D.</p>
+<p>The first time you reach a node, you got there in the fewest steps. That is why BFS finds the shortest path. Two things make it work. A queue keeps the order, so older paths are tried first. A seen set stops you going in circles.</p>
+<h2>Depth first search goes deep</h2>
+<p>Depth first search, or DFS, goes the other way. It follows one path as far as it can. From A it goes to B, then D. D is a dead end, so it backs up, and then tries C. Use it to explore everything, to find cycles, or to order tasks. It does not promise the shortest path.</p>
+<h2>The code</h2>
+<p>This is breadth first search, with a start and a goal:</p>
+<pre><code>from collections import deque
+
+graph = {&quot;A&quot;: [&quot;B&quot;, &quot;C&quot;], &quot;B&quot;: [&quot;D&quot;],
+         &quot;C&quot;: [&quot;D&quot;], &quot;D&quot;: []}
+
+def bfs(start, goal):
+    queue = deque([[start]])
+    seen = {start}
+    while queue:
+        path = queue.popleft()
+        if path[-1] == goal:
+            return path
+        for nxt in graph[path[-1]]:
+            if nxt not in seen:
+                seen.add(nxt)
+                queue.append(path + [nxt])
+
+print(bfs(&quot;A&quot;, &quot;D&quot;))</code></pre>
+<p>Run it:</p>
+<pre class="out"><code>[&#x27;A&#x27;, &#x27;B&#x27;, &#x27;D&#x27;]</code></pre>
+<p>Two steps, the shortest way from A to D.</p>
+<h2>The code line by line</h2>
+<ul>
+  <li>Lines 3 and 4 are the graph, as an adjacency list.</li>
+  <li>Line 6 defines <code>bfs</code> with a start and a goal.</li>
+  <li>Line 7 makes a queue holding one path, just the start.</li>
+  <li>Line 8 is the seen set.</li>
+  <li>Line 9 loops while the queue still has paths.</li>
+  <li>Line 10 takes the oldest path.</li>
+  <li>Lines 11 and 12 return it if it ends at the goal.</li>
+  <li>Line 13 loops over the neighbours of its last node.</li>
+  <li>Lines 14 to 16 skip nodes already seen, mark new ones, and queue a longer path.</li>
+  <li>Line 18 prints the answer.</li>
+</ul>
+<h2>What you learned</h2>
+<ul>
+  <li>A graph is a dictionary of neighbour lists, called an adjacency list.</li>
+  <li>BFS uses a queue, and the first path to reach the goal is the shortest.</li>
+  <li>DFS goes deep first and explores everything, but does not promise the shortest path.</li>
+  <li>A seen set stops a search going in circles.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>What if there is no path to the goal?</strong> The queue runs empty, the loop ends, and the function returns <code>None</code>. Try <code>bfs(&quot;D&quot;, &quot;A&quot;)</code> on this graph.</p>
+<p><strong>Why use a deque and not a list?</strong> <code>popleft()</code> on a deque takes the same time however long the queue is. <code>pop(0)</code> on a list has to shift every item along, so it slows down as the queue grows.</p>
+<p><strong>Why do I need the seen set?</strong> Without it, a graph with a loop never ends. With A pointing to B and B pointing back to A, a walk that does not remember where it has been keeps going until Python raises <code>RecursionError: maximum recursion depth exceeded</code>.</p>
+<p><strong>How would I write DFS?</strong> Call the function on each unseen neighbour:</p>
+<pre><code>def dfs(node, seen):
+    seen.add(node)
+    print(node)
+    for nxt in graph[node]:
+        if nxt not in seen:
+            dfs(nxt, seen)
+
+dfs(&quot;A&quot;, set())</code></pre>
+<pre class="out"><code>A
+B
+D
+C</code></pre>
+<p>It goes A, B, D, hits the dead end, backs up, and then visits C.</p>
+<p><strong>Does DFS find the shortest path?</strong> Not always. On a graph where A connects to B and D, B connects to C, and C connects to D, a DFS that takes the first neighbour first finds A, B, C, D. BFS finds A, D.</p>
+<p>Next in the series: Dijkstra and weighted graphs, for when some edges cost more than others.</p>
+    <p class="watch">This article goes with the video <strong>Python Graphs: BFS and DFS Explained</strong>. <a href="https://youtu.be/4WsKGZi4MUk">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
