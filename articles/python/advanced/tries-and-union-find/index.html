@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python trie and union find: prefix search, autocomplete and Kruskal: Codesarray</title>
+<meta name="description" content="Python trie and union find explained: prefix search and autocomplete with a nested dict, union find with path compression, and Kruskal&#x27;s algorithm, with runnable code.">
+<link rel="canonical" href="https://codesarray.com/articles/python/advanced/tries-and-union-find/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python trie and union find: prefix search, autocomplete and Kruskal">
+<meta property="og:description" content="Python trie and union find explained: prefix search and autocomplete with a nested dict, union find with path compression, and Kruskal&#x27;s algorithm, with runnable code.">
+<meta property="og:url" content="https://codesarray.com/articles/python/advanced/tries-and-union-find/">
+<meta property="og:image" content="https://codesarray.com/articles/python/advanced/tries-and-union-find/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-22">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python trie and union find: prefix search, autocomplete and Kruskal","description":"How to build a trie in Python for prefix search and autocomplete, then union find with path compression and union by size, and use it to run Kruskal's algorithm for a minimum spanning tree. Four short programs with their real output.","image":"https://codesarray.com/articles/python/advanced/tries-and-union-find/cover.png","datePublished":"2026-10-22","dateModified":"2026-10-22","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/advanced/tries-and-union-find/"},"proficiencyLevel":"Advanced","articleSection":"Python","video":{"@type":"VideoObject","name":"Tries and Union Find in Python","url":"https://youtu.be/P68ArT9qyMw","embedUrl":"https://youtu.be/P68ArT9qyMw","thumbnailUrl":"https://codesarray.com/articles/python/advanced/tries-and-union-find/cover.png","uploadDate":"2026-10-22T00:00:00+05:30","description":"How to build a trie in Python for prefix search and autocomplete, then union find with path compression and union by size, and use it to run Kruskal's algorithm for a minimum spanning tree. Four short programs with their real output."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Advanced","item":"https://codesarray.com/articles/python/advanced/"},{"@type":"ListItem","position":4,"name":"Python trie and union find: prefix search, autocomplete and Kruskal"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/advanced/">Advanced</a></li></ol></nav>
+    <p class="meta">Lesson 4, by Codesarray, <time datetime="2026-10-22">22 October 2026</time>, 10 min read</p>
+    <h1>Python trie and union find: prefix search, autocomplete and Kruskal</h1>
+    <p class="standfirst">How to build a trie in Python for prefix search and autocomplete, then union find with path compression and union by size, and use it to run Kruskal's algorithm for a minimum spanning tree. Four short programs with their real output.</p>
+<p>By the end of this page you will be able to build a Python trie that answers "which words start with these letters?", build a union find that answers "are these two things in the same group?", and use union find to run Kruskal's algorithm for the cheapest way to connect a graph. It builds on <a href="/articles/python/intermediate/hash-tables/">hash tables</a>, <a href="/articles/python/intermediate/trees-and-traversal/">trees</a> and <a href="/articles/python/advanced/graphs-bfs-dfs/">graphs, BFS and DFS</a>.</p>
+<h2>What a trie is, and why prefix search is fast</h2>
+<p>You have a list of words and a user types <code>ca</code>. You want every word that starts with <code>ca</code>. With a plain list you check every word, and the work grows with the size of the list. A trie (the name comes from "retrieval") fixes that by sharing letters. Each letter is one step down a tree, and words that begin the same way share the same first steps.</p>
+<p>Take <code>car</code>, <code>card</code>, <code>care</code>, <code>cat</code> and <code>dog</code>. The root has two branches, <code>c</code> and <code>d</code>. Under <code>c</code> comes <code>a</code>. Under <code>a</code> come <code>r</code> and <code>t</code>. Under <code>r</code> come <code>d</code> and <code>e</code>. <code>car</code>, <code>card</code> and <code>care</code> all share the path <code>c</code>, <code>a</code>, <code>r</code> and only split at the end. The question "which words start with <code>ca</code>" is now a walk: follow <code>c</code>, then <code>a</code>, and everything below that point is the answer.</p>
+<h2>The end marker: a word or only a prefix</h2>
+<p><code>car</code> is a word, and it is also the start of <code>card</code>. To tell them apart, put an end marker on the node. In the code it is the key <code>&quot;$&quot;</code>. The node for <code>c</code>, <code>a</code>, <code>r</code> gets a <code>&quot;$&quot;</code> to say a word ends here, and it still has children for <code>d</code> and <code>e</code>.</p>
+<p>Three lookups show the difference. <code>has(&quot;car&quot;)</code> walks <code>c</code>, <code>a</code>, <code>r</code> and finds the <code>&quot;$&quot;</code>, so it is a word. <code>has(&quot;ca&quot;)</code> walks <code>c</code>, <code>a</code>: the node exists but has no <code>&quot;$&quot;</code>, so <code>ca</code> is a prefix and not a word. <code>cow</code> walks <code>c</code>, then finds no branch for <code>o</code> and stops at once. A lookup costs the length of the word, O(L), whether the trie holds ten words or ten million. A set can tell you whether a whole word exists, but it cannot answer a prefix question without scanning every word. The price of a trie is memory, since every letter is a node.</p>
+<h2>A trie in Python</h2>
+<pre><code>class Trie:
+    def __init__(self):
+        self.root = {}
+
+    def add(self, word):
+        node = self.root
+        for ch in word:
+            node = node.setdefault(ch, {})
+        node[&quot;$&quot;] = True
+
+    def find(self, prefix):
+        node = self.root
+        for ch in prefix:
+            if ch not in node:
+                return None
+            node = node[ch]
+        return node
+
+    def has(self, word):
+        node = self.find(word)
+        return node is not None and &quot;$&quot; in node
+
+words = Trie()
+for w in [&quot;car&quot;, &quot;card&quot;, &quot;care&quot;, &quot;cat&quot;, &quot;dog&quot;]:
+    words.add(w)
+
+print(words.has(&quot;car&quot;))
+print(words.has(&quot;ca&quot;))
+print(words.find(&quot;ca&quot;) is not None)
+print(words.find(&quot;cow&quot;) is not None)</code></pre>
+<pre class="out"><code>True
+False
+True
+False</code></pre>
+<p>Each node is a dictionary that maps a letter to the node below it. In <code>add</code>, <code>setdefault</code> returns the child for this letter and creates an empty one if there is none, so the loop walks down and builds as it goes, then puts the <code>&quot;$&quot;</code> marker on the last node. <code>find</code> walks a prefix and returns the node it reaches, or <code>None</code> if a letter has no branch. <code>has</code> finds the node and checks the marker is there. The four answers are <code>True</code>, <code>False</code> (only a prefix), <code>True</code> (the prefix exists) and <code>False</code> (no branch for <code>o</code>). This trie is for lowercase letters; a word containing <code>&quot;$&quot;</code> would clash with the marker.</p>
+<h2>Autocomplete with a trie</h2>
+<p>A search box needs more than yes or no: it needs every word below the prefix. Walk the prefix, then collect everything under that node with a stack.</p>
+<pre><code>root = {}
+for word in [&quot;car&quot;, &quot;card&quot;, &quot;care&quot;, &quot;cat&quot;, &quot;dog&quot;]:
+    node = root
+    for ch in word:
+        node = node.setdefault(ch, {})
+    node[&quot;$&quot;] = True
+
+def complete(prefix):
+    node = root
+    for ch in prefix:
+        if ch not in node:
+            return []
+        node = node[ch]
+    found, stack = [], [(node, prefix)]
+    while stack:
+        node, text = stack.pop()
+        for ch, child in node.items():
+            if ch == &quot;$&quot;:
+                found.append(text)
+            else:
+                stack.append((child, text + ch))
+    return sorted(found)
+
+print(complete(&quot;car&quot;))
+print(complete(&quot;x&quot;))</code></pre>
+<pre class="out"><code>[&#x27;car&#x27;, &#x27;card&#x27;, &#x27;care&#x27;]
+[]</code></pre>
+<p>The first loop in <code>complete</code> returns an empty list if the prefix is not in the trie. Then <code>found</code> collects words and <code>stack</code> holds <code>(node, text so far)</code> pairs. Each pop looks at the node's children: the <code>&quot;$&quot;</code> key means the text is a word, and any other child is pushed with one more letter. It is a depth first walk of everything below the prefix, and <code>sorted</code> puts the words in order.</p>
+<h2>Union find: are these in the same group?</h2>
+<p>Six people are numbered 0 to 5, and you hear facts like "0 knows 1", "2 knows 3", "1 knows 3". Are 0 and 3 in the same circle of friends? Union find keeps a set of groups and supports two moves: <code>find</code> tells you which group a person belongs to, and <code>union</code> merges two groups.</p>
+<p>Each group is a tree and every person keeps one pointer, to a parent. The person at the top points to themselves and is the root, and the root is the name of the group. Start with six groups, everyone pointing to themselves. <code>union(0, 1)</code> makes 1 point to 0. <code>union(2, 3)</code> makes 3 point to 2. <code>union(1, 3)</code> finds the roots, 0 and 2, which differ, so one root is attached under the other. Now 0 and 3 have the same root, so they are in the same group, while 5 is still its own root.</p>
+<h2>Path compression and union by size</h2>
+<p>If groups are attached carelessly, trees can grow into long chains and a <code>find</code> has to climb the whole chain. Two ideas fix that. Path compression: when <code>find</code> climbs to the root, make every person on the way point straight at the root, so the next <code>find</code> takes one step. Union by size: when two groups merge, hang the smaller one under the bigger one so trees stay shallow. Together they make each operation almost constant time, O(alpha of n), where alpha is the inverse Ackermann function, which never goes above 5 for any input that fits in a computer. In practice, treat it as O(1).</p>
+<pre><code>parent = list(range(6))
+size = [1] * 6
+
+def find(x):
+    if parent[x] != x:
+        parent[x] = find(parent[x])
+    return parent[x]
+
+def union(a, b):
+    ra, rb = find(a), find(b)
+    if ra == rb:
+        return False
+    if size[ra] &lt; size[rb]:
+        ra, rb = rb, ra
+    parent[rb] = ra
+    size[ra] += size[rb]
+    return True
+
+union(0, 1)
+union(2, 3)
+union(1, 3)
+print(find(0) == find(3))
+print(find(0) == find(5))
+print(union(0, 2))
+print(parent)</code></pre>
+<pre class="out"><code>True
+False
+False
+[0, 0, 0, 0, 4, 5]</code></pre>
+<p><code>parent[i]</code> starts as <code>i</code>, so everyone is their own root, and <code>size</code> tracks how big each group is. <code>find</code> is three lines: if <code>x</code> is not its own parent, set its parent to the <code>find</code> of its parent, then return it. The pointers are fixed as the recursion unwinds. <code>union</code> finds both roots, returns <code>False</code> if they are equal (already together), swaps so <code>ra</code> is the bigger group, hangs <code>rb</code> under it and adds the sizes. The output says 0 and 3 are together, 0 and 5 are not, and a second <code>union(0, 2)</code> changes nothing. In the final list, 3 points to 0, not to 2: path compression already pointed it straight at the root.</p>
+<h2>Kruskal's algorithm: the cheapest way to connect everything</h2>
+<p>Four cities, and a cost for laying a cable between some pairs. The cheapest set of edges that connects all of them with no cycle is a minimum spanning tree. Kruskal's idea is greedy, and here greedy is correct: sort the edges from cheapest to most expensive, and for each one ask union find whether its two ends are already connected. If not, take the edge and union them. If they are, skip it, because it would make a cycle.</p>
+<pre><code>def kruskal(n, edges):
+    parent = list(range(n))
+
+    def find(x):
+        if parent[x] != x:
+            parent[x] = find(parent[x])
+        return parent[x]
+
+    total, chosen = 0, []
+    for w, a, b in sorted(edges):
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[rb] = ra
+            total += w
+            chosen.append((a, b))
+    return total, chosen
+
+edges = [(4, 0, 1), (1, 0, 2), (3, 1, 2), (2, 1, 3), (5, 2, 3)]
+print(kruskal(4, edges))
+print(kruskal(1, []))</code></pre>
+<pre class="out"><code>(6, [(0, 2), (1, 3), (1, 2)])
+(0, [])</code></pre>
+<p>Each edge is a <code>(weight, a, b)</code> tuple, so <code>sorted(edges)</code> sorts by weight first. The edges in order cost 1 (0 to 2), 2 (1 to 3), 3 (1 to 2), 4 (0 to 1) and 5 (2 to 3). Kruskal takes 0 to 2, takes 1 to 3, and takes 1 to 2, which joins the two groups. Then 0 to 1 and 2 to 3 are skipped, since their ends are already connected. That is three edges with a total cost of 6, and a spanning tree of n nodes always has n minus 1 edges. The sort dominates the time, so it is O(E log E). One node and no edges gives <code>(0, [])</code>. If the graph is not connected, the result is a cheapest forest, one tree for each piece.</p>
+<h2>What you learned</h2>
+<ul>
+  <li>A trie stores words letter by letter, so words with a shared start share a path, and a lookup or prefix check costs the length of the word.</li>
+  <li>An end marker (<code>&quot;$&quot;</code>) tells a word from a prefix.</li>
+  <li>Union find keeps groups as trees of parent pointers: <code>find</code> returns the root, <code>union</code> merges two groups.</li>
+  <li>Path compression and union by size make both operations almost constant time.</li>
+  <li>Kruskal sorts the edges and takes each one that joins two different groups.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>When should I use a trie instead of a set?</strong> Use a set to ask whether a whole word exists. Use a trie when you need prefix questions, such as autocomplete, because a set would have to scan every word.</p>
+<p>**Why does <code>has(&quot;ca&quot;)</code> return <code>False</code> when the prefix exists?** <code>has</code> checks the <code>&quot;$&quot;</code> marker. <code>ca</code> is a path in the trie but no word ends there, so it is only a prefix. <code>find(&quot;ca&quot;)</code> returns the node.</p>
+<p><strong>What happens if two people are already in the same group?</strong> <code>union</code> finds equal roots and returns <code>False</code> without changing anything, which is exactly the cycle check Kruskal uses.</p>
+<p><strong>Do I need both path compression and union by size?</strong> Either one helps on its own, and together they give near constant time. The code above uses both.</p>
+<p><strong>Does Kruskal work on a graph that is not connected?</strong> It still runs, and returns a minimum spanning forest: one cheapest tree for each connected piece.</p>
+<p>Next in the series: asyncio, running many waits at the same time.</p>
+    <p class="watch">This article goes with the video <strong>Tries and Union Find in Python</strong>. <a href="https://youtu.be/P68ArT9qyMw">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/advanced/dynamic-programming/"><span>Previous</span>Python dynamic programming: memoisation, tabulation and lru_cache</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
