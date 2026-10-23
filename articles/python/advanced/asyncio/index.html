@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python asyncio: async, await, gather and timeouts explained: Codesarray</title>
+<meta name="description" content="Python asyncio explained: the event loop, async and await, gather, timeout, TaskGroup and to_thread, plus the new 3.14 asyncio ps and pstree, with runnable code.">
+<link rel="canonical" href="https://codesarray.com/articles/python/advanced/asyncio/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python asyncio: async, await, gather and timeouts explained">
+<meta property="og:description" content="Python asyncio explained: the event loop, async and await, gather, timeout, TaskGroup and to_thread, plus the new 3.14 asyncio ps and pstree, with runnable code.">
+<meta property="og:url" content="https://codesarray.com/articles/python/advanced/asyncio/">
+<meta property="og:image" content="https://codesarray.com/articles/python/advanced/asyncio/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-23">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python asyncio: async, await, gather and timeouts explained","description":"How Python asyncio works: the event loop, async def and await, running many things at once with create_task and gather, putting a limit on the wait with timeout, keeping tasks safe with TaskGroup, why a blocking call freezes everything, and the Python 3.14 tools that show running tasks. Three short programs with their real output.","image":"https://codesarray.com/articles/python/advanced/asyncio/cover.png","datePublished":"2026-10-23","dateModified":"2026-10-23","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/advanced/asyncio/"},"proficiencyLevel":"Advanced","articleSection":"Python","video":{"@type":"VideoObject","name":"Python asyncio: async, await, gather and timeouts","url":"https://youtu.be/aOKr5EvYtzs","embedUrl":"https://youtu.be/aOKr5EvYtzs","thumbnailUrl":"https://codesarray.com/articles/python/advanced/asyncio/cover.png","uploadDate":"2026-10-23T00:00:00+05:30","description":"How Python asyncio works: the event loop, async def and await, running many things at once with create_task and gather, putting a limit on the wait with timeout, keeping tasks safe with TaskGroup, why a blocking call freezes everything, and the Python 3.14 tools that show running tasks. Three short programs with their real output."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Advanced","item":"https://codesarray.com/articles/python/advanced/"},{"@type":"ListItem","position":4,"name":"Python asyncio: async, await, gather and timeouts explained"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/advanced/">Advanced</a></li></ol></nav>
+    <p class="meta">Lesson 5, by Codesarray, <time datetime="2026-10-23">23 October 2026</time>, 9 min read</p>
+    <h1>Python asyncio: async, await, gather and timeouts explained</h1>
+    <p class="standfirst">How Python asyncio works: the event loop, async def and await, running many things at once with create_task and gather, putting a limit on the wait with timeout, keeping tasks safe with TaskGroup, why a blocking call freezes everything, and the Python 3.14 tools that show running tasks. Three short programs with their real output.</p>
+<p>By the end of this page you will know what the asyncio event loop does, how <code>async</code> and <code>await</code> work, how to run many waits at the same time with tasks and <code>asyncio.gather</code>, how to put a time limit on them, and how Python 3.14 lets you look inside a running program. It builds on <a href="/articles/python/intermediate/iterators-and-generators/">iterators and generators</a>, where a function can pause and carry on later, and on <a href="/articles/python/intermediate/closures-and-scope/">closures and scope</a>.</p>
+<h2>Why asyncio: overlap the waiting</h2>
+<p>You need three pieces of data and each takes about a second to arrive. That second is not computing: it is waiting for the network to answer. If you ask for them one after another the total is three seconds, and for most of that time your program does nothing. Asyncio fixes this. While one request waits, the program starts the next, so the waits overlap and the total is about one second, the longest single wait.</p>
+<p>Nothing got faster. It is still one thread, and one thing runs at a time. Asyncio stops you wasting the waiting time, which is why it is for input and output, waiting on the network or the disk, and not for heavy calculation.</p>
+<h2>The event loop, <code>async def</code> and <code>await</code></h2>
+<p>The event loop is a manager with a list of jobs. It picks a job and runs it. The job runs until it reaches a point where it has to wait, then it hands control back and the loop picks another job. When the thing a job was waiting for is ready, the loop puts that job back on the list. Jobs take turns, and they only switch at the places where they wait.</p>
+<ul>
+  <li><code>async def job():</code> makes a coroutine function. Calling <code>job()</code> does not run it: it gives you a coroutine object, a job that has not started.</li>
+  <li><code>await asyncio.sleep(1)</code> marks the place where a job may pause. It means: run something else, and come back to me when this is ready.</li>
+  <li><code>await</code> only works inside an <code>async def</code>, and a function with no <code>await</code> in it never gives the loop a chance to switch.</li>
+</ul>
+<h2>Tasks and <code>asyncio.gather</code></h2>
+<p>If you just <code>await</code> one coroutine after another you are back to waiting in a line. To start a job in the background, wrap it in a task with <code>asyncio.create_task(job())</code>. The loop begins it at the next chance, your code carries on, and later you <code>await task</code> to get its result.</p>
+<p>For a whole group, use <code>asyncio.gather</code>. It runs the coroutines as tasks, waits for all of them and returns a list of results in the order you passed them in, not the order they finished. If one job raises an error, <code>gather</code> passes it up to you and the others keep running. Pass <code>return_exceptions=True</code> and the errors come back in the list, next to the good results.</p>
+<pre><code>import asyncio
+import time
+
+async def fetch(name, delay):
+    print(f&quot;start {name}&quot;)
+    await asyncio.sleep(delay)
+    print(f&quot;done {name}&quot;)
+    return name.upper()
+
+async def main():
+    t0 = time.perf_counter()
+    results = await asyncio.gather(
+        fetch(&quot;a&quot;, 1),
+        fetch(&quot;b&quot;, 2),
+        fetch(&quot;c&quot;, 1.5),
+    )
+    print(results)
+    print(f&quot;took {time.perf_counter() - t0:.1f}s&quot;)
+
+asyncio.run(main())</code></pre>
+<pre class="out"><code>start a
+start b
+start c
+done a
+done c
+done b
+[&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;]
+took 2.0s</code></pre>
+<p><code>fetch</code> is an async function: it prints, pauses at the <code>await</code>, then prints again and returns the name in capitals. <code>asyncio.run(main())</code> starts the event loop, runs <code>main</code> and closes the loop: it is the one entry point of an asyncio program. All three jobs start at once, before any is done. They finish in the order of their waits (1, 1.5 and 2 seconds), but the result list is <code>[&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;]</code>, the order we asked. The total is 2.0 seconds, the longest wait, not 4.5, the sum.</p>
+<h2>Timeouts with <code>asyncio.timeout</code></h2>
+<p>Waiting forever is a bug, so anything that talks to the network needs a time limit. Since Python 3.11 the tool is <code>asyncio.timeout</code>, used as a context manager. Everything inside the block must finish within the limit. If it does not, the work inside is cancelled and a <code>TimeoutError</code> is raised, which you catch outside the block. There is also the older <code>asyncio.wait_for(job(), 1)</code>, which does the same for a single awaitable.</p>
+<h2>TaskGroup keeps tasks inside a block</h2>
+<p><code>asyncio.TaskGroup</code>, also from 3.11, is the tool to reach for first today. You open it with <code>async with</code> and create tasks inside it. When the block ends it waits for every task. The point is safety: if one task fails, the group cancels all the others, so nothing is left running in the background by accident. The errors come out together as an exception group, which you catch with <code>except*</code>. With <code>gather</code>, by comparison, the other tasks quietly keep going after an error. A task group makes the lifetime of the tasks match the lifetime of the block.</p>
+<pre><code>import asyncio
+
+async def slow():
+    await asyncio.sleep(5)
+    return &quot;finished&quot;
+
+async def main():
+    try:
+        async with asyncio.timeout(1):
+            print(await slow())
+    except TimeoutError:
+        print(&quot;gave up after 1s&quot;)
+
+    async with asyncio.TaskGroup() as tg:
+        t1 = tg.create_task(asyncio.sleep(0.1, &quot;x&quot;))
+        t2 = tg.create_task(asyncio.sleep(0.2, &quot;y&quot;))
+    print(t1.result(), t2.result())
+
+asyncio.run(main())</code></pre>
+<pre class="out"><code>gave up after 1s
+x y</code></pre>
+<p><code>slow</code> needs five seconds but the block allows one, so it is cancelled after one second and the <code>except TimeoutError</code> branch prints that we gave up. Then the task group starts two tasks, one that waits 0.1 s and returns <code>&quot;x&quot;</code>, one that waits 0.2 s and returns <code>&quot;y&quot;</code>. When the block ends both are finished, and <code>result()</code> on each task gives <code>x y</code>.</p>
+<h2>A blocking call freezes the whole loop</h2>
+<p>Remember that jobs only switch at an <code>await</code>. If one job calls a normal blocking function, such as <code>time.sleep(1.5)</code> or a slow library call, there is no <code>await</code>, so there is no switch. The whole loop freezes and every other job stops until the call returns.</p>
+<p>The fix is to keep blocking work off the loop. <code>asyncio.to_thread(fn)</code> runs the function in a worker thread and you <code>await</code> its result, so the loop stays free and the other jobs keep their rhythm. The rule: inside async code, use the async version of every wait, and if the only version is a blocking one, send it to a thread.</p>
+<pre><code>import asyncio
+import time
+
+async def heartbeat():
+    for _ in range(3):
+        print(&quot;beat&quot;)
+        await asyncio.sleep(0.5)
+
+def slow_io():
+    time.sleep(1.5)
+    return &quot;io done&quot;
+
+async def main():
+    beat = asyncio.create_task(heartbeat())
+    print(await asyncio.to_thread(slow_io))
+    await beat
+
+asyncio.run(main())</code></pre>
+<pre class="out"><code>beat
+beat
+beat
+io done</code></pre>
+<p>The heartbeat prints <code>beat</code> three times, half a second apart, while <code>slow_io</code> blocks a worker thread for 1.5 seconds. If <code>slow_io()</code> were called directly instead of through <code>to_thread</code>, the heartbeat would print nothing for 1.5 seconds, because the loop would be frozen.</p>
+<h2>New in Python 3.14: look inside a running program</h2>
+<p>Before 3.14, finding out why an async program was stuck meant guessing. Now you can ask it.</p>
+<ul>
+  <li><code>python -m asyncio ps PID</code> prints a table of every task that is waiting, with its name and what it is waiting on.</li>
+  <li><code>python -m asyncio pstree PID</code> prints the same as a tree, which shows which task started which. It reports a cycle of tasks waiting on each other, a deadlock.</li>
+  <li>Inside your own code, <code>asyncio.print_call_graph()</code> prints the chain of awaits that led to the current line.</li>
+</ul>
+<p>For a program with a task group of two <code>fetch</code> tasks sleeping, <code>pstree</code> shows <code>Task-1</code> awaiting <code>main</code>, then the task group, then <code>fetch-a</code> and <code>fetch-b</code>, each waiting in <code>sleep</code>. (On Windows, set <code>PYTHONIOENCODING=utf-8</code> if the tree characters raise an encoding error.)</p>
+<h2>What you learned</h2>
+<ul>
+  <li>Asyncio overlaps waiting: one thread, an event loop, and jobs that take turns at each <code>await</code>.</li>
+  <li><code>async def</code> makes a coroutine, and <code>await</code> is where it may pause.</li>
+  <li><code>create_task</code> starts one in the background, and <code>gather</code> runs many and returns results in order.</li>
+  <li><code>asyncio.timeout</code> puts a limit on a block, and <code>TaskGroup</code> keeps tasks inside a block and cancels the rest if one fails.</li>
+  <li>A blocking call freezes the loop: use <code>asyncio.to_thread</code>.</li>
+  <li>In Python 3.14, <code>python -m asyncio ps</code> and <code>pstree</code> show the running tasks.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>Does asyncio make my code faster?</strong> Only when it spends its time waiting, on the network or the disk. It runs one thing at a time on one thread, so it does not speed up heavy calculation.</p>
+<p><strong>What is the difference between a coroutine and a task?</strong> Calling an <code>async def</code> function gives a coroutine that has not started. <code>asyncio.create_task</code> wraps it in a task that the event loop starts running in the background.</p>
+<p>**Why are <code>gather</code> results in a different order from the output?** <code>gather</code> returns results in the order you passed the coroutines, not the order they finished. In the example the prints show <code>a</code>, <code>c</code>, <code>b</code> but the list is <code>[&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;]</code>.</p>
+<p>**Should I use <code>gather</code> or <code>TaskGroup</code>?** Prefer <code>TaskGroup</code> for new code: if one task fails it cancels the rest and raises an exception group. With <code>gather</code>, the other tasks keep running after an error unless you cancel them yourself.</p>
+<p>**Why did my whole program freeze inside an <code>async def</code>?** Something blocking, such as <code>time.sleep</code> or a synchronous library call, ran without an <code>await</code>. Replace it with an async version, or run it with <code>asyncio.to_thread</code>.</p>
+<p>**Can I use <code>await</code> outside an <code>async def</code>?** No. Start the program with <code>asyncio.run(main())</code> and put the awaits inside <code>async def</code> functions.</p>
+<p>Next in the series: threads, processes and free threading.</p>
+    <p class="watch">This article goes with the video <strong>Python asyncio: async, await, gather and timeouts</strong>. <a href="https://youtu.be/aOKr5EvYtzs">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/advanced/tries-and-union-find/"><span>Previous</span>Python trie and union find: prefix search, autocomplete and Kruskal</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
