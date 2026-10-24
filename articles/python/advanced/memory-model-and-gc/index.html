@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python memory management: reference counting, garbage collection and __slots__: Codesarray</title>
+<meta name="description" content="Python memory management explained: reference counting, reference cycles, gc.collect(), tracemalloc, __slots__ and weakref, with runnable code and real output.">
+<link rel="canonical" href="https://codesarray.com/articles/python/advanced/memory-model-and-gc/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python memory management: reference counting, garbage collection and __slots__">
+<meta property="og:description" content="Python memory management explained: reference counting, reference cycles, gc.collect(), tracemalloc, __slots__ and weakref, with runnable code and real output.">
+<meta property="og:url" content="https://codesarray.com/articles/python/advanced/memory-model-and-gc/">
+<meta property="og:image" content="https://codesarray.com/articles/python/advanced/memory-model-and-gc/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-24">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python memory management: reference counting, garbage collection and __slots__","description":"How Python frees memory: reference counting with sys.getrefcount, reference cycles and the gc module, why sys.getsizeof is shallow and tracemalloc is not, what __slots__ saves, how small integers and interned strings are shared, and how weakref works. Four short programs with their real output.","image":"https://codesarray.com/articles/python/advanced/memory-model-and-gc/cover.png","datePublished":"2026-10-24","dateModified":"2026-10-24","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/advanced/memory-model-and-gc/"},"proficiencyLevel":"Advanced","articleSection":"Python","video":{"@type":"VideoObject","name":"Python memory management: refcounting, GC and __slots__","url":"https://youtu.be/CitFW-NA454","embedUrl":"https://youtu.be/CitFW-NA454","thumbnailUrl":"https://codesarray.com/articles/python/advanced/memory-model-and-gc/cover.png","uploadDate":"2026-10-24T00:00:00+05:30","description":"How Python frees memory: reference counting with sys.getrefcount, reference cycles and the gc module, why sys.getsizeof is shallow and tracemalloc is not, what __slots__ saves, how small integers and interned strings are shared, and how weakref works. Four short programs with their real output."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Advanced","item":"https://codesarray.com/articles/python/advanced/"},{"@type":"ListItem","position":4,"name":"Python memory management: reference counting, garbage collection and __slots__"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/advanced/">Advanced</a></li></ol></nav>
+    <p class="meta">Lesson 7, by Codesarray, <time datetime="2026-10-24">24 October 2026</time>, 8 min read</p>
+    <h1>Python memory management: reference counting, garbage collection and __slots__</h1>
+    <p class="standfirst">How Python frees memory: reference counting with sys.getrefcount, reference cycles and the gc module, why sys.getsizeof is shallow and tracemalloc is not, what __slots__ saves, how small integers and interned strings are shared, and how weakref works. Four short programs with their real output.</p>
+<p>By the end of this page you will know how Python manages memory: how it frees an object the moment nothing needs it, why two objects that point at each other need a second tool, how to measure the real size of your data, and three ways to work with memory on purpose: <code>__slots__</code>, shared objects and weak references. It follows <a href="/articles/python/advanced/threads-processes-free-threading/">threads, processes and free threading</a>.</p>
+<h2>Reference counting</h2>
+<p>You never call <code>free</code> in Python. Every object carries a number: how many references point at it. A reference is a name, a list slot, an attribute, anything that holds the object. When the number reaches zero, nobody can use the object any more, so Python frees it at once.</p>
+<pre><code>import sys
+
+
+class Node:
+    def __init__(self, name):
+        self.name = name
+
+    def __del__(self):
+        print(&quot;freed&quot;, self.name)
+
+
+a = Node(&quot;a&quot;)
+print(sys.getrefcount(a))
+b = a
+print(sys.getrefcount(a))
+del b
+print(sys.getrefcount(a))
+del a
+print(&quot;done&quot;)</code></pre>
+<p><code>__del__</code> runs just before an object is freed, so it shows us the moment. <code>sys.getrefcount(a)</code> reports one more than you might expect, because passing <code>a</code> into the call is itself a reference. The program prints:</p>
+<pre class="out"><code>2
+3
+2
+freed a
+done</code></pre>
+<p>One name gives 2 (one real reference plus the call). <code>b = a</code> copies nothing, it adds a second name for the same object, so 3. <code>del b</code> removes a name and takes it back to 2. <code>del a</code> takes it to zero, and <code>freed a</code> prints on that very line, before <code>done</code>. This is why Python usually frees things so promptly.</p>
+<h2>Reference cycles</h2>
+<p>Counting has one blind spot. If object x points at y and y points back at x, each keeps the other's count at 1, even after your own names are gone. Nothing can reach them, yet neither count ever reaches zero, so counting alone never frees them.</p>
+<p>The second tool is the cyclic garbage collector, in the <code>gc</code> module. It does not count. It looks: it follows references from the names your program can still reach, and anything it cannot get to is garbage, even if it is holding on to something else.</p>
+<pre><code>import gc
+
+
+class Node:
+    def __init__(self, name):
+        self.name = name
+        self.other = None
+
+    def __del__(self):
+        print(&quot;freed&quot;, self.name)
+
+
+x = Node(&quot;x&quot;)
+y = Node(&quot;y&quot;)
+x.other = y
+y.other = x
+del x, y
+print(&quot;deleted&quot;)
+print(gc.collect())
+print(gc.get_threshold())</code></pre>
+<pre class="out"><code>deleted
+freed x
+freed y
+2
+(2000, 10, 10)</code></pre>
+<p>After <code>del x, y</code> nothing prints: the cycle is still alive. <code>gc.collect()</code> finds the pair, frees both, and returns 2, the number of objects it freed. The collector also runs by itself, so you rarely call it.</p>
+<p>Checking everything all the time would be slow, so the collector sorts objects into three generations. New objects start in generation 0, which is checked often. Survivors move to generation 1 and then generation 2, which are checked rarely, because an object that has lived this long usually keeps living. <code>gc.get_threshold()</code> shows the settings: <code>(2000, 10, 10)</code>.</p>
+<p>One version note. Python 3.14.0 shipped an incremental collector, and it was taken out again in 3.14.5. Teach and rely on the generational collector described here.</p>
+<h2>How big is an object?</h2>
+<p><code>sys.getsizeof</code> gives the size of one object in bytes. An empty list is 56 bytes, a list of three numbers is 88, and a list of a hundred items is 856, about eight bytes per item because the list stores a pointer for each. An integer is 28 bytes and a one-letter string is 42.</p>
+<p>Note the word shallow. <code>getsizeof</code> counts the object itself, not what it points to. A list holding one list of three numbers and a list holding one list of nine numbers both report 64 bytes. To find the real cost, measure with <code>tracemalloc</code>, which watches the memory your program actually allocates.</p>
+<h2>__slots__</h2>
+<p>By default every instance of your class carries a dictionary, so you can add any attribute at any time. That freedom costs memory, and with 100,000 small objects it adds up. If you know the attributes in advance, write <code>__slots__</code> with their names and Python stores them in a fixed layout, with no dictionary per object.</p>
+<pre><code>import tracemalloc
+
+
+class Plain:
+    def __init__(self):
+        self.x, self.y = 1, 2
+
+
+class Slim:
+    __slots__ = (&quot;x&quot;, &quot;y&quot;)
+
+    def __init__(self):
+        self.x, self.y = 1, 2
+
+
+def measure(cls):
+    tracemalloc.start()
+    items = [cls() for _ in range(100_000)]
+    size, _ = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+    return size // 1_000_000
+
+
+print(measure(Plain), measure(Slim))</code></pre>
+<pre class="out"><code>9 5</code></pre>
+<p><code>measure</code> builds 100,000 objects and asks <code>tracemalloc</code> how many bytes are in use, in megabytes. The plain class takes 9 MB and the slotted one 5 MB, almost half. The numbers vary a little by version, but the gap stays. The trade is that the freedom is gone: setting an attribute that is not in <code>__slots__</code> raises an <code>AttributeError</code>. Dataclasses can do this for you with <code>slots=True</code>.</p>
+<h2>Shared objects and weak references</h2>
+<p>Python keeps one shared copy of the small integers from -5 up to 256, and of strings that look like names in your source code. Strings built while the program runs are not shared unless you call <code>sys.intern</code>. The last tool, <code>weakref</code>, lets you refer to an object without keeping it alive, which is what a cache wants.</p>
+<pre><code>import sys
+import weakref
+
+
+class Big:
+    pass
+
+
+a = int(&quot;256&quot;)
+b = int(&quot;256&quot;)
+print(a is b)
+c = int(&quot;257&quot;)
+d = int(&quot;257&quot;)
+print(c is d)
+s = &quot;&quot;.join([&quot;py&quot;, &quot;thon&quot;])
+t = &quot;&quot;.join([&quot;py&quot;, &quot;thon&quot;])
+print(s is t, sys.intern(s) is sys.intern(t))
+
+big = Big()
+ref = weakref.ref(big)
+print(ref() is big)
+del big
+print(ref())</code></pre>
+<pre class="out"><code>True
+False
+False True
+True
+None</code></pre>
+<p><code>int(&quot;256&quot;)</code> twice gives the very same object, so <code>is</code> says <code>True</code>. <code>int(&quot;257&quot;)</code> twice gives two objects with equal values, so <code>is</code> says <code>False</code>. The two strings were built at run time, so they are different objects until <code>sys.intern</code> makes them one. The lesson: compare values with <code>==</code> and keep <code>is</code> for <code>None</code>.</p>
+<p>A weak reference does not count. <code>ref()</code> returns the object while it is alive, and <code>None</code> once it has been freed, as the last line shows. <code>weakref.WeakValueDictionary</code> is a dictionary whose entries vanish on their own when the value is freed. Your own classes support weak references, but plain lists, dicts and numbers do not.</p>
+<h2>What you learned</h2>
+<ul>
+  <li>Every object counts its references and is freed the moment the count reaches zero.</li>
+  <li>A reference cycle keeps its own counts above zero, so the garbage collector in <code>gc</code> finds it, using generations.</li>
+  <li><code>sys.getsizeof</code> is shallow; use <code>tracemalloc</code> to measure for real.</li>
+  <li><code>__slots__</code> removes the per-object dictionary: 9 MB down to 5 MB for 100,000 objects.</li>
+  <li>Small integers and interned strings are shared, so compare values with <code>==</code>.</li>
+  <li>A weak reference points at an object without keeping it alive.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>Does Python have a garbage collector?</strong> Yes, two parts. Reference counting frees most objects the instant they are unused, and the cyclic garbage collector in <code>gc</code> frees groups of objects that only point at each other.</p>
+<p><strong>Do I need to call gc.collect()?</strong> Almost never. The collector runs by itself. Calling it is useful in tests and demos, as above, where you want to see a cycle freed on purpose.</p>
+<p><strong>Why does sys.getrefcount show one extra?</strong> Passing the object to the function creates a temporary reference for the duration of the call.</p>
+<p><strong>Why is sys.getsizeof wrong for my data?</strong> It is not wrong, it is shallow: it counts only the container. Use <code>tracemalloc</code> for the whole cost.</p>
+<p><strong>When should I use __slots__?</strong> When you make very many small objects with a fixed set of attributes. For a handful of objects the saving is not worth losing the flexibility. Next in the series are descriptors and metaclasses, which is how <code>__slots__</code> itself is built.</p>
+    <p class="watch">This article goes with the video <strong>Python memory management: refcounting, GC and __slots__</strong>. <a href="https://youtu.be/CitFW-NA454">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/advanced/threads-processes-free-threading/"><span>Previous</span>Python threads vs processes: the GIL, locks and free threading</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
