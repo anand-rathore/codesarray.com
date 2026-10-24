@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python threads vs processes: the GIL, locks and free threading: Codesarray</title>
+<meta name="description" content="Python threads vs processes explained: the GIL, ThreadPoolExecutor vs ProcessPoolExecutor, threading.Lock, the 3.14 free-threaded build and InterpreterPoolExecutor, with runnable code.">
+<link rel="canonical" href="https://codesarray.com/articles/python/advanced/threads-processes-free-threading/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python threads vs processes: the GIL, locks and free threading">
+<meta property="og:description" content="Python threads vs processes explained: the GIL, ThreadPoolExecutor vs ProcessPoolExecutor, threading.Lock, the 3.14 free-threaded build and InterpreterPoolExecutor, with runnable code.">
+<meta property="og:url" content="https://codesarray.com/articles/python/advanced/threads-processes-free-threading/">
+<meta property="og:image" content="https://codesarray.com/articles/python/advanced/threads-processes-free-threading/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-24">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python threads vs processes: the GIL, locks and free threading","description":"How Python threads, processes and subinterpreters differ: what the GIL is, why threads help with waiting but not calculating, how ThreadPoolExecutor and ProcessPoolExecutor compare, how a Lock stops a race condition, and what the Python 3.14 free-threaded build changes. Three short programs with their real output.","image":"https://codesarray.com/articles/python/advanced/threads-processes-free-threading/cover.png","datePublished":"2026-10-24","dateModified":"2026-10-24","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/advanced/threads-processes-free-threading/"},"proficiencyLevel":"Advanced","articleSection":"Python","video":{"@type":"VideoObject","name":"Python threads vs processes: the GIL and free threading","url":"https://youtu.be/NBKUM7vekYs","embedUrl":"https://youtu.be/NBKUM7vekYs","thumbnailUrl":"https://codesarray.com/articles/python/advanced/threads-processes-free-threading/cover.png","uploadDate":"2026-10-24T00:00:00+05:30","description":"How Python threads, processes and subinterpreters differ: what the GIL is, why threads help with waiting but not calculating, how ThreadPoolExecutor and ProcessPoolExecutor compare, how a Lock stops a race condition, and what the Python 3.14 free-threaded build changes. Three short programs with their real output."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Advanced","item":"https://codesarray.com/articles/python/advanced/"},{"@type":"ListItem","position":4,"name":"Python threads vs processes: the GIL, locks and free threading"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/advanced/">Advanced</a></li></ol></nav>
+    <p class="meta">Lesson 6, by Codesarray, <time datetime="2026-10-24">24 October 2026</time>, 7 min read</p>
+    <h1>Python threads vs processes: the GIL, locks and free threading</h1>
+    <p class="standfirst">How Python threads, processes and subinterpreters differ: what the GIL is, why threads help with waiting but not calculating, how ThreadPoolExecutor and ProcessPoolExecutor compare, how a Lock stops a race condition, and what the Python 3.14 free-threaded build changes. Three short programs with their real output.</p>
+<p>By the end of this page you will know what the Python GIL is, when threads help and when they do not, how processes get around the GIL, how to protect shared data with a lock, and what the free-threaded build and subinterpreters in Python 3.14 change. It follows <a href="/articles/python/advanced/asyncio/">asyncio</a>, which is the other way to overlap waiting.</p>
+<h2>What the GIL is</h2>
+<p>CPython has a global interpreter lock, the GIL. It is one lock, and only the thread that holds it can run Python code. It exists because Python counts references to every object to know when to free it, and those counters are not safe if two threads change them at the same moment. One big lock was the simple fix.</p>
+<p>The result: you can start four threads and still only one of them runs Python at any instant. The GIL is released when a thread waits, for the network, the disk or a sleep, and every few milliseconds it is handed to another thread.</p>
+<h2>Threads or processes?</h2>
+<p>Ask what your program spends its time on.</p>
+<ul>
+  <li><strong>Waiting</strong> (websites, files, a database): use threads. A waiting thread lets go of the GIL, so the others run and the waits overlap, like asyncio but with ordinary blocking code.</li>
+  <li><strong>Calculating</strong> (loops over numbers, compressing, parsing): threads do not help, because only one can hold the GIL. Use processes. Each process is a separate Python with its own interpreter and its own GIL, so four processes really run on four cores.</li>
+</ul>
+<p>The price of processes is that they do not share memory. Data you send to a process is copied across and the results are copied back, and starting a process costs more than starting a thread.</p>
+<h2>concurrent.futures pools</h2>
+<p>You rarely build threads by hand. <code>concurrent.futures</code> gives you <code>ThreadPoolExecutor</code> and <code>ProcessPoolExecutor</code>, which have the same interface: make a pool, call <code>map</code> with a function and a list of inputs, and get the results back in order. Swap one class for the other and nothing else changes.</p>
+<pre><code>import time
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+
+def count(n):
+    total = 0
+    for i in range(n):
+        total += i
+    return total
+
+def timed(label, pool_class):
+    t0 = time.perf_counter()
+    with pool_class(max_workers=4) as pool:
+        list(pool.map(count, [10_000_000] * 4))
+    print(f&quot;{label}: {time.perf_counter() - t0:.1f}s&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    t0 = time.perf_counter()
+    for _ in range(4):
+        count(10_000_000)
+    print(f&quot;one thread: {time.perf_counter() - t0:.1f}s&quot;)
+    timed(&quot;4 threads&quot;, ThreadPoolExecutor)
+    timed(&quot;4 processes&quot;, ProcessPoolExecutor)</code></pre>
+<p><code>count</code> is pure calculation. <code>timed</code> runs four jobs of ten million additions in a pool of four workers. The main block times the same four jobs in one thread, then in four threads, then in four processes. On the machine used for the video it printed:</p>
+<pre class="out"><code>one thread: 3.1s
+4 threads: 3.9s
+4 processes: 1.5s</code></pre>
+<p>Four threads were slower than one, because they fight over the GIL and gain nothing. Four processes were about twice as fast, not four times, because starting processes and copying data costs time. Your numbers will differ, but the order will be the same.</p>
+<p>Two details for processes. The function and its arguments must be picklable, which means plain functions defined at the top of a module, not lambdas. And the main code must sit under <code>if __name__ == &quot;__main__&quot;:</code>, because on Windows and macOS every worker process imports your file again.</p>
+<h2>Race conditions and locks</h2>
+<p>Threads share memory, which is both their strength and their danger. Say four threads each add one to the same counter, a hundred thousand times. <code>counter += 1</code> looks like one step but it is three: read the value, add one, write it back. If a thread is switched out after the read and before the write, another thread can read the same old value, and one of the two updates is lost. This is a race condition. The answer comes out wrong, and differently each run, which makes it a terrible bug to find.</p>
+<p>The fix is a lock: a <code>with</code> block that only one thread can be inside at a time.</p>
+<pre><code>import threading
+
+counter = 0
+lock = threading.Lock()
+
+def add(n):
+    global counter
+    for _ in range(n):
+        with lock:
+            counter += 1
+
+threads = [threading.Thread(target=add, args=(100_000,)) for _ in range(4)]
+for t in threads:
+    t.start()
+for t in threads:
+    t.join()
+print(counter)</code></pre>
+<p>Line 9 takes the lock and line 10 adds one inside it. Lines 12 to 16 make four threads, start them all, and wait for each to finish with <code>join</code>. It prints:</p>
+<pre class="out"><code>400000</code></pre>
+<p>Exactly four times a hundred thousand, on every run. Without the lock you are not promised that.</p>
+<h2>The free-threaded build in Python 3.14</h2>
+<p>Python 3.13 added an experimental build with the GIL switched off, and Python 3.14 made it officially supported. It is installed separately, and its command is often called <code>python3.14t</code>. In it the reference counts are made safe in other ways, so threads running Python code really do run at the same time on different cores. A calculation split over four threads can then be several times faster, with no processes and no copying.</p>
+<p>You can check which build you have with <code>sys._is_gil_enabled()</code>, which returns <code>False</code> in the free-threaded build. Three honest warnings:</p>
+<ul>
+  <li>A single thread runs a little slower than in the normal build.</li>
+  <li>Some libraries written in C have not caught up yet.</li>
+  <li>Removing the GIL does not remove the need for locks. The counter bug above is still yours to prevent.</li>
+</ul>
+<h2>Subinterpreters in Python 3.14</h2>
+<p>A subinterpreter is a second Python interpreter inside the same process, with its own state and, since Python 3.12, its own GIL. You get parallel Python code like processes, but cheaper, because it is one process. The easy way in is <code>InterpreterPoolExecutor</code>, which looks exactly like the other two pools.</p>
+<pre><code>import sys
+from concurrent.futures import InterpreterPoolExecutor
+
+def count(n):
+    return sum(range(n))
+
+if __name__ == &quot;__main__&quot;:
+    print(&quot;GIL on:&quot;, sys._is_gil_enabled())
+    with InterpreterPoolExecutor(max_workers=4) as pool:
+        print(list(pool.map(count, [10, 100, 1000, 10000])))</code></pre>
+<pre class="out"><code>GIL on: True
+[45, 4950, 499500, 49995000]</code></pre>
+<p><code>GIL on: True</code> because this is the normal build; in the free-threaded build it says <code>False</code>. The interpreters do not share objects, only simple data that can be copied, so this is a safe sort of parallel: more isolated than threads, lighter than processes.</p>
+<h2>What you learned</h2>
+<ul>
+  <li>The GIL lets one thread run Python at a time.</li>
+  <li>For waiting, use threads or asyncio. For calculating, use processes, which have a GIL each but copy their data.</li>
+  <li><code>concurrent.futures</code> gives you thread and process pools with one interface.</li>
+  <li>Threads share memory, so protect shared data with a <code>threading.Lock</code>.</li>
+  <li>Python 3.14 has a free-threaded build with no GIL, and <code>InterpreterPoolExecutor</code> for subinterpreters.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>Is the GIL removed in Python 3.14?</strong> Not in the normal build. Python 3.14 officially supports a separate free-threaded build with the GIL off, and the normal build keeps it. Check with <code>sys._is_gil_enabled()</code>.</p>
+<p><strong>Do threads make Python faster?</strong> For waiting on the network or disk, yes, because the waits overlap. For pure calculation, no: in the example above four threads took 3.9 seconds against 3.1 for one.</p>
+<p>**Why do I need <code>if __name__ == &quot;__main__&quot;:</code> with processes?** On Windows and macOS each worker process imports your file again. Without the guard, every worker would start more workers.</p>
+<p><strong>Do I still need locks without the GIL?</strong> Yes, and arguably more. A lock protects your own shared data, such as the counter, whether or not the GIL exists.</p>
+<p><strong>Which should I use: threads, processes or asyncio?</strong> Many network waits: asyncio or threads. Heavy calculation: processes, or threads on the free-threaded build. Next in the series is <a href="/articles/python/advanced/">the memory model and garbage collection</a>.</p>
+    <p class="watch">This article goes with the video <strong>Python threads vs processes: the GIL and free threading</strong>. <a href="https://youtu.be/NBKUM7vekYs">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/advanced/asyncio/"><span>Previous</span>Python asyncio: async, await, gather and timeouts explained</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
