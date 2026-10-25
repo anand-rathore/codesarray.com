@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python descriptors and metaclasses explained: property, __set_name__ and __init_subclass__: Codesarray</title>
+<meta name="description" content="Python descriptors and metaclasses explained: __get__, __set__, property, __set_name__, __init_subclass__ and metaclasses, with runnable code and real output.">
+<link rel="canonical" href="https://codesarray.com/articles/python/advanced/descriptors-and-metaclasses/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python descriptors and metaclasses explained: property, __set_name__ and __init_subclass__">
+<meta property="og:description" content="Python descriptors and metaclasses explained: __get__, __set__, property, __set_name__, __init_subclass__ and metaclasses, with runnable code and real output.">
+<meta property="og:url" content="https://codesarray.com/articles/python/advanced/descriptors-and-metaclasses/">
+<meta property="og:image" content="https://codesarray.com/articles/python/advanced/descriptors-and-metaclasses/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-25">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python descriptors and metaclasses explained: property, __set_name__ and __init_subclass__","description":"How Python descriptors work: __get__ and __set__ on the class, how property is built from one, a reusable Positive descriptor with __set_name__, data versus non data descriptors, __init_subclass__ for a plugin registry, and when a metaclass is the right tool. Five short programs with their real output.","image":"https://codesarray.com/articles/python/advanced/descriptors-and-metaclasses/cover.png","datePublished":"2026-10-25","dateModified":"2026-10-25","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/advanced/descriptors-and-metaclasses/"},"proficiencyLevel":"Advanced","articleSection":"Python","video":{"@type":"VideoObject","name":"Python descriptors and metaclasses explained","url":"https://youtu.be/QjVUz2wXxqI","embedUrl":"https://youtu.be/QjVUz2wXxqI","thumbnailUrl":"https://codesarray.com/articles/python/advanced/descriptors-and-metaclasses/cover.png","uploadDate":"2026-10-25T00:00:00+05:30","description":"How Python descriptors work: __get__ and __set__ on the class, how property is built from one, a reusable Positive descriptor with __set_name__, data versus non data descriptors, __init_subclass__ for a plugin registry, and when a metaclass is the right tool. Five short programs with their real output."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Advanced","item":"https://codesarray.com/articles/python/advanced/"},{"@type":"ListItem","position":4,"name":"Python descriptors and metaclasses explained: property, __set_name__ and __init_subclass__"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/advanced/">Advanced</a></li></ol></nav>
+    <p class="meta">Lesson 8, by Codesarray, <time datetime="2026-10-25">25 October 2026</time>, 7 min read</p>
+    <h1>Python descriptors and metaclasses explained: property, __set_name__ and __init_subclass__</h1>
+    <p class="standfirst">How Python descriptors work: __get__ and __set__ on the class, how property is built from one, a reusable Positive descriptor with __set_name__, data versus non data descriptors, __init_subclass__ for a plugin registry, and when a metaclass is the right tool. Five short programs with their real output.</p>
+<p>By the end of this page you will know how Python descriptors work: why <code>item.price</code> can run your own code, how <code>property</code> is built from one, how a single descriptor can guard many fields, and how <code>__init_subclass__</code> and metaclasses hook into class creation. It follows <a href="/articles/python/advanced/memory-model-and-gc/">memory management and the garbage collector</a>.</p>
+<h2>How Python looks up an attribute</h2>
+<p>When you write <code>item.price</code>, Python does not simply look in a dictionary. It looks at the class first. If the class holds an object for that name and the object has a <code>__get__</code> method, Python calls it, and what it returns is the value. An object like that is a <strong>descriptor</strong>.</p>
+<p>The protocol has three methods: <code>__get__</code> runs on a read, <code>__set__</code> runs on an assignment, and <code>__delete__</code> runs on <code>del</code>. A descriptor lives on the class but is called with the instance, so one object serves every instance.</p>
+<h2>property is a descriptor</h2>
+<p>You have already used one. Reading <code>t.f</code> calls the getter, and with <code>@f.setter</code> assigning to it calls the setter.</p>
+<pre><code>class Temp:
+    def __init__(self, celsius):
+        self._c = celsius
+
+    @property
+    def f(self):
+        return self._c * 9 / 5 + 32
+
+    @f.setter
+    def f(self, value):
+        self._c = (value - 32) * 5 / 9
+
+
+t = Temp(100)
+print(t.f)
+t.f = 32
+print(t._c)
+print(type(Temp.f).__name__)
+print(Temp.f.fget.__name__)</code></pre>
+<pre class="out"><code>212.0
+0.0
+property
+f</code></pre>
+<p>A hundred Celsius is 212 Fahrenheit. Assigning 32 runs the setter, so the stored Celsius becomes 0. Nothing is stored under <code>f</code> on the instance: <code>Temp.f</code> is a <code>property</code> object on the class, and its getter is kept as <code>fget</code>.</p>
+<h2>A reusable descriptor with __set_name__</h2>
+<p>A property suits one attribute. If many attributes need the same rule, write the rule once as a descriptor class. The descriptor is shared, so it must know which attribute it serves. Python tells it: when the class body finishes, it calls <code>__set_name__(owner, name)</code> on every descriptor in the class.</p>
+<pre><code>class Positive:
+    def __set_name__(self, owner, name):
+        self.name = &quot;_&quot; + name
+
+    def __get__(self, obj, owner=None):
+        if obj is None:
+            return self
+        return getattr(obj, self.name)
+
+    def __set__(self, obj, value):
+        if value &lt;= 0:
+            raise ValueError(f&quot;{self.name[1:]} must be positive&quot;)
+        setattr(obj, self.name, value)
+
+
+class Item:
+    price = Positive()
+    qty = Positive()
+
+    def __init__(self, price, qty):
+        self.price = price
+        self.qty = qty
+
+
+item = Item(9.5, 3)
+print(item.price * item.qty)
+print(type(Item.price).__name__)
+try:
+    item.price = -1
+except ValueError as error:
+    print(error)
+print(item.price)</code></pre>
+<pre class="out"><code>28.5
+Positive
+price must be positive
+9.5</code></pre>
+<p><code>price</code> and <code>qty</code> both use <code>Positive</code>. The value is stored on the instance under a private name (<code>_price</code>, <code>_qty</code>). When you ask the class itself, <code>Item.price</code>, the instance is <code>None</code>, so <code>__get__</code> returns the descriptor, and the second line prints its type. The rejected <code>-1</code> never reaches the object, so the old <code>9.5</code> is kept.</p>
+<h2>The mistake: storing the value on the descriptor</h2>
+<p>Do not write <code>self.value = value</code> inside a descriptor. There is only one descriptor per class, so every instance would share that one value: set the price of one item and every item changes. Keep the value on the instance, under a private name or in its <code>__dict__</code>. If you must keep data on the descriptor, key it by instance with a <code>weakref.WeakKeyDictionary</code>.</p>
+<h2>Data and non data descriptors</h2>
+<p>Which wins when the class and the instance both have the name? A <strong>data descriptor</strong> defines <code>__set__</code> or <code>__delete__</code> as well as <code>__get__</code>, and it beats the instance <code>__dict__</code>. A <strong>non data descriptor</strong> has only <code>__get__</code>, and the instance <code>__dict__</code> beats it.</p>
+<pre><code>class Loud:
+    def __get__(self, obj, owner=None):
+        return &quot;descriptor&quot;
+
+    def __set__(self, obj, value):
+        pass
+
+
+class Quiet:
+    def __get__(self, obj, owner=None):
+        return &quot;descriptor&quot;
+
+
+class Box:
+    loud = Loud()
+    quiet = Quiet()
+
+    def hi(self):
+        return &quot;hi&quot;
+
+
+b = Box()
+b.__dict__[&quot;loud&quot;] = &quot;instance&quot;
+b.__dict__[&quot;quiet&quot;] = &quot;instance&quot;
+print(b.loud)
+print(b.quiet)
+print(type(Box.hi).__name__, type(b.hi).__name__)
+print(b.hi.__self__ is b)</code></pre>
+<pre class="out"><code>descriptor
+instance
+function method
+True</code></pre>
+<p><code>loud</code> is a data descriptor, so the class wins even though the instance dictionary holds an entry. <code>quiet</code> has only <code>__get__</code>, so the instance value wins. That is also why a property cannot be overwritten through <code>__dict__</code>.</p>
+<p>Plain functions are non data descriptors. <code>Box.hi</code> on the class is a function, but <code>b.hi</code> runs the function's <code>__get__</code>, which returns a bound method with <code>b</code> already filled in as <code>self</code>. The last line confirms <code>b.hi.__self__ is b</code>.</p>
+<h2>__init_subclass__</h2>
+<p>Descriptors hook into attributes. <code>__init_subclass__</code> hooks into class creation: Python calls it on the parent every time a subclass is defined. It is an implicit class method, extra keywords in the class line are passed to it, and it should call <code>super().__init_subclass__(**kwargs)</code> so other classes in the chain run their hooks too. It arrived in Python 3.6.</p>
+<pre><code>class Plugin:
+    registry = {}
+
+    def __init_subclass__(cls, /, key=None, **kwargs):
+        super().__init_subclass__(**kwargs)
+        cls.registry[key or cls.__name__.lower()] = cls
+
+
+class Csv(Plugin):
+    pass
+
+
+class Json(Plugin, key=&quot;js&quot;):
+    pass
+
+
+print(sorted(Plugin.registry))
+print(Plugin.registry[&quot;js&quot;] is Json)
+print(Plugin.registry[&quot;csv&quot;].__name__)</code></pre>
+<pre class="out"><code>[&#x27;csv&#x27;, &#x27;js&#x27;]
+True
+Csv</code></pre>
+<p>Nobody called a register function. <code>Csv</code> and <code>Json</code> registered themselves when they were defined, and <code>key=&quot;js&quot;</code> came straight from the class line. A plugin registry in a few lines replaces the most common reason to write a metaclass.</p>
+<h2>Classes are objects: type and metaclasses</h2>
+<p>A class is an instance of <code>type</code>, and <code>type</code> is an instance of itself. Calling <code>type(name, bases, namespace)</code> builds a class, and a <code>class</code> statement is a nicer way of writing that call. A <strong>metaclass</strong> is a class whose instances are classes: inherit from <code>type</code> and choose it with <code>metaclass=</code> in the class line.</p>
+<pre><code>Dog = type(&quot;Dog&quot;, (), {&quot;sound&quot;: &quot;woof&quot;})
+print(Dog().sound, type(Dog).__name__, type(type).__name__)
+
+
+class Meta(type):
+    def __new__(mcls, name, bases, ns):
+        ns[&quot;fields&quot;] = [k for k in ns if not k.startswith(&quot;_&quot;)]
+        return super().__new__(mcls, name, bases, ns)
+
+    def __iter__(cls):
+        return iter(cls.fields)
+
+
+class Point(metaclass=Meta):
+    x = 0
+    y = 0
+
+
+print(Point.fields)
+print(list(Point))
+print(type(Point).__name__)</code></pre>
+<pre class="out"><code>woof type type
+[&#x27;x&#x27;, &#x27;y&#x27;]
+[&#x27;x&#x27;, &#x27;y&#x27;]
+Meta</code></pre>
+<p><code>Meta.__new__</code> runs while <code>Point</code> is being created and changes the namespace before the class exists, adding a <code>fields</code> list found at that moment. <code>__iter__</code> defined on the metaclass makes the class itself loopable, which is how enums let you loop over their members. The type of <code>Point</code> is <code>Meta</code>, not <code>type</code>.</p>
+<h2>Which tool to use</h2>
+<p>Start with the lightest tool:</p>
+<ol>
+  <li>One attribute with custom behaviour: a <code>property</code>.</li>
+  <li>The same rule on many attributes: a descriptor with <code>__set_name__</code>.</li>
+  <li>React when a subclass is created: <code>__init_subclass__</code>.</li>
+  <li>Change the class as it is built, or give the class itself new behaviour: a metaclass, and only then.</li>
+</ol>
+<p>A class can have only one metaclass, and two libraries with different metaclasses cannot be combined: Python raises a metaclass conflict. You will meet metaclasses in enums, abstract base classes and object mappers, and rarely need to write one.</p>
+<h2>What you learned</h2>
+<ul>
+  <li>A descriptor is an object on the class with <code>__get__</code> and optionally <code>__set__</code> and <code>__delete__</code>.</li>
+  <li>A data descriptor beats the instance <code>__dict__</code>; a non data descriptor loses to it.</li>
+  <li><code>property</code> and plain functions are descriptors.</li>
+  <li><code>__set_name__</code> tells a descriptor its name, and the value belongs on the instance, never on the descriptor.</li>
+  <li><code>__init_subclass__</code> runs for every new subclass and handles most registry jobs.</li>
+  <li>A metaclass is a class whose instances are classes, and the default one is <code>type</code>.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>Is property a descriptor?</strong> Yes. <code>type(Temp.f)</code> is <code>property</code>, an object on the class with <code>__get__</code> and <code>__set__</code>, and its getter is stored in <code>fget</code>.</p>
+<p><strong>Why can't I store the value on the descriptor?</strong> Because one descriptor serves every instance of the class, so they would all share a single value. Store it on the instance.</p>
+<p><strong>What is the difference between a data and a non data descriptor?</strong> A data descriptor defines <code>__set__</code> or <code>__delete__</code>, so it wins over the instance <code>__dict__</code>. A non data descriptor, such as a plain function, loses to it.</p>
+<p><strong>Do I need a metaclass for a plugin registry?</strong> No. <code>__init_subclass__</code> does it in a few lines, as in the example above.</p>
+<p><strong>Why can't I mix two metaclasses?</strong> A class can have only one metaclass, so Python raises a metaclass conflict if two bases disagree. Prefer <code>__init_subclass__</code> or a descriptor when they are enough.</p>
+<p>Next in the series is the import system.</p>
+    <p class="watch">This article goes with the video <strong>Python descriptors and metaclasses explained</strong>. <a href="https://youtu.be/QjVUz2wXxqI">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/advanced/memory-model-and-gc/"><span>Previous</span>Python memory management: reference counting, garbage collection and __slots__</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
