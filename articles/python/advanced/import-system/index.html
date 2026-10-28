@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python import system explained: sys.modules, sys.path, importlib and circular imports: Codesarray</title>
+<meta name="description" content="Python import system explained: sys.modules, sys.path, relative imports, importlib, circular imports and lazy import, with runnable code and real output.">
+<link rel="canonical" href="https://codesarray.com/articles/python/advanced/import-system/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python import system explained: sys.modules, sys.path, importlib and circular imports">
+<meta property="og:description" content="Python import system explained: sys.modules, sys.path, relative imports, importlib, circular imports and lazy import, with runnable code and real output.">
+<meta property="og:url" content="https://codesarray.com/articles/python/advanced/import-system/">
+<meta property="og:image" content="https://codesarray.com/articles/python/advanced/import-system/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-28">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python import system explained: sys.modules, sys.path, importlib and circular imports","description":"How the Python import system works: modules and packages, why a module runs only once, how sys.path decides where Python looks, relative imports, importlib, circular imports and how to fix them, and lazy import coming in Python 3.15. Four short programs with their real output.","image":"https://codesarray.com/articles/python/advanced/import-system/cover.png","datePublished":"2026-10-28","dateModified":"2026-10-28","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/advanced/import-system/"},"proficiencyLevel":"Advanced","articleSection":"Python","video":{"@type":"VideoObject","name":"Python import system explained","url":"https://youtu.be/AMXGAESE21U","embedUrl":"https://youtu.be/AMXGAESE21U","thumbnailUrl":"https://codesarray.com/articles/python/advanced/import-system/cover.png","uploadDate":"2026-10-28T00:00:00+05:30","description":"How the Python import system works: modules and packages, why a module runs only once, how sys.path decides where Python looks, relative imports, importlib, circular imports and how to fix them, and lazy import coming in Python 3.15. Four short programs with their real output."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Advanced","item":"https://codesarray.com/articles/python/advanced/"},{"@type":"ListItem","position":4,"name":"Python import system explained: sys.modules, sys.path, importlib and circular imports"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/advanced/">Advanced</a></li></ol></nav>
+    <p class="meta">Lesson 9, by Codesarray, <time datetime="2026-10-28">28 October 2026</time>, 8 min read</p>
+    <h1>Python import system explained: sys.modules, sys.path, importlib and circular imports</h1>
+    <p class="standfirst">How the Python import system works: modules and packages, why a module runs only once, how sys.path decides where Python looks, relative imports, importlib, circular imports and how to fix them, and lazy import coming in Python 3.15. Four short programs with their real output.</p>
+<p>By the end of this page you will know what the Python import system really does when it sees <code>import</code>: how a module differs from a package, why a module runs only once, where Python looks and in what order, why relative imports fail in a script, how to import by name with <code>importlib</code>, and why circular imports break and how to fix them. It follows <a href="/articles/python/advanced/descriptors-and-metaclasses/">descriptors and metaclasses</a>.</p>
+<h2>Modules and packages</h2>
+<p>A <strong>module</strong> is one <code>.py</code> file. A <strong>package</strong> is a folder of modules, normally with a file called <code>__init__.py</code>, which is the package's own module and runs when you import the package. The examples use a package called <code>shop</code> with three files:</p>
+<pre><code># shop/__init__.py
+print(&quot;loading shop&quot;)
+from .prices import total</code></pre>
+<pre><code># shop/prices.py
+print(&quot;loading prices&quot;)
+from . import tax
+
+
+def total(amount):
+    return round(amount * (1 + tax.RATE), 2)</code></pre>
+<pre><code># shop/tax.py
+print(&quot;loading tax&quot;)
+RATE = 0.2</code></pre>
+<p><code>import shop.tax</code> imports <code>shop</code> first, then <code>tax</code> inside it, but binds only the name <code>shop</code> in your code; you reach the module as <code>shop.tax</code>. A folder without <code>__init__.py</code> still works as a namespace package, but when you write your own package, add the file.</p>
+<h2>What import does: sys.modules</h2>
+<p>Four steps. Python looks in <code>sys.modules</code>, a dictionary of every module already loaded; if the name is there, you get that same module back and nothing runs. If not, it finds the file, creates a module object and registers it in <code>sys.modules</code>, runs the file's code inside it, and binds the name in your code. So a module runs once per program, and a second import is only a dictionary lookup.</p>
+<pre><code>import sys
+import shop
+import shop
+
+print(shop.total(10))
+print(shop.prices.__package__)
+print(sorted(m for m in sys.modules if m.startswith(&quot;shop&quot;)))</code></pre>
+<pre class="out"><code>loading shop
+loading prices
+loading tax
+12.0
+shop
+[&#x27;shop&#x27;, &#x27;shop.prices&#x27;, &#x27;shop.tax&#x27;]</code></pre>
+<p><code>shop</code> started first but finished last, because it needed <code>prices</code>, and <code>prices</code> needed <code>tax</code>. The second <code>import shop</code> printed nothing. Because a module is a shared object, a change one file makes to it is seen by every other file.</p>
+<h2>Where Python looks: sys.path</h2>
+<p>When the module is not in <code>sys.modules</code>, Python walks the list <code>sys.path</code> in order and takes the first match. Index zero is the folder of the script you ran, then the folders in the <code>PYTHONPATH</code> environment variable, then the standard library, then <code>site-packages</code>, where <code>pip</code> and <code>uv</code> install dependencies.</p>
+<p>That order explains a classic bug: name your own file <code>random.py</code> or <code>json.py</code> and <code>import random</code> finds your file, because your folder comes first. If a standard module acts strangely, print its <code>__file__</code>.</p>
+<h2>Relative imports</h2>
+<p>Inside a package you can name a sibling two ways. An absolute import gives the full path from the top: <code>from shop.tax import RATE</code>. A relative import counts from the current package: one dot is this package, two dots are the parent. <code>prices.py</code> says <code>from . import tax</code>, meaning from my own package, import <code>tax</code>.</p>
+<p>Relative imports work only inside a package. Run a file in the package directly, as in <code>python shop/prices.py</code>, and its name is <code>__main__</code> with no package, so Python raises <code>ImportError: attempted relative import with no known parent package</code>. Run it as a module instead, <code>python -m shop.prices</code>, or put the entry point outside the package.</p>
+<h2>importlib: import by name</h2>
+<p>The <code>import</code> statement needs the name written in the source. When the name is only known at run time, such as a plugin or a setting, use <code>importlib</code>:</p>
+<pre><code>import importlib
+import importlib.util
+import sys
+from pathlib import Path
+
+print(Path(sys.path[0]) == Path(__file__).parent)
+print(importlib.util.find_spec(&quot;nothing_here&quot;))
+tax = importlib.import_module(&quot;shop.tax&quot;)
+print(tax.RATE)
+tax.RATE = 0.5
+print(importlib.import_module(&quot;shop.tax&quot;).RATE)
+importlib.reload(tax)
+print(tax.RATE)</code></pre>
+<pre class="out"><code>True
+None
+loading shop
+loading prices
+loading tax
+0.2
+0.5
+loading tax
+0.2</code></pre>
+<p>The script's folder is first on <code>sys.path</code>. <code>find_spec</code> returns <code>None</code> for a module that does not exist, which makes it a safe way to ask whether something is installed. <code>import_module</code> goes through the same cache, so after the rate is changed to <code>0.5</code>, importing again shows <code>0.5</code>. <code>reload</code> runs the file again inside the same module object, so the rate is back to <code>0.2</code>. Names imported with <code>from ... import</code> still point at the old objects after a reload, so use it for experiments, not production.</p>
+<h2>Circular imports</h2>
+<p>File <code>cyc_a</code> imports <code>cyc_b</code>, and <code>cyc_b</code> asks for a name from <code>cyc_a</code>:</p>
+<pre><code># cyc_a.py
+print(&quot;cyc_a starts&quot;)
+import cyc_b
+
+
+def hello():
+    return &quot;hi from a&quot;</code></pre>
+<pre><code># cyc_b.py
+print(&quot;cyc_b starts&quot;)
+from cyc_a import hello
+
+print(&quot;cyc_b ends&quot;)</code></pre>
+<p>Python starts <code>cyc_a</code> and puts it into <code>sys.modules</code> half built. Line two imports <code>cyc_b</code>, which asks for <code>hello</code> from <code>cyc_a</code>, but <code>cyc_a</code> has not reached its <code>def</code> yet. The name is missing, so you get <code>ImportError</code>. Compare the fixed pair, where <code>good_b</code> imports the module and uses it only inside a function:</p>
+<pre><code># good_a.py
+print(&quot;good_a starts&quot;)
+import good_b
+
+
+def hello():
+    return &quot;hi from a&quot;</code></pre>
+<pre><code># good_b.py
+print(&quot;good_b starts&quot;)
+import good_a
+
+
+def shout():
+    return good_a.hello().upper()</code></pre>
+<pre><code>try:
+    import cyc_a
+except ImportError as err:
+    print(type(err).__name__, &quot;-&quot;, str(err).split(&quot; (&quot;)[0])
+
+import good_a
+print(good_a.good_b.shout())</code></pre>
+<pre class="out"><code>cyc_a starts
+cyc_b starts
+ImportError - cannot import name &#x27;hello&#x27; from &#x27;cyc_a&#x27;
+good_a starts
+good_b starts
+HI FROM A</code></pre>
+<p>There are three fixes. Best: move the shared code to a third module that both files import, so the cycle disappears. Second: import the module, not the name, and use it later, as <code>good_b</code> does. Third, a last resort: import inside the function that needs it.</p>
+<h2>Lazy import</h2>
+<p>Imports cost time, and a big library imported at the top of a command line tool slows start-up even when the user only asked for help. Python 3.15, which is coming, adds a soft keyword for this: <code>lazy import json</code> binds the name to a placeholder and loads the real module on first use, and <code>lazy from json import dumps</code> does the same for a name. It is allowed only at the top level of a file, not in functions or <code>try</code> blocks, and not with star imports. You cannot run it on 3.14, but <code>importlib.util.LazyLoader</code> gives the same behaviour today:</p>
+<pre><code>import importlib.util
+import sys
+
+
+def lazy(name):
+    spec = importlib.util.find_spec(name)
+    spec.loader = importlib.util.LazyLoader(spec.loader)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+slow = lazy(&quot;slow&quot;)
+print(&quot;imported&quot;)
+print(slow.VALUE)</code></pre>
+<pre class="out"><code>imported
+loading slow
+42</code></pre>
+<p><code>imported</code> prints first and the file has not run. On the first attribute access, <code>loading slow</code> appears and then the value.</p>
+<h2>What you learned</h2>
+<ul>
+  <li>A module is a file; a package is a folder, usually with <code>__init__.py</code>.</li>
+  <li>Import checks <code>sys.modules</code> first, so a module runs once and is shared.</li>
+  <li>Otherwise Python walks <code>sys.path</code> and the first match wins, with your own folder first.</li>
+  <li>Relative imports count from the current package and fail in a script run directly.</li>
+  <li><code>importlib</code> imports by name, finds specs and reloads.</li>
+  <li>A circular import fails because the other file is half loaded; move shared code out, or import the module and use it later.</li>
+  <li><code>lazy import</code>, coming in Python 3.15, delays loading until first use.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>Why does my import run the file only once?</strong> Because the module is stored in <code>sys.modules</code> after the first import, and later imports return that stored object.</p>
+<p><strong>Why does import find my file instead of the standard library?</strong> <code>sys.path</code> starts with your script's folder, so a file called <code>random.py</code> there wins. Rename it.</p>
+<p><strong>What does attempted relative import with no known parent package mean?</strong> You ran a file inside a package as a script, so it has no package for the dots to count from. Run it with <code>python -m shop.prices</code>.</p>
+<p><strong>How do I fix a circular import?</strong> Move the shared code to a third module, or import the module instead of the name and use it inside a function.</p>
+<p><strong>Is lazy import available now?</strong> Not yet: it is coming in Python 3.15. On 3.14, use <code>importlib.util.LazyLoader</code> as shown above.</p>
+<p>Next in the series is profiling and performance.</p>
+    <p class="watch">This article goes with the video <strong>Python import system explained</strong>. <a href="https://youtu.be/AMXGAESE21U">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/advanced/descriptors-and-metaclasses/"><span>Previous</span>Python descriptors and metaclasses explained: property, __set_name__ and __init_subclass__</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
