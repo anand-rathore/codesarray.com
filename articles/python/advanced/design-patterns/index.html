@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python design patterns: strategy, observer, factory and singleton: Codesarray</title>
+<meta name="description" content="Python design patterns with plain functions: strategy, observer, factory and singleton, using a dict, a list and functools.cache, with real code and real output.">
+<link rel="canonical" href="https://codesarray.com/articles/python/advanced/design-patterns/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python design patterns: strategy, observer, factory and singleton">
+<meta property="og:description" content="Python design patterns with plain functions: strategy, observer, factory and singleton, using a dict, a list and functools.cache, with real code and real output.">
+<meta property="og:url" content="https://codesarray.com/articles/python/advanced/design-patterns/">
+<meta property="og:image" content="https://codesarray.com/articles/python/advanced/design-patterns/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-29">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python design patterns: strategy, observer, factory and singleton","description":"How the classic design patterns look in Python: strategy as a function you pass in, observer as a list of functions, factory as a dict from a name to a function, and singleton as a module or functools.cache. Three short programs with their real output, and when the class version is still worth writing.","image":"https://codesarray.com/articles/python/advanced/design-patterns/cover.png","datePublished":"2026-10-29","dateModified":"2026-10-29","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/advanced/design-patterns/"},"proficiencyLevel":"Advanced","articleSection":"Python","video":{"@type":"VideoObject","name":"Python design patterns","url":"https://youtu.be/PLUZ30XC2Ug","embedUrl":"https://youtu.be/PLUZ30XC2Ug","thumbnailUrl":"https://codesarray.com/articles/python/advanced/design-patterns/cover.png","uploadDate":"2026-10-29T00:00:00+05:30","description":"How the classic design patterns look in Python: strategy as a function you pass in, observer as a list of functions, factory as a dict from a name to a function, and singleton as a module or functools.cache. Three short programs with their real output, and when the class version is still worth writing."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Advanced","item":"https://codesarray.com/articles/python/advanced/"},{"@type":"ListItem","position":4,"name":"Python design patterns: strategy, observer, factory and singleton"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/advanced/">Advanced</a></li></ol></nav>
+    <p class="meta">Lesson 11, by Codesarray, <time datetime="2026-10-29">29 October 2026</time>, 8 min read</p>
+    <h1>Python design patterns: strategy, observer, factory and singleton</h1>
+    <p class="standfirst">How the classic design patterns look in Python: strategy as a function you pass in, observer as a list of functions, factory as a dict from a name to a function, and singleton as a module or functools.cache. Three short programs with their real output, and when the class version is still worth writing.</p>
+<p>By the end of this page you will know four design patterns the Pythonic way: strategy, observer, factory and singleton. A design pattern is a name for a shape of code that people keep writing. In Java or C#, the books show each one as a pile of classes and interfaces. In Python most of that pile disappears, because functions are objects: you can store them in a variable, pass them to another function, and keep them in a list or a dict. You will see what each pattern is for, how little code it needs, and when the heavier class version is still worth it. It follows <a href="/articles/python/advanced/profiling-and-performance/">Python profiling and performance</a>.</p>
+<h2>Strategy: pass a function in</h2>
+<p>The problem: one piece of code has to do a step in different ways, and you want to pick the way at run time. Think of a shop that prices an order as standard, on sale, or with a student discount. The classic answer is a base class with one subclass per rule. In Python, a strategy is just a function. Write one function per rule, all taking a price and returning a price. The code that needs a rule takes a function as an argument and calls it. Changing the behaviour means passing a different function, and a <code>lambda</code> works for a rule you only need once. The only agreement is the signature: every rule takes a price and gives one back.</p>
+<h2>Factory: a dict from a name to a function</h2>
+<p>The problem: you want to create or choose something by a name, often a string from a config file or a user, and you do not want <code>if</code> and <code>elif</code> branches scattered through the code. In Python the factory is a dictionary that maps a name to a function or a class. Adding a new kind means adding one entry, and the code that uses the factory does not change. Handle the name that is not there: a raw lookup raises a <code>KeyError</code>, which says little, so check first and raise a <code>ValueError</code> that names the bad value.</p>
+<p>Here are both patterns in one program:</p>
+<pre><code>def standard(price):
+    return price
+
+def sale(price):
+    return round(price * 0.8, 2)
+
+def student(price):
+    return max(price - 5, 0)
+
+RULES = {&quot;standard&quot;: standard, &quot;sale&quot;: sale, &quot;student&quot;: student}
+
+def make_rule(name):
+    if name not in RULES:
+        raise ValueError(f&quot;unknown rule: {name}&quot;)
+    return RULES[name]
+
+def checkout(price, rule):
+    return rule(price)
+
+print(checkout(40, standard))
+print(checkout(40, make_rule(&quot;sale&quot;)))
+print(checkout(3, make_rule(&quot;student&quot;)))
+print(checkout(40, lambda p: p - 10))</code></pre>
+<p>Output:</p>
+<pre><code>40
+32.0
+0
+30</code></pre>
+<p><code>standard</code> leaves 40 as it is. <code>sale</code> takes twenty percent off and rounds to cents. <code>student</code> takes five off but never goes below zero, so a price of 3 gives <code>0</code> and not minus two. <code>RULES</code> is the factory registry, <code>make_rule</code> is the factory, and <code>checkout</code> is the heart of strategy: it takes a price and a rule and calls the rule, knowing nothing about discounts. Asking <code>make_rule</code> for <code>&quot;holiday&quot;</code> raises <code>ValueError: unknown rule: holiday</code>.</p>
+<h2>Observer: a list of functions</h2>
+<p>The problem: when something happens, several other parts of the program need to know, and the thing that happened should not know who they are. A button is clicked, one part logs it, another counts it. The classic version defines an observer interface and a subject that keeps a list of observers. In Python an observer is a function, and the subject keeps a plain list of them. <code>subscribe</code> appends one. When the event happens, the subject loops over the list and calls each function with the event.</p>
+<p>Two details matter. To unsubscribe, remove the function, but check it is in the list first so removing twice does not crash. And loop over a copy of the list, <code>list(self.listeners)</code>, so a listener that unsubscribes itself while it runs does not make the loop skip the next one.</p>
+<pre><code>class Button:
+    def __init__(self):
+        self.listeners = []
+
+    def subscribe(self, fn):
+        self.listeners.append(fn)
+
+    def unsubscribe(self, fn):
+        if fn in self.listeners:
+            self.listeners.remove(fn)
+
+    def click(self):
+        for fn in list(self.listeners):
+            fn(&quot;clicked&quot;)
+
+def log(event):
+    print(&quot;log:&quot;, event)
+
+button = Button()
+button.subscribe(log)
+button.subscribe(lambda e: print(&quot;count:&quot;, e))
+button.click()
+button.unsubscribe(log)
+button.unsubscribe(log)
+button.click()</code></pre>
+<p>Output:</p>
+<pre><code>log: clicked
+count: clicked
+count: clicked</code></pre>
+<p>The first click reaches both listeners. Then <code>log</code> is removed, and removing it a second time does nothing and does not crash. The second click reaches only the <code>count</code> listener. The button never needs to know what its listeners do, and listeners can come and go while the program runs.</p>
+<h2>Singleton: a module or functools.cache</h2>
+<p>The problem: you want exactly one shared object, such as the settings of a program, and every part of the code should get that same object. The classic answer is a class that overrides how instances are created and blocks a second one. Python gives you two simpler ways.</p>
+<p>The first is that a module is already a singleton. Python imports a module once and keeps it, so a variable at the top of a module is the same object everywhere it is imported. The second is a function wrapped in <code>functools.cache</code>:</p>
+<pre><code>from functools import cache
+
+@cache
+def get_config():
+    print(&quot;loading&quot;)
+    return {&quot;debug&quot;: True}
+
+a = get_config()
+b = get_config()
+print(a is b)</code></pre>
+<p>Output:</p>
+<pre><code>loading
+True</code></pre>
+<p><code>loading</code> prints once, on the first call. The second call does not run the body at all: <code>cache</code> hands back the stored dictionary, so <code>a is b</code> is <code>True</code>. One object, created once, shared by everyone who asks.</p>
+<p>Be careful though. A singleton is shared global state: any code can change it, and tests that run one after another can leak changes into each other. Use one when sharing is the point, and otherwise pass the object in as an argument.</p>
+<h2>What you learned</h2>
+<ul>
+  <li>In Python, a pattern is often just a function.</li>
+  <li>Strategy: pass a function to the code that needs the choice.</li>
+  <li>Observer: keep a list of functions, loop over a copy, and check before you remove.</li>
+  <li>Factory: a dict from a name to a function or class, with a clear <code>ValueError</code> for an unknown name.</li>
+  <li>Singleton: a module variable, or a function wrapped in <code>functools.cache</code>.</li>
+  <li>Reach for the full class version only when the pieces need their own state or several methods that belong together.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>What is the strategy pattern in Python?</strong> A way to choose how a step is done at run time. In Python the strategies are plain functions with the same signature, and the code that needs one takes a function as an argument and calls it.</p>
+<p><strong>Why loop over a copy of the listeners in the observer pattern?</strong> If a listener removes itself from the list while the loop is running, the list shrinks under the loop and the next listener is skipped. Looping over <code>list(self.listeners)</code> avoids that.</p>
+<p>**Why raise <code>ValueError</code> instead of letting the dict raise <code>KeyError</code>?** A <code>KeyError</code> shows only the missing key. A <code>ValueError</code> with a message such as <code>unknown rule: holiday</code> tells the reader what went wrong and where to look.</p>
+<p>**Is <code>functools.cache</code> a real singleton?** It gives the behaviour you want from one: the function body runs once and every later call returns the same object. It is not a class that blocks a second instance, which is rarely needed in Python.</p>
+<p><strong>Are singletons a good idea?</strong> Only when sharing really is the point. They are global state, so code that uses one is harder to test. Passing the object in as an argument is usually easier to change.</p>
+<p><strong>When is the class version still worth it?</strong> When the pieces need their own state or several methods that belong together, such as a strategy that keeps a running total, or an observer that must carry its own settings.</p>
+<p>Next in the series is <a href="/articles/python/advanced/">context managers and protocols</a>.</p>
+    <p class="watch">This article goes with the video <strong>Python design patterns</strong>. <a href="https://youtu.be/PLUZ30XC2Ug">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/advanced/profiling-and-performance/"><span>Previous</span>Python profiling and performance: cProfile, timeit and NumPy</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
