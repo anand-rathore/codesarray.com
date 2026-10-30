@@ -153,4 +153,4 @@ Be careful though. A singleton is shared global state: any code can change it, a
 
 **When is the class version still worth it?** When the pieces need their own state or several methods that belong together, such as a strategy that keeps a running total, or an observer that must carry its own settings.
 
-Next in the series is [context managers and protocols](/articles/python/advanced/).
+Next in the series is [context managers and protocols](/articles/python/advanced/context-managers-and-protocols/).

@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python context managers and protocols: with, contextlib, Protocol: Codesarray</title>
+<meta name="description" content="Python context managers and protocols: how with calls __enter__ and __exit__, @contextmanager, contextlib.suppress, and typing.Protocol, with real code and output.">
+<link rel="canonical" href="https://codesarray.com/articles/python/advanced/context-managers-and-protocols/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Python context managers and protocols: with, contextlib, Protocol">
+<meta property="og:description" content="Python context managers and protocols: how with calls __enter__ and __exit__, @contextmanager, contextlib.suppress, and typing.Protocol, with real code and output.">
+<meta property="og:url" content="https://codesarray.com/articles/python/advanced/context-managers-and-protocols/">
+<meta property="og:image" content="https://codesarray.com/articles/python/advanced/context-managers-and-protocols/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-10-30">
+<meta property="article:section" content="Python">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python context managers and protocols: with, contextlib, Protocol","description":"What the with statement really calls, how to write your own context manager as a class or with @contextmanager, what contextlib gives you for free, and how typing.Protocol matches a class by its methods instead of its parents. Three short programs with their real output.","image":"https://codesarray.com/articles/python/advanced/context-managers-and-protocols/cover.png","datePublished":"2026-10-30","dateModified":"2026-10-30","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/python/advanced/context-managers-and-protocols/"},"proficiencyLevel":"Advanced","articleSection":"Python","video":{"@type":"VideoObject","name":"Python context managers and protocols","url":"https://youtu.be/XARnqMbPbI8","embedUrl":"https://youtu.be/XARnqMbPbI8","thumbnailUrl":"https://codesarray.com/articles/python/advanced/context-managers-and-protocols/cover.png","uploadDate":"2026-10-30T00:00:00+05:30","description":"What the with statement really calls, how to write your own context manager as a class or with @contextmanager, what contextlib gives you for free, and how typing.Protocol matches a class by its methods instead of its parents. Three short programs with their real output."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"Python","item":"https://codesarray.com/articles/python/"},{"@type":"ListItem","position":3,"name":"Advanced","item":"https://codesarray.com/articles/python/advanced/"},{"@type":"ListItem","position":4,"name":"Python context managers and protocols: with, contextlib, Protocol"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/python/">Python</a></li><li><a href="/articles/python/advanced/">Advanced</a></li></ol></nav>
+    <p class="meta">Lesson 12, by Codesarray, <time datetime="2026-10-30">30 October 2026</time>, 7 min read</p>
+    <h1>Python context managers and protocols: with, contextlib, Protocol</h1>
+    <p class="standfirst">What the with statement really calls, how to write your own context manager as a class or with @contextmanager, what contextlib gives you for free, and how typing.Protocol matches a class by its methods instead of its parents. Three short programs with their real output.</p>
+<p>By the end of this page you will know exactly what a Python <code>with</code> statement does behind the scenes, how to write your own context manager in two ways, which tools <code>contextlib</code> gives you for free, and how a <code>Protocol</code> lets you describe what an object can do instead of what it inherits from. You already use both ideas: every <code>with</code> block is a context manager, and every <code>for</code> loop relies on a protocol. It follows <a href="/articles/python/advanced/design-patterns/">Python design patterns</a>.</p>
+<h2>The problem: cleanup that must happen</h2>
+<p>Some things must be undone: a file must be closed, a lock released, a temporary change put back. The manual way is <code>try</code> and <code>finally</code>: open the resource, try the work, and clean up in <code>finally</code>. It works, but every place that uses the resource repeats that shape, and one forgotten <code>finally</code> leaks the resource. A context manager moves the cleanup into the object itself, so the caller just writes <code>with</code>, and the cleanup is guaranteed.</p>
+<h2>What with really calls</h2>
+<p><code>with</code> is a protocol: a small agreement with two methods. When the block starts, Python calls <code>__enter__</code> on the object, and whatever it returns is bound to the name after <code>as</code>. Then the block runs. When the block ends, however it ends, Python calls <code>__exit__</code>. A normal finish, an exception, a <code>return</code> or a <code>break</code>: <code>__exit__</code> always runs. That is the whole guarantee.</p>
+<h2>What __exit__ receives and returns</h2>
+<p><code>__exit__</code> takes three arguments: the exception type, the exception value and the traceback. If the block finished normally, all three are <code>None</code>. If the block raised, they describe the error. Then <code>__exit__</code> decides what happens to that error. If it returns a true value, the exception is suppressed and the program carries on after the <code>with</code> block. If it returns false or <code>None</code>, which is the default, the exception goes on up as normal. Be careful: swallowing errors by accident hides bugs, so suppress only the exact type you mean to.</p>
+<p>Here is a class based context manager that does all of this:</p>
+<pre><code>class Section:
+    def __init__(self, name):
+        self.name = name
+
+    def __enter__(self):
+        print(&quot;enter&quot;, self.name)
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        print(&quot;exit&quot;, self.name, exc_type)
+        return exc_type is KeyError
+
+with Section(&quot;a&quot;) as s:
+    print(&quot;inside&quot;, s.name)
+
+with Section(&quot;b&quot;):
+    {}[&quot;x&quot;]
+print(&quot;after b&quot;)
+
+try:
+    with Section(&quot;c&quot;):
+        int(&quot;x&quot;)
+except ValueError:
+    print(&quot;caught&quot;)</code></pre>
+<p>Output:</p>
+<pre><code>enter a
+inside a
+exit a None
+enter b
+exit b &lt;class &#x27;KeyError&#x27;&gt;
+after b
+enter c
+exit c &lt;class &#x27;ValueError&#x27;&gt;
+caught</code></pre>
+<p><code>__enter__</code> prints and returns <code>self</code>, so <code>as s</code> can use it. <code>__exit__</code> prints the exception type and returns <code>True</code> only when that type is <code>KeyError</code>. Section <code>a</code> finishes normally, so <code>__exit__</code> sees <code>None</code>. Section <code>b</code> looks up a missing key, which raises a <code>KeyError</code>; <code>__exit__</code> returns <code>True</code>, the error is swallowed, and <code>after b</code> still prints. Section <code>c</code> raises a <code>ValueError</code>, <code>__exit__</code> returns <code>False</code>, and the error goes on up to the <code>except</code>, which prints <code>caught</code>. <code>__exit__</code> ran in all three cases. Only what it did with the error differed.</p>
+<h2>contextlib: @contextmanager and suppress</h2>
+<p>A class for every context manager is a lot of ceremony. The <code>contextlib</code> module shortens it. The <code>@contextmanager</code> decorator turns a generator function into a context manager. Everything before the <code>yield</code> is the enter part, the yielded value is what <code>as</code> receives, and everything after the <code>yield</code> is the exit part. Put the <code>yield</code> inside <code>try</code> and <code>finally</code>, so the cleanup runs even when the block raises.</p>
+<p><code>contextlib</code> also has ready made tools. <code>suppress</code> ignores the exception types you list, <code>closing</code> calls <code>close()</code> for you, <code>redirect_stdout</code> captures printing, and <code>ExitStack</code> lets you enter a number of context managers that you only know about at run time.</p>
+<pre><code>from contextlib import contextmanager, suppress
+
+@contextmanager
+def tag(name):
+    print(&quot;open&quot;, name)
+    try:
+        yield name
+    finally:
+        print(&quot;close&quot;, name)
+
+with tag(&quot;p&quot;) as t:
+    print(&quot;hello&quot;, t)
+
+with suppress(FileNotFoundError):
+    open(&quot;missing.txt&quot;)
+print(&quot;still running&quot;)</code></pre>
+<p>Output:</p>
+<pre><code>open p
+hello p
+close p
+still running</code></pre>
+<p><code>open p</code>, <code>hello p</code>, <code>close p</code>: the cleanup ran after the block. The missing file raised nothing, because <code>suppress(FileNotFoundError)</code> swallowed exactly that one error type, and <code>still running</code> is printed. It is the same behaviour as the class, in a handful of lines.</p>
+<h2>Protocols and duck typing</h2>
+<p>You have just seen one protocol, the <code>with</code> protocol, which is nothing more than two methods. Python is full of them. If an object has <code>__iter__</code>, a <code>for</code> loop accepts it. If it has <code>__len__</code>, <code>len()</code> works on it. Nobody had to inherit from a special base class. This is duck typing: if it walks like a duck and quacks like a duck, it is a duck. The weakness is that nothing writes the agreement down, so a type checker cannot help you.</p>
+<h2>typing.Protocol: structural typing</h2>
+<p>The <code>typing</code> module fixes that with <code>Protocol</code>. You write a class that inherits from <code>Protocol</code> and list the methods an object must have. That is a structural type: any class with those methods matches, whether or not it mentions the <code>Protocol</code> anywhere. The checker compares shapes, not family trees. A normal base class is nominal typing: you only count if you inherit by name.</p>
+<pre><code>from typing import Protocol, runtime_checkable
+
+@runtime_checkable
+class Speaker(Protocol):
+    def speak(self) -&gt; str: ...
+
+class Dog:
+    def speak(self) -&gt; str:
+        return &quot;woof&quot;
+
+class Robot:
+    def speak(self) -&gt; str:
+        return &quot;beep&quot;
+
+def talk(x: Speaker) -&gt; None:
+    print(x.speak())
+
+talk(Dog())
+talk(Robot())
+print(isinstance(Dog(), Speaker))
+print(isinstance(5, Speaker))</code></pre>
+<p>Output:</p>
+<pre><code>woof
+beep
+True
+False</code></pre>
+<p><code>Speaker</code> describes one method, <code>speak</code>, and the three dots are its body because a <code>Protocol</code> only describes. <code>Dog</code> and <code>Robot</code> each have a <code>speak</code> method and neither mentions <code>Speaker</code>, yet <code>talk</code> accepts both. A type checker would accept both calls and reject a class with no <code>speak</code>. With <code>@runtime_checkable</code>, <code>isinstance</code> works too: <code>True</code> for the dog, <code>False</code> for the number 5. Know its limit: at run time it only checks that the method names exist, not their signatures or what they return.</p>
+<h2>What you learned</h2>
+<ul>
+  <li><code>with</code> calls <code>__enter__</code> at the start and <code>__exit__</code> at the end, always.</li>
+  <li><code>__exit__</code> receives the exception type, value and traceback; returning true swallows the error.</li>
+  <li><code>@contextmanager</code> writes a context manager as a generator, with the <code>yield</code> inside <code>try</code> and <code>finally</code>.</li>
+  <li>Reach for <code>suppress</code>, <code>closing</code> and <code>ExitStack</code> before writing your own.</li>
+  <li>A protocol is an agreement on methods. <code>typing.Protocol</code> makes it checkable: any class with the right methods matches, with no inheritance.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>What is a context manager in Python?</strong> An object with <code>__enter__</code> and <code>__exit__</code> methods that you use in a <code>with</code> statement. Python calls <code>__enter__</code> when the block starts and <code>__exit__</code> when it ends, so cleanup always happens.</p>
+<p><strong>Does __exit__ run if the block raises an exception?</strong> Yes. It runs on a normal finish, on an exception, and on <code>return</code> or <code>break</code>. It receives the exception details, and if it returns true the exception is swallowed.</p>
+<p><strong>Why put the yield inside try and finally in @contextmanager?</strong> If the block raises, the exception is thrown into the generator at the <code>yield</code>. Without <code>try</code> and <code>finally</code>, the code after the <code>yield</code> would be skipped and the cleanup would not run.</p>
+<p><strong>What is the difference between a Protocol and a base class?</strong> A base class is nominal: a class matches only if it inherits from it by name. A <code>Protocol</code> is structural: any class with the right methods matches, even if it has never heard of the <code>Protocol</code>.</p>
+<p><strong>Does isinstance check the full shape of a Protocol?</strong> No. With <code>@runtime_checkable</code> it only checks that the method names exist. Signatures and return types are the job of a type checker.</p>
+<p>Next in the series is template strings.</p>
+    <p class="watch">This article goes with the video <strong>Python context managers and protocols</strong>. <a href="https://youtu.be/XARnqMbPbI8">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/python/advanced/design-patterns/"><span>Previous</span>Python design patterns: strategy, observer, factory and singleton</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>

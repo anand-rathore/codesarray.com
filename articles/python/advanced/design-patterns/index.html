@@ -162,10 +162,11 @@ True</code></pre>
 <p>**Is <code>functools.cache</code> a real singleton?** It gives the behaviour you want from one: the function body runs once and every later call returns the same object. It is not a class that blocks a second instance, which is rarely needed in Python.</p>
 <p><strong>Are singletons a good idea?</strong> Only when sharing really is the point. They are global state, so code that uses one is harder to test. Passing the object in as an argument is usually easier to change.</p>
 <p><strong>When is the class version still worth it?</strong> When the pieces need their own state or several methods that belong together, such as a strategy that keeps a running total, or an observer that must carry its own settings.</p>
-<p>Next in the series is <a href="/articles/python/advanced/">context managers and protocols</a>.</p>
+<p>Next in the series is <a href="/articles/python/advanced/context-managers-and-protocols/">context managers and protocols</a>.</p>
     <p class="watch">This article goes with the video <strong>Python design patterns</strong>. <a href="https://youtu.be/PLUZ30XC2Ug">Watch it on YouTube</a>.</p>
     <nav class="pager" aria-label="More in this level">
       <a href="/articles/python/advanced/profiling-and-performance/"><span>Previous</span>Python profiling and performance: cProfile, timeit and NumPy</a>
+      <a class="next" href="/articles/python/advanced/context-managers-and-protocols/"><span>Next</span>Python context managers and protocols: with, contextlib, Protocol</a>
     </nav>
   </article>
   </div>
