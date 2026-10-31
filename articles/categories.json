@@ -4,6 +4,11 @@
       "slug": "python",
       "name": "Python",
       "summary": "From the first line to data structures and algorithms, in the order the videos teach them."
+    },
+    {
+      "slug": "javascript",
+      "name": "JavaScript",
+      "summary": "From your first console.log to the event loop, data structures and algorithms, the way the videos teach them."
     }
   ],
   "levels": [

@@ -87,7 +87,7 @@ The older faces (Space Grotesk, Archivo) are kept only for the archived identity
 | | `banner-preview.png` | 2560x1440 | The banner with the safe area drawn on it, for checking only |
 | | `watermark-150.png` | 150x150 | Video watermark (transparent) |
 | `instagram/` | `profile-1080.png` | 1080x1080 | Profile picture |
-| | `highlight-games.png`, `-python.png`, `-shorts.png`, `-about.png` | 1080x1920 | Story highlight covers |
+| | `highlight-games.png`, `-shorts.png`, `-about.png`, `-quiz.png` (light), and one per language (`-python.png`, `-javascript.png`, `-typescript.png`, `-java.png`, `-cpp.png`, `-csharp.png`, `-go.png`, `-rust.png`, `-kotlin.png`, `-swift.png`; dark and light alternate in that order) | 1080x1920 | Story highlight covers |
 | `x/` | `profile-400.png` | 400x400 | Profile picture |
 | | `header-1500x500.png` | 1500x500 | Header; the artwork sits right of the profile picture |
 | `facebook/` | `profile-720.png` | 720x720 | Page picture |

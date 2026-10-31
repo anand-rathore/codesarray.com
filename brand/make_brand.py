@@ -252,20 +252,34 @@ def instagram():
     out = HERE / "instagram"
     profile(1080, out / "profile-1080.png")
     # story-highlight covers: Instagram shows only the centre circle, so the word sits there
-    for word in ("Games", "Python", "Shorts", "About"):
-        img = canvas(1080, 1920)
-        d = ImageDraw.Draw(img)
-        W, H = 1080 * SS, 1920 * SS
-        f = display(150)
-        d.text((W / 2, H / 2 - 20 * SS), word, font=f, anchor="mm", fill=rgb(BONE))
-        tw = d.textlength(word, font=f)
-        y = H / 2 + 92 * SS                       # a short trace under the word, ending in a via
-        d.line([(W / 2 - tw / 2, y), (W / 2 + tw / 2 - 44 * SS, y)], fill=rgb(BONE), width=12 * SS)
-        r = 24 * SS
-        cx = W / 2 + tw / 2 - 24 * SS
-        d.ellipse([cx - r, y - r, cx + r, y + r], fill=rgb(ORANGE))
-        d.ellipse([cx - r * 0.4, y - r * 0.4, cx + r * 0.4, y + r * 0.4], fill=rgb(GRAPHITE))
-        save(img, 1080, 1920, out / f"highlight-{word.lower()}.png")
+    for word in ("Games", "Shorts", "About"):
+        highlight(out / f"highlight-{word.lower()}.png", word)
+    highlight(out / "highlight-quiz.png", "Quiz", dark=False)
+    # one cover per language; dark and light take turns in the languages' track order
+    for n, (slug, word) in enumerate(HIGHLIGHT_LANGUAGES):
+        highlight(out / f"highlight-{slug}.png", word, dark=n % 2 == 0)
+
+
+HIGHLIGHT_LANGUAGES = [("python", "Python"), ("javascript", "JavaScript"), ("typescript", "TypeScript"),
+                       ("java", "Java"), ("cpp", "C++"), ("csharp", "C#"), ("go", "Go"),
+                       ("rust", "Rust"), ("kotlin", "Kotlin"), ("swift", "Swift")]
+
+
+def highlight(path, word, dark=True):
+    ground, ink = (GRAPHITE, BONE) if dark else (BONE, INK)
+    img = canvas(1080, 1920, ground)
+    d = ImageDraw.Draw(img)
+    W, H = 1080 * SS, 1920 * SS
+    f = display(150)
+    d.text((W / 2, H / 2 - 20 * SS), word, font=f, anchor="mm", fill=rgb(ink))
+    tw = d.textlength(word, font=f)
+    y = H / 2 + 92 * SS                       # a short trace under the word, ending in a via
+    d.line([(W / 2 - tw / 2, y), (W / 2 + tw / 2 - 44 * SS, y)], fill=rgb(ink), width=12 * SS)
+    r = 24 * SS
+    cx = W / 2 + tw / 2 - 24 * SS
+    d.ellipse([cx - r, y - r, cx + r, y + r], fill=rgb(ORANGE))
+    d.ellipse([cx - r * 0.4, y - r * 0.4, cx + r * 0.4, y + r * 0.4], fill=rgb(ground))
+    save(img, 1080, 1920, path)
 
 
 def x_twitter():
