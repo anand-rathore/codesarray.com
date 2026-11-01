@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JavaScript variables and data types: let, const, typeof, null: Codesarray</title>
+<meta name="description" content="JavaScript variables and data types for beginners: let vs const, the seven primitives, typeof and the typeof null bug, Number() and String(), and why &quot;29&quot; + 1 is &quot;291&quot;.">
+<link rel="canonical" href="https://codesarray.com/articles/javascript/beginner/variables-and-types/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="JavaScript variables and data types: let, const, typeof, null">
+<meta property="og:description" content="JavaScript variables and data types for beginners: let vs const, the seven primitives, typeof and the typeof null bug, Number() and String(), and why &quot;29&quot; + 1 is &quot;291&quot;.">
+<meta property="og:url" content="https://codesarray.com/articles/javascript/beginner/variables-and-types/">
+<meta property="og:image" content="https://codesarray.com/articles/javascript/beginner/variables-and-types/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-11-01">
+<meta property="article:section" content="JavaScript">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"JavaScript variables and data types: let, const, typeof, null","description":"The seven kinds of values JavaScript has, how typeof tells them apart, why typeof null says object, and how to convert text to numbers on purpose.","image":"https://codesarray.com/articles/javascript/beginner/variables-and-types/cover.png","datePublished":"2026-11-01","dateModified":"2026-11-01","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/javascript/beginner/variables-and-types/"},"proficiencyLevel":"Beginner","articleSection":"JavaScript","video":{"@type":"VideoObject","name":"Variables and types","url":"https://youtu.be/nTkoFn2f1XI","embedUrl":"https://youtu.be/nTkoFn2f1XI","thumbnailUrl":"https://codesarray.com/articles/javascript/beginner/variables-and-types/cover.png","uploadDate":"2026-11-01T00:00:00+05:30","description":"The seven kinds of values JavaScript has, how typeof tells them apart, why typeof null says object, and how to convert text to numbers on purpose."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"JavaScript","item":"https://codesarray.com/articles/javascript/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/javascript/beginner/"},{"@type":"ListItem","position":4,"name":"JavaScript variables and data types: let, const, typeof, null"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+<script async src="https://pagead2.googleapis.com/pagead/js/adsbygoogle.js?client=ca-pub-8821229152735728" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/javascript/">JavaScript</a></li><li><a href="/articles/javascript/beginner/">Beginner</a></li></ol></nav>
+    <p class="meta">Lesson 2, by Codesarray, <time datetime="2026-11-01">1 November 2026</time>, 8 min read</p>
+    <h1>JavaScript variables and data types: let, const, typeof, null</h1>
+    <p class="standfirst">The seven kinds of values JavaScript has, how typeof tells them apart, why typeof null says object, and how to convert text to numbers on purpose.</p>
+<p>This lesson is about JavaScript variables and data types: what kinds of values can go in the boxes you made in lesson 1. By the end of this page you will know the seven kinds of values JavaScript has, you will be able to ask any value what it is with <code>typeof</code>, and you will turn text into numbers and back on purpose, instead of letting JavaScript guess.</p>
+<h2>let, const, and why not var</h2>
+<p><code>let</code> makes a box you can change later. <code>const</code> makes a box that is locked. Think of a name tag at a conference: your name is printed on it, so that is <code>const</code>; the table number on your sticker changes when they move you, so that is <code>let</code>. The rule is to start with <code>const</code> and switch to <code>let</code> only when you actually need to change the value.</p>
+<p>Older code and old tutorials use a third word, <code>var</code>. It is the original way, from 1995, and it has two bad habits. It ignores curly braces: make a <code>var</code> inside an <code>if</code> block and you can still read it after the block ends, while <code>let</code> stays inside the braces. And <code>var</code> lets you declare the same name twice without complaint, where <code>let</code> makes that an error and saves you from typos. Modern code uses <code>const</code> and <code>let</code>. If you see <code>var</code>, you are reading old code.</p>
+<h2>The seven kinds of values</h2>
+<p>JavaScript has seven basic kinds of values, called primitives. Primitive just means simple: a single value, not a collection. Picture a sign-up form on a website. The name someone typed is a string, text in quotes. Their age is a number. Whether they ticked the subscribe box is a boolean, <code>true</code> or <code>false</code>.</p>
+<p>JavaScript has just one number type: 29, 3.5 and -2 are all <code>number</code>, with no separate integer type. Strings can use double or single quotes as long as you close with the one you opened with. Booleans are written in lower case without quotes; put quotes around <code>true</code> and it becomes a string.</p>
+<p>The next two are the ones beginners mix up. <code>undefined</code> means nothing here yet. Make a box and do not fill it, and JavaScript puts <code>undefined</code> in for you: the nickname field the person never reached. <code>null</code> means empty on purpose: the form asked for a middle name and the person answered "I don't have one". You will almost never type <code>undefined</code> yourself; you will type <code>null</code> when you want to mean "deliberately empty".</p>
+<p>The last two you will meet rarely. A <code>bigint</code> is for whole numbers past about nine quadrillion, where the normal number starts rounding: <code>2 ** 53 + 1</code> gives the wrong answer, but <code>9007199254740993n</code>, written with an <code>n</code> on the end, never rounds. A <code>symbol</code> is a unique tag that can never be confused with any other value, used deep inside libraries. For now, just know it exists.</p>
+<h2>typeof, and the typeof null bug</h2>
+<p>Put <code>typeof</code> in front of any value or variable and JavaScript hands back a string with the kind's name: <code>typeof 29</code> is <code>&quot;number&quot;</code>, <code>typeof &quot;Asha&quot;</code> is <code>&quot;string&quot;</code>, <code>typeof true</code> is <code>&quot;boolean&quot;</code>, and so on through <code>&quot;undefined&quot;</code>, <code>&quot;bigint&quot;</code> and <code>&quot;symbol&quot;</code>.</p>
+<p>Then there is the famous one. <code>typeof null</code> says <code>&quot;object&quot;</code>. This has been a bug since the first version of JavaScript. Inside the engine every value carried a small type tag, the tag for objects was zero, and <code>null</code> was stored as all zeros, so asking for its type read zero and answered "object". By the time anyone wanted to fix it, millions of websites depended on the wrong answer, so it stays forever. The fix is on your side: to check for <code>null</code>, do not use <code>typeof</code>. Compare directly with triple equals, <code>value === null</code>, which gives a plain <code>true</code> or <code>false</code> and is never wrong.</p>
+<h2>The sign-up form as code</h2>
+<pre><code>// a sign-up form someone filled in on our site
+const name = &quot;Asha&quot;;      // string
+let age = 29;             // number
+let subscribed = true;    // boolean
+let nickname;             // undefined: not set yet
+let middleName = null;    // null: empty on purpose
+const id = 9007199254740993n; // bigint
+
+console.log(typeof name, typeof age, typeof subscribed);
+console.log(typeof nickname, typeof middleName);
+console.log(typeof id, typeof Symbol(&quot;tag&quot;));
+
+age = 30;            // let: allowed
+// name = &quot;Ravi&quot;;    // const: TypeError
+console.log(name, &quot;is now&quot;, age);</code></pre>
+<p>Line 5 is the interesting one: <code>let nickname</code> with no equals sign and no value, so JavaScript fills the box with <code>undefined</code>. Line 6 sets <code>middleName</code> to <code>null</code> ourselves. Line 13 changes <code>age</code>, which is fine because it was made with <code>let</code>. Line 14 is commented out on purpose: remove the slashes and JavaScript stops with <code>TypeError: Assignment to constant variable.</code>, because <code>name</code> is <code>const</code>. Run it with <code>node types.js</code>:</p>
+<pre class="out"><code>string number boolean
+undefined object
+bigint symbol
+Asha is now 30</code></pre>
+<p>The second line is the bug, right there: <code>middleName</code> is <code>null</code>, and <code>typeof</code> says <code>object</code>.</p>
+<h2>Convert on purpose: Number() and String()</h2>
+<p>Every web form, text field and URL hands your program text, even when someone types a number. If a user types 29 into an age box, your program gets the string <code>&quot;29&quot;</code>, not the number 29. Add one to it and the plus sign sees a string, and plus with a string means glue them together: <code>&quot;29&quot; + 1</code> is <code>&quot;291&quot;</code>. That is a real bug people ship.</p>
+<p>The fix is to convert on purpose. <code>Number()</code> turns text into a number, so <code>Number(&quot;29&quot;) + 1</code> is 30. <code>String()</code> goes the other way and turns anything into text. A few things to know about <code>Number()</code>: <code>Number(&quot;3.5&quot;)</code> works, an empty string becomes 0, and text that is not a number, like <code>&quot;abc&quot;</code>, becomes <code>NaN</code>, "not a number", which is JavaScript's way of saying it couldn't do it.</p>
+<pre><code>// a web form always hands your program a string
+const typed = &quot;29&quot;;
+
+console.log(typed + 1);           // plus glues strings
+console.log(Number(typed) + 1);   // convert first, then add
+
+console.log(Number(&quot;3.5&quot;), Number(&quot;&quot;), Number(&quot;abc&quot;));
+console.log(String(42), String(true), String(null));
+
+console.log(&quot;5&quot; - 2, &quot;5&quot; * &quot;2&quot;);  // these convert for you
+console.log(typeof (typed + 1), typeof (Number(typed) + 1));</code></pre>
+<pre class="out"><code>291
+30
+3.5 0 NaN
+42 true null
+3 10
+string number</code></pre>
+<p>Line 10 is the warning. JavaScript will also convert for you when you did not ask, which is called coercion: minus, times and divide turn the string <code>&quot;5&quot;</code> into the number 5 on their own. Only plus glues. So the same string behaves differently depending on the operator, which is confusing, and it is why the rule is: don't let JavaScript guess. Convert with <code>Number()</code> or <code>String()</code> and your code says exactly what it means.</p>
+<h2>What you learned</h2>
+<ul>
+  <li><code>const</code> for boxes that don't change, <code>let</code> for boxes that do, and never <code>var</code>.</li>
+  <li>Seven kinds of values: number, string, boolean, undefined, null, bigint and symbol.</li>
+  <li><code>undefined</code> means nothing here yet; <code>null</code> means empty on purpose.</li>
+  <li><code>typeof</code> tells you the kind, except for <code>null</code>, where it says <code>&quot;object&quot;</code>; compare with <code>value === null</code> instead.</li>
+  <li><code>Number()</code> turns text into a number; <code>String()</code> turns anything into text.</li>
+  <li>Plus with a string glues, so convert first.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>Why does typeof null say object, and will it ever be fixed?</strong> The first JavaScript engine stored a type tag with every value; objects had tag zero and <code>null</code> was stored as all zeros, so the check read it as an object. A fix was proposed years later and rejected because too many existing sites depended on the old answer. Use <code>value === null</code> to check for null.</p>
+<p><strong>Should I use let or const by default?</strong> <code>const</code>. It tells the reader, and JavaScript, that the box never changes, and an accidental reassignment becomes an error instead of a silent bug. Reach for <code>let</code> only when the value really has to change, like a counter or a running total.</p>
+<p><strong>Can a let variable change its kind?</strong> Yes. <code>let x = 29; x = &quot;twenty nine&quot;;</code> is allowed, and <code>typeof x</code> follows whatever is in the box now. It is allowed, but it makes code hard to follow, so keep one kind of value per box.</p>
+<p><strong>How do I check whether a conversion failed?</strong> <code>Number(&quot;abc&quot;)</code> gives <code>NaN</code>, and <code>NaN</code> is the one value that is not equal to itself, so <code>x === NaN</code> is always false. Use <code>Number.isNaN(x)</code> instead, which is <code>true</code> only for <code>NaN</code>.</p>
+<p><strong>Is var ever needed?</strong> No. Everything <code>var</code> can do, <code>let</code> and <code>const</code> do without the leaking and the silent redeclaration. You only need to recognise it in code written before 2015.</p>
+<p>Next in the series: numbers and math.</p>
+    <p class="watch">This article goes with the video <strong>Variables and types</strong>. <a href="https://youtu.be/nTkoFn2f1XI">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/javascript/beginner/hello-javascript/"><span>Previous</span>JavaScript for beginners: your first program, step by step</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
