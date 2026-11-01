@@ -104,6 +104,7 @@ HEAD = """<!doctype html>
 <link rel="stylesheet" href="/styles.css">
 <script>try{{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}}catch(e){{}}</script>
 <script src="/theme.js" defer></script>
+<script async src="https://pagead2.googleapis.com/pagead/js/adsbygoogle.js?client=ca-pub-8821229152735728" crossorigin="anonymous"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -134,6 +135,7 @@ FOOT = """  </article>
     <p>&copy; 2026 Codesarray</p>
     <nav class="footer-links" aria-label="Footer">
       <a href="/">Home</a>
+      <a href="/privacy/">Privacy</a>
 {store}
       <a href="mailto:codesarray@gmail.com">Support: codesarray@gmail.com</a>
     </nav>

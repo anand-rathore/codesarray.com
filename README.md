@@ -45,6 +45,8 @@ declaration. Restyle them, never move or rename them:
 ```
 /                                   developer website on every Play listing
 /app-ads.txt                        AdMob
+/ads.txt                            AdSense
+/privacy/                           site privacy policy, named in AdSense
 /privacy-policy.html                old Blockfall policy URL (redirect)
 /blockfall/                         /blockfall/privacy-policy.html
 /pawsandperils/                     /pawsandperils/privacy-policy.html

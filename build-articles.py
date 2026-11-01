@@ -62,6 +62,13 @@ HERE = Path(__file__).parent
 ARTICLES = HERE / "articles"
 SITE = "https://codesarray.com"
 
+# Google AdSense. The tag in HEAD is on every page; the units below appear only where this
+# file places them and only once their slot ID (from the AdSense dashboard, Ads > By ad unit)
+# is filled in. Auto ads stay off so the pages keep their layout.
+AD_CLIENT = "ca-pub-8821229152735728"
+AD_SLOTS = {"article": "",    # after an article's body
+            "board": ""}      # between the languages on /articles/
+
 HEAD = """<!doctype html>
 <html lang="en">
 <head>
@@ -87,6 +94,7 @@ HEAD = """<!doctype html>
 <link rel="stylesheet" href="/styles.css">
 <script>try{{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}}catch(e){{}}</script>
 <script src="/theme.js" defer></script>
+<script async src="https://pagead2.googleapis.com/pagead/js/adsbygoogle.js?client=ca-pub-8821229152735728" crossorigin="anonymous"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -130,6 +138,7 @@ FOOT = """</main>
     <nav class="footer-links" aria-label="Footer">
       <a href="/">Home</a>
       <a href="/articles/">Articles</a>
+      <a href="/privacy/">Privacy</a>
       <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
     </nav>
   </div>
@@ -288,6 +297,16 @@ def article_ld(a, trail, image):
     return jsonld(article) + jsonld(crumbs_ld)
 
 
+def ad(kind, indent="    "):
+    """One responsive AdSense unit, or nothing while its slot ID is unset."""
+    slot = AD_SLOTS[kind]
+    if not slot:
+        return ""
+    return (f'{indent}<div class="ad"><ins class="adsbygoogle" style="display:block" data-ad-client="{AD_CLIENT}" '
+            f'data-ad-slot="{slot}" data-ad-format="auto" data-full-width-responsive="true"></ins>'
+            '<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>\n')
+
+
 def pretty_date(day):
     return f"{day.day} {day:%B %Y}"
 
@@ -372,6 +391,7 @@ def build():
                     name, _, link = (s.strip() for s in a["video"].partition("|"))
                     page += (f'    <p class="watch">This article goes with the video <strong>{esc(name)}</strong>. '
                              f'<a href="{link}">Watch it on YouTube</a>.</p>\n')
+                page += ad("article")
                 page += '    <nav class="pager" aria-label="More in this level">\n'
                 if i > 0:
                     page += f'      <a href="{group[i - 1]["path"]}"><span>Previous</span>{esc(group[i - 1]["title"])}</a>\n'
@@ -410,9 +430,9 @@ def build():
                   "Filed by language, then by level, in the order they are taught.",
                   extra=langnav(tree, languages))
     page += '  <div class="container board">\n'
-    for lang, by_level in tree.items():
+    for i, (lang, by_level) in enumerate(tree.items()):
         L = languages[lang]
-        page += (f'    <section class="block" id="{lang}">\n'
+        page += (ad("board") if i else "") + (f'    <section class="block" id="{lang}">\n'
                  f'      <h2><a href="/articles/{lang}/">{L["name"]}</a></h2>\n'
                  f'      <p class="about">{esc(L["summary"])}</p>\n')
         for level, group in by_level.items():
@@ -437,7 +457,7 @@ def build():
 
 
 # Pages that are not articles but belong in the sitemap. Add a page here when you add one.
-STATIC_PAGES = ["/", "/work/", "/articles/", "/blockfall/", "/pawsandperils/", "/synapsy/",
+STATIC_PAGES = ["/", "/work/", "/articles/", "/privacy/", "/blockfall/", "/pawsandperils/", "/synapsy/",
                 "/blockfall/privacy-policy.html", "/pawsandperils/privacy-policy.html", "/synapsy/privacy-policy.html"]
 
 
