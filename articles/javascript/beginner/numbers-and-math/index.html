@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JavaScript numbers and math: 0.1 + 0.2, NaN, rounding, BigInt: Codesarray</title>
+<meta name="description" content="JavaScript numbers and math for beginners: why 0.1 + 0.2 prints 0.30000000000000004, Math.round and toFixed, NaN and Number.isNaN, parseInt(&quot;42px&quot;), and when to use BigInt.">
+<link rel="canonical" href="https://codesarray.com/articles/javascript/beginner/numbers-and-math/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="JavaScript numbers and math: 0.1 + 0.2, NaN, rounding, BigInt">
+<meta property="og:description" content="JavaScript numbers and math for beginners: why 0.1 + 0.2 prints 0.30000000000000004, Math.round and toFixed, NaN and Number.isNaN, parseInt(&quot;42px&quot;), and when to use BigInt.">
+<meta property="og:url" content="https://codesarray.com/articles/javascript/beginner/numbers-and-math/">
+<meta property="og:image" content="https://codesarray.com/articles/javascript/beginner/numbers-and-math/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-11-01">
+<meta property="article:section" content="JavaScript">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"JavaScript numbers and math: 0.1 + 0.2, NaN, rounding, BigInt","description":"Why 0.1 + 0.2 is not quite 0.3 and how to round it, what NaN and Infinity are, the Math toolbox, parseInt for text with units, and BigInt for numbers past nine quadrillion.","image":"https://codesarray.com/articles/javascript/beginner/numbers-and-math/cover.png","datePublished":"2026-11-01","dateModified":"2026-11-01","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/javascript/beginner/numbers-and-math/"},"proficiencyLevel":"Beginner","articleSection":"JavaScript","video":{"@type":"VideoObject","name":"Numbers and math","url":"https://youtu.be/RcyVotTzUNU","embedUrl":"https://youtu.be/RcyVotTzUNU","thumbnailUrl":"https://codesarray.com/articles/javascript/beginner/numbers-and-math/cover.png","uploadDate":"2026-11-01T00:00:00+05:30","description":"Why 0.1 + 0.2 is not quite 0.3 and how to round it, what NaN and Infinity are, the Math toolbox, parseInt for text with units, and BigInt for numbers past nine quadrillion."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"JavaScript","item":"https://codesarray.com/articles/javascript/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/javascript/beginner/"},{"@type":"ListItem","position":4,"name":"JavaScript numbers and math: 0.1 + 0.2, NaN, rounding, BigInt"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+<script async src="https://pagead2.googleapis.com/pagead/js/adsbygoogle.js?client=ca-pub-8821229152735728" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/javascript/">JavaScript</a></li><li><a href="/articles/javascript/beginner/">Beginner</a></li></ol></nav>
+    <p class="meta">Lesson 3, by Codesarray, <time datetime="2026-11-01">1 November 2026</time>, 10 min read</p>
+    <h1>JavaScript numbers and math: 0.1 + 0.2, NaN, rounding, BigInt</h1>
+    <p class="standfirst">Why 0.1 + 0.2 is not quite 0.3 and how to round it, what NaN and Infinity are, the Math toolbox, parseInt for text with units, and BigInt for numbers past nine quadrillion.</p>
+<p>This lesson is about JavaScript numbers and math: what the one number type can do, and where it trips people up. By the end of this page you will know why <code>0.1 + 0.2</code> is not quite <code>0.3</code> and what to do about it, you will round numbers the way a shop does, and you will turn text like <code>&quot;42px&quot;</code> into a real number you can do math with.</p>
+<h2>One number type</h2>
+<p>In many languages, whole numbers and decimals are two different types. Not in JavaScript. <code>3</code>, <code>3.5</code> and <code>-2</code> are all just <code>number</code>. Think of a cafe till: a coffee is 3, a muffin is 2.5, and the till does not care which one has a decimal point. It adds them the same way, and <code>3 + 2.5</code> is <code>5.5</code> without you ever saying which kind of number you meant.</p>
+<p>Underneath, every number is stored the same way, as a 64-bit floating point value. That is a fancy name for a number that can hold a decimal point, the same format a calculator app uses. You get about 15 to 16 digits of precision, which is plenty for prices, scores and ages. Keep the phrase "floating point" in mind, because it explains the next surprise.</p>
+<h2>Why 0.1 + 0.2 is not 0.3</h2>
+<p>Type <code>0.1 + 0.2</code> into the console and JavaScript answers <code>0.30000000000000004</code>. Ask whether it equals <code>0.3</code> and you get <code>false</code>. This is not a JavaScript bug: Python, Java and C give the same answer.</p>
+<p>Think about one third of a cup. In decimal that is 0.3333..., and the threes never stop, so you have to cut it off somewhere and what you write down is a tiny bit less than a third. Computers count in binary, in twos rather than tens, and in binary one tenth is one of those numbers that never stops. So <code>0.1</code> gets cut off and stored a tiny bit off, the same for <code>0.2</code>, and two tiny errors add up to a result just past <code>0.3</code>.</p>
+<p>The fix is what every shop and bank does. Never compare money with <code>===</code>. Round when you show it: <code>(0.1 + 0.2).toFixed(2)</code> gives <code>&quot;0.30&quot;</code>, with exactly two decimal places. One catch: <code>toFixed</code> hands back a string, text that is ready to print, fine for showing but not for more math. Even better, count in cents: 10 + 20 is 30, and whole numbers are always exact, up to a limit we meet at the end.</p>
+<h2>NaN and Infinity</h2>
+<p>Two odd values live inside the number type. <code>NaN</code> stands for "not a number", and it is what you get when the math makes no sense. Picture an order form where someone types <code>hello</code> into the quantity box and your code multiplies it by the price: <code>&quot;hello&quot; * 2</code> is <code>NaN</code>, and so is <code>0 / 0</code>.</p>
+<p>The weird part is that <code>NaN</code> is not equal to anything, not even itself. <code>NaN === NaN</code> is <code>false</code>; it is the only value in JavaScript that does not equal itself, so you cannot check for it with <code>===</code>. Use <code>Number.isNaN(x)</code> instead, which gives a plain <code>true</code> or <code>false</code> and is always right. There is also an older global <code>isNaN</code> without the <code>Number.</code>; it converts first, so it says <code>true</code> for the word <code>&quot;hello&quot;</code> too. Stick with <code>Number.isNaN</code>.</p>
+<p><code>Infinity</code> is what you get from dividing by zero. <code>1 / 0</code> is <code>Infinity</code> and <code>-1 / 0</code> is <code>-Infinity</code>. Pizza slices per person, with zero people? Infinity slices each. It is a real value: you can compare with it, <code>Infinity + 1</code> is still <code>Infinity</code>, and any result too big to store becomes <code>Infinity</code>. It is rare, but when you see it, a zero got into a division somewhere.</p>
+<h2>Rounding: Math.round, floor, ceil and trunc</h2>
+<p>Ten shared by three friends is <code>3.3333333333333335</code>, and nobody pays that. There are four tools, and they round differently. <code>Math.round</code> goes to the nearest whole number, so 3.3 becomes 3 and 3.6 becomes 4. <code>Math.floor</code> always goes down, to 3. <code>Math.ceil</code>, short for ceiling, always goes up, to 4. <code>Math.trunc</code> chops off the decimals, which is the same as floor for positive numbers, but for <code>-3.7</code> trunc gives <code>-3</code> while floor gives <code>-4</code>.</p>
+<p>Which one you want depends on the story. Ordering pizza for seven people, two slices each, eight slices a box, is 1.75 boxes, and you cannot order a fraction of a box, so <code>Math.ceil</code>: two boxes. Showing a price? You want two decimal places, so <code>(10 / 3).toFixed(2)</code> gives <code>&quot;3.33&quot;</code>, a string. To round to two decimals and keep a number, multiply by 100, round, then divide by 100: <code>Math.round(share * 100) / 100</code> is <code>3.33</code>.</p>
+<h2>The Math toolbox</h2>
+<p><code>Math</code> is a built-in object, a toolbox of functions and constants ready to use with no import. <code>Math.max</code> picks the biggest of a list of numbers and <code>Math.min</code> the smallest: give them the week's temperatures and you have the high and the low. <code>Math.abs</code> drops the minus sign, so a distance always comes out positive. <code>Math.sqrt</code> is the square root. For powers you do not even need Math: <code>2 ** 10</code> is <code>1024</code>. <code>Math.PI</code> is 3.14159..., and <code>Math.random()</code> gives a random decimal from 0 up to, but never reaching, 1.</p>
+<p>Here is the classic dice roll. <code>Math.random() * 6</code> gives 0 to almost 6, <code>Math.floor</code> chops that to 0, 1, 2, 3, 4 or 5, and adding 1 gives 1 to 6: <code>Math.floor(Math.random() * 6) + 1</code>. You will use it in games and quizzes all the time.</p>
+<h2>Number, parseInt and parseFloat</h2>
+<p>Text is how numbers arrive in real programs: a form field, a width from a style sheet like <code>&quot;42px&quot;</code>, a label like <code>&quot;3.5kg&quot;</code>. <code>Number()</code> is strict. <code>Number(&quot;42&quot;)</code> is <code>42</code>, spaces around it are fine, but <code>Number(&quot;42px&quot;)</code> is <code>NaN</code> because the whole string has to be a number, and <code>Number(&quot;&quot;)</code> is <code>0</code>, which surprises people.</p>
+<p>When the text has units on the end, use <code>parseInt</code> or <code>parseFloat</code>. <code>parseInt</code> reads digits from the start and stops at the first thing that is not a digit, so <code>parseInt(&quot;42px&quot;)</code> is <code>42</code>. <code>parseFloat</code> does the same but keeps the decimal point: <code>parseFloat(&quot;3.5kg&quot;)</code> is <code>3.5</code>. They only give up when the text does not start with a number at all; <code>parseInt(&quot;px42&quot;)</code> is <code>NaN</code>. The rule: clean input that should be only a number, use <code>Number()</code>, and it tells you when something is wrong. Text with units on the end, <code>parseInt</code> or <code>parseFloat</code>.</p>
+<h2>BigInt for numbers past nine quadrillion</h2>
+<p>JavaScript's number is exact up to about nine quadrillion; <code>Number.MAX_SAFE_INTEGER</code> is the exact line, <code>9007199254740991</code>. Past it, numbers get rounded because the floating point format is out of digits: <code>9007199254740992 + 1</code> gives <code>9007199254740992</code> back. Where does that happen in real life? IDs. A post on a big social network has an ID longer than that, and so do some bank transaction numbers. Store one as a number and the last digit quietly changes.</p>
+<p>The fix is <code>bigint</code>. Write a whole number with an <code>n</code> on the end and it is exact no matter how long it gets: <code>9007199254740992n + 1n</code> is <code>9007199254740993n</code>. The usual operators work as long as both sides are bigints. Mix a bigint with a plain number and JavaScript throws a <code>TypeError</code> rather than guess; convert first with <code>BigInt(10)</code>. Bigints are whole numbers only. For everyday math stick with number; reach for bigint when you are holding an ID or counting past that line.</p>
+<h2>The cafe bill as code</h2>
+<pre><code>// a cafe bill: a 0.10 topping and a 0.20 topping
+const toppings = 0.1 + 0.2;
+console.log(toppings);
+console.log(toppings === 0.3);
+console.log(toppings.toFixed(2));
+console.log(typeof toppings.toFixed(2));
+
+// 10 shared by 3 friends
+const share = 10 / 3;
+console.log(share);
+console.log(Math.round(share));
+console.log(Math.floor(share), Math.ceil(share));
+console.log(Math.round(share * 100) / 100);
+
+// the Math toolbox
+console.log(Math.max(3, 9, 4), Math.min(3, 9, 4));
+console.log(Math.abs(-7), Math.sqrt(16), 2 ** 10);</code></pre>
+<pre class="out"><code>0.30000000000000004
+false
+0.30
+string
+3.3333333333333335
+3
+3 4
+3.33
+9 3
+7 4 1024</code></pre>
+<p>Line 2 adds two toppings as decimals, and line 3 prints the long <code>0.3</code> with the 4 on the end. Line 4 asks if it equals <code>0.3</code>: <code>false</code>. Line 5 rounds it for display with <code>toFixed(2)</code>, and line 6 proves the result is a string. Line 9 divides 10 by 3, and lines 11 and 12 round it three ways. Line 13 is the trick that keeps a number: times 100, round, divide by 100. Lines 16 and 17 try the toolbox.</p>
+<h2>Text in, numbers out</h2>
+<pre><code>// numbers that arrive as text, and the odd ones
+const typed = &quot;42px&quot;;
+console.log(Number(typed));
+console.log(parseInt(typed));
+console.log(parseFloat(&quot;3.5kg&quot;));
+console.log(Number(&quot;  12  &quot;), Number(&quot;&quot;));
+
+const bad = Number(&quot;abc&quot;);
+console.log(bad === NaN);
+console.log(Number.isNaN(bad));
+console.log(1 / 0, -1 / 0);
+
+console.log(Number.MAX_SAFE_INTEGER);
+console.log(9007199254740992 + 1);
+console.log(9007199254740992n + 1n);
+console.log(typeof 10n);
+// console.log(10n + 1);  // TypeError: Cannot mix BigInt</code></pre>
+<pre class="out"><code>NaN
+42
+3.5
+12 0
+false
+true
+Infinity -Infinity
+9007199254740991
+9007199254740992
+9007199254740993n
+bigint</code></pre>
+<p>Line 3 tries <code>Number</code> on <code>&quot;42px&quot;</code> and gets <code>NaN</code>, because <code>Number</code> is strict; line 4 uses <code>parseInt</code>, which reads the digits and stops at the <code>p</code>. Line 9 compares a <code>NaN</code> with <code>===</code>, the wrong way, and line 10 checks it with <code>Number.isNaN</code>, the right way. Line 14 goes one past the safe limit with a plain number and the last digit does not move; line 15 does the same sum with bigints and gets the right answer. Line 17 is commented out because mixing a bigint with a plain number is a <code>TypeError</code>.</p>
+<h2>What you learned</h2>
+<ul>
+  <li>One number type, stored as 64-bit floating point.</li>
+  <li><code>0.1 + 0.2</code> is <code>0.30000000000000004</code>, so round money when you show it with <code>toFixed(2)</code>, or count in cents.</li>
+  <li><code>NaN</code> means the math made no sense; check for it with <code>Number.isNaN</code>. <code>Infinity</code> comes from dividing by zero.</li>
+  <li><code>Math.round</code>, <code>Math.floor</code>, <code>Math.ceil</code> and <code>Math.trunc</code> round four different ways.</li>
+  <li>The <code>Math</code> toolbox has <code>max</code>, <code>min</code>, <code>abs</code>, <code>sqrt</code>, <code>PI</code> and <code>random</code>.</li>
+  <li><code>Number()</code> for clean text, <code>parseInt</code> and <code>parseFloat</code> when there are units on the end.</li>
+  <li><code>bigint</code>, with an <code>n</code>, for whole numbers past nine quadrillion.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>Is 0.1 + 0.2 a JavaScript bug?</strong> No. Every language that uses 64-bit floating point gives the same answer, including Python, Java and C. One tenth has no exact binary form, so it is stored a tiny bit off. Round when you display, or work in whole cents.</p>
+<p><strong>Why is NaN not equal to itself?</strong> The floating point standard defines it that way: <code>NaN</code> means "no valid number here", and two unknowns are not the same unknown. That is why <code>x === NaN</code> is always <code>false</code> and why <code>Number.isNaN(x)</code> exists.</p>
+<p><strong>When should I use parseInt instead of Number?</strong> When the text has something after the digits, like <code>&quot;42px&quot;</code> or <code>&quot;3 apples&quot;</code>. <code>Number</code> wants the whole string to be a number and gives <code>NaN</code> otherwise. For clean input, <code>Number</code> is better because that <code>NaN</code> tells you something went wrong.</p>
+<p><strong>Does toFixed round correctly for money?</strong> It gives a string with the number of decimals you ask for, rounding to the nearest value, which is fine for showing a price. For adding prices up, keep them in whole cents as numbers and only call <code>toFixed</code> on the total you print.</p>
+<p><strong>Can I use bigint for prices or averages?</strong> No. Bigints are whole numbers only, so <code>5n / 2n</code> is <code>2n</code> and there is no decimal part. Use bigint for IDs and very large counts, and plain numbers for everything else.</p>
+<p>Next in the series: strings.</p>
+    <p class="watch">This article goes with the video <strong>Numbers and math</strong>. <a href="https://youtu.be/RcyVotTzUNU">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/javascript/beginner/variables-and-types/"><span>Previous</span>JavaScript variables and data types: let, const, typeof, null</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
