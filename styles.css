@@ -1087,6 +1087,58 @@ pre.out {
   color: var(--gold);
 }
 
+/* The language switcher under the articles title: one pill per language. On /articles/ the
+   pills jump to that language's section; on a language page they go to the other languages. */
+.langnav {
+  margin-top: 28px;
+}
+
+.langnav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.langnav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding-inline: 18px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 200ms var(--ease), color 200ms var(--ease), background-color 200ms var(--ease);
+}
+
+.langnav a span {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--text-dim);
+}
+
+.langnav a:hover {
+  border-color: var(--text);
+}
+
+.langnav a[aria-current="page"] {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* A language section landed on from the switcher sits clear of the top of the viewport. */
+.block[id] {
+  scroll-margin-top: 24px;
+}
+
 /* A level inside a language on the all-articles page. */
 .block h3.level {
   display: flex;

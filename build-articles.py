@@ -312,10 +312,26 @@ def rows(articles, indent="      "):
     return "\n".join(out) + "\n"
 
 
-def intro(title, lede, trail=None):
+def intro(title, lede, trail=None, extra=""):
+    """The page's title block. extra is HTML placed under the lede (the language switcher)."""
     return ('  <section class="intro small">\n    <div class="container">\n'
             + (f"      {crumbs(trail)}" if trail else "")
-            + f"      <h1>{esc(title)}</h1>\n      <p class=\"lede\">{esc(lede)}</p>\n    </div>\n  </section>\n\n")
+            + f"      <h1>{esc(title)}</h1>\n      <p class=\"lede\">{esc(lede)}</p>\n"
+            + extra + "    </div>\n  </section>\n\n")
+
+
+def langnav(tree, languages, current=None):
+    """The language switcher: one pill per language that has articles, in categories.json order.
+    On /articles/ the pills jump to that language's section on the same page; on a language page
+    they go to the other languages' pages, with the current one marked."""
+    items = ""
+    for lang, by_level in tree.items():
+        n = sum(len(g) for g in by_level.values())
+        href = f"/articles/{lang}/" if current else f"#{lang}"
+        mark = ' aria-current="page"' if lang == current else ""
+        items += (f'        <li><a href="{href}"{mark}>{esc(languages[lang]["name"])}'
+                  f'<span>{n}</span></a></li>\n')
+    return f'      <nav class="langnav" aria-label="Languages">\n        <ul>\n{items}        </ul>\n      </nav>\n'
 
 
 def build():
@@ -377,7 +393,7 @@ def build():
 
         # the language: /articles/<language>/
         page = head(f"{L['name']} articles", L["summary"], f"/articles/{lang}/")
-        page += intro(L["name"], L["summary"], [("Articles", "/articles/")])
+        page += intro(L["name"], L["summary"], [("Articles", "/articles/")], langnav(tree, languages, lang))
         page += '  <div class="container board">\n'
         for level, group in by_level.items():
             V = levels[level]
@@ -391,7 +407,8 @@ def build():
     page = head("Articles", "Short written lessons on coding, algorithms and data structures, "
                 "filed by language and level, with code you can copy.", "/articles/", current=True)
     page += intro("Articles", "The lessons from the videos, written down, with code you can copy. "
-                  "Filed by language, then by level, in the order they are taught.")
+                  "Filed by language, then by level, in the order they are taught.",
+                  extra=langnav(tree, languages))
     page += '  <div class="container board">\n'
     for lang, by_level in tree.items():
         L = languages[lang]
