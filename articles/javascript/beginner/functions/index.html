@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JavaScript functions: declaration, arrow, default, rest and return: Codesarray</title>
+<meta name="description" content="JavaScript functions for beginners: declarations, expressions and arrow functions, parameters, defaults, rest, return, scope, hoisting and callbacks.">
+<link rel="canonical" href="https://codesarray.com/articles/javascript/beginner/functions/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="JavaScript functions: declaration, arrow, default, rest and return">
+<meta property="og:description" content="JavaScript functions for beginners: declarations, expressions and arrow functions, parameters, defaults, rest, return, scope, hoisting and callbacks.">
+<meta property="og:url" content="https://codesarray.com/articles/javascript/beginner/functions/">
+<meta property="og:image" content="https://codesarray.com/articles/javascript/beginner/functions/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-11-08">
+<meta property="article:section" content="JavaScript">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"JavaScript functions: declaration, arrow, default, rest and return","description":"How you write steps once and reuse them: function declarations, expressions and arrow functions, parameters and arguments, default values, rest parameters, return, scope, hoisting, and why a function is just a value. Three short programs with their real output.","image":"https://codesarray.com/articles/javascript/beginner/functions/cover.png","datePublished":"2026-11-08","dateModified":"2026-11-08","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/javascript/beginner/functions/"},"proficiencyLevel":"Beginner","articleSection":"JavaScript","video":{"@type":"VideoObject","name":"Functions","url":"https://youtu.be/TWrc55jbbPA","embedUrl":"https://youtu.be/TWrc55jbbPA","thumbnailUrl":"https://codesarray.com/articles/javascript/beginner/functions/cover.png","uploadDate":"2026-11-08T00:00:00+05:30","description":"How you write steps once and reuse them: function declarations, expressions and arrow functions, parameters and arguments, default values, rest parameters, return, scope, hoisting, and why a function is just a value. Three short programs with their real output."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"JavaScript","item":"https://codesarray.com/articles/javascript/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/javascript/beginner/"},{"@type":"ListItem","position":4,"name":"JavaScript functions: declaration, arrow, default, rest and return"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+<script async src="https://pagead2.googleapis.com/pagead/js/adsbygoogle.js?client=ca-pub-8821229152735728" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/javascript/">JavaScript</a></li><li><a href="/articles/javascript/beginner/">Beginner</a></li></ol></nav>
+    <p class="meta">Lesson 7, by Codesarray, <time datetime="2026-11-08">8 November 2026</time>, 12 min read</p>
+    <h1>JavaScript functions: declaration, arrow, default, rest and return</h1>
+    <p class="standfirst">How you write steps once and reuse them: function declarations, expressions and arrow functions, parameters and arguments, default values, rest parameters, return, scope, hoisting, and why a function is just a value. Three short programs with their real output.</p>
+<p>This lesson is about JavaScript functions: how you write steps once and use them as often as you like. By the end of this page you will write a function three ways (a declaration, an expression and an arrow function), hand it ingredients with parameters, give a spare one with a default value, take any number with a rest parameter, and get a result back with <code>return</code>. You will also know what a function can see (scope), why some functions work before you define them (hoisting), and why a function is just a value you can pass around.</p>
+<h2>Why functions</h2>
+<p>Think of a recipe card on the fridge. You write the steps once, give the card a name, and any time you are hungry you say its name. That is a function.</p>
+<p>Say you want to greet three people. You could write the same <code>console.log</code> three times, but when the greeting changes you would fix it in three places and probably miss one. A function lets you write the steps once. It has a name, a list of ingredients it needs, a body with the steps, and it can hand a result back. Writing the steps is called defining the function, and using them is called calling it. Nothing happens until you call: a recipe card on the fridge does not cook anything by itself.</p>
+<h2>Function declaration</h2>
+<p>The first way is a function declaration. Write <code>function</code>, a name, the ingredients in round brackets, then the steps in curly braces:</p>
+<pre><code>function greet(name) {
+  return &quot;Hello, &quot; + name;
+}</code></pre>
+<p>Inside, <code>return</code> hands back the text. To call it, write the name and put the real value in round brackets: <code>greet(&quot;Ada&quot;)</code> gives <code>&quot;Hello, Ada&quot;</code>, and <code>greet(&quot;Grace&quot;)</code> gives <code>&quot;Hello, Grace&quot;</code>. Same card, different ingredient. Careful: <code>greet</code> on its own, without brackets, does not run anything. It just points at the function. The brackets are what run it.</p>
+<h2>Function expression</h2>
+<p>The second way is a function expression. The function has no name of its own: you write it on the right side of an equals sign and store it in a variable.</p>
+<pre><code>const shout = function (name) {
+  return name.toUpperCase() + &quot;!&quot;;
+};</code></pre>
+<p>You call it the same way: <code>shout(&quot;ada&quot;)</code> gives <code>&quot;ADA!&quot;</code>. This works because a function is a value, like a number or a string, and a variable can hold it. Use <code>const</code>, so nobody can swap the function for another one by accident. Both ways behave the same when you call them. The differences are how you write them and when they become available, which we get to under hoisting.</p>
+<h2>Arrow functions</h2>
+<p>The third way is the arrow function, and it is what you will see most in modern code. Drop the word <code>function</code>, write the ingredient, then an arrow (<code>=&gt;</code>), then the result:</p>
+<pre><code>const double = (n) =&gt; n * 2;</code></pre>
+<p>When the body is a single expression there are no curly braces and no <code>return</code>: the result is handed back for you, which is called an implicit return. <code>double(21)</code> gives <code>42</code>. With more than one parameter, put brackets around them: <code>(a, b) =&gt; a + b</code>. With none, write empty brackets.</p>
+<p>Two traps. If you add curly braces you are back to a normal body, and then you must write <code>return</code> yourself, or you get <code>undefined</code>. And to return an object straight away, wrap it in round brackets, <code>() =&gt; ({ a: 1 })</code>, so JavaScript does not think the curly brace starts a body.</p>
+<h2>Parameters and arguments</h2>
+<p>The names in the definition are called <strong>parameters</strong>. The real values you pass when you call are called <strong>arguments</strong>. In <code>greet(name)</code>, <code>name</code> is the parameter. In <code>greet(&quot;Ada&quot;)</code>, <code>&quot;Ada&quot;</code> is the argument.</p>
+<p>They are matched by position: the first argument goes into the first parameter, the second into the second. So order matters. With <code>function subtract(a, b) { return a - b; }</code>, <code>subtract(10, 3)</code> is <code>7</code> but <code>subtract(3, 10)</code> is <code>-7</code>.</p>
+<p>JavaScript is relaxed about the count. If you pass too few arguments, the missing parameters are <code>undefined</code>, so <code>subtract(10)</code> gives <code>NaN</code>. If you pass too many, the extras are ignored. There is no error either way. That is friendly, but it can hide mistakes, so check that you pass what the function needs.</p>
+<h2>Default values</h2>
+<p>What if someone forgets an ingredient? Give the parameter a default by writing an equals sign and a value in the parameter list:</p>
+<pre><code>function price(amount, tax = 0.1) {
+  return amount + amount * tax;
+}</code></pre>
+<p><code>price(100)</code> uses the default and gives <code>110</code>. <code>price(100, 0.2)</code> uses your value and gives <code>120</code>. Here is the detail that surprises people: a default only applies when the value is <code>undefined</code>, meaning nothing was passed. <code>null</code> and <code>0</code> count as real values, so the default is ignored. <code>price(100, 0)</code> stays <code>100</code>, which is exactly what you want.</p>
+<h2>Rest parameters</h2>
+<p>Sometimes you do not know how many values will come, like a basket at the market that takes any number of items. Put three dots before the last parameter:</p>
+<pre><code>function total(...nums) {
+  let sum = 0;
+  for (const n of nums) sum += n;
+  return sum;
+}</code></pre>
+<p>Every extra argument is collected into a real array called <code>nums</code>. <code>total(1, 2, 3)</code> makes <code>nums</code> the list <code>[1, 2, 3]</code>, and you can loop over it with <code>for...of</code>, as in the loops lesson. <code>total()</code> makes <code>nums</code> an empty array, so the loop runs zero times and you get <code>0</code>. The rest parameter must be the last one, and a function can only have one.</p>
+<h2>return</h2>
+<p><code>return</code> does two things: it hands a value back to whoever called, and it ends the function right there. Any line after a <code>return</code> never runs. That lets you return early, for example when the input is bad, and skip the rest.</p>
+<p>A function with no <code>return</code> hands back <code>undefined</code>. Write an empty function, print the result of calling it, and you see <code>undefined</code>. This is the most common function mistake: you do all the work, forget the word <code>return</code>, and out comes <code>undefined</code>. Also, <code>console.log</code> is not the same as <code>return</code>. <code>console.log</code> shows a value to a human. <code>return</code> gives it to your code.</p>
+<h2>Scope</h2>
+<p>Think of each kitchen as having its own private notebook. A variable made inside a function lives only inside that function, and outside nobody can see it.</p>
+<p>Say the label outside is <code>&quot;outer&quot;</code>. Inside a function we make a new <code>label</code> called <code>&quot;inner&quot;</code>. They have the same name, but they are two different variables, and the function sees its own first. Call the function and you get <code>&quot;inner&quot;</code>. Look outside and the label is still <code>&quot;outer&quot;</code>.</p>
+<p>A function can also look outward: if it cannot find a name in its own notebook, it checks the kitchen around it. But the outside can never look in. That is a good thing, because every function can use whatever names it likes without bumping into the others.</p>
+<h2>Hoisting</h2>
+<p>Imagine a book whose table of contents is read before you open page one. Before your code runs, JavaScript scans it and registers every function declaration. So you can call a declared function above the line where you wrote it:</p>
+<pre><code>console.log(hello());
+function hello() {
+  return &quot;hoisted&quot;;
+}</code></pre>
+<p>This works and prints <code>hoisted</code>. A function expression or an arrow function is different. Its name is a <code>const</code>, and a <code>const</code> is not ready until its line runs. Call it early and you get <code>ReferenceError: Cannot access &#x27;lateArrow&#x27; before initialization</code>. So declarations work from anywhere in the file, while expressions and arrows work only after the line that creates them. To keep code easy to read, define your functions first and use them after.</p>
+<h2>Functions as values</h2>
+<p>Here is the big idea of this lesson: in JavaScript a function is a value. You can store it in a variable, put it in a list, and pass it to another function. It is like handing the recipe card itself to a friend and saying "do this one twice".</p>
+<pre><code>function twice(fn, value) {
+  return fn(fn(value));
+}
+console.log(twice((n) =&gt; n + 3, 10));</code></pre>
+<p><code>twice</code> takes a function <code>fn</code> and a value, runs <code>fn</code> on the value, then runs <code>fn</code> again on that result. With an arrow that adds 3 and the value <code>10</code>, ten becomes thirteen and then sixteen. Notice there are no brackets after the name when you pass a function in: you are giving the card, not cooking. A function passed in like this is called a <strong>callback</strong>, and you will use callbacks all the time in the array methods lesson. And <code>typeof</code> a function says <code>&quot;function&quot;</code>.</p>
+<h2>Five common function mistakes</h2>
+<ol>
+  <li>**Forgetting <code>return</code>.** You get <code>undefined</code>.</li>
+  <li><strong>Forgetting the brackets when you call.</strong> You get the function itself, not its result.</li>
+  <li>**An arrow with curly braces and no <code>return</code>.** Same <code>undefined</code> again.</li>
+  <li><strong>Calling an arrow or a function expression before it is defined.</strong> That is the <code>ReferenceError</code>.</li>
+  <li><strong>Mixing up the order of the arguments.</strong> JavaScript matches by position, so it will not warn you.</li>
+</ol>
+<h2>The three ways program</h2>
+<pre><code>// three ways to write a function
+function greet(name) {
+  return &quot;Hello, &quot; + name;
+}
+
+const shout = function (name) {
+  return name.toUpperCase() + &quot;!&quot;;
+};
+
+const double = (n) =&gt; n * 2;
+
+console.log(greet(&quot;Ada&quot;));
+console.log(shout(&quot;ada&quot;));
+console.log(double(21));</code></pre>
+<pre class="out"><code>Hello, Ada
+ADA!
+42</code></pre>
+<p>Lines 2 to 4 are the declaration: <code>greet</code> takes <code>name</code> and returns <code>&quot;Hello, &quot;</code> plus the name. Line 6 starts the function expression stored in <code>shout</code>, and line 7 returns the name in capitals with an exclamation mark. Line 10 is the arrow function: <code>double</code> returns <code>n * 2</code> with no braces. Lines 12 to 14 call the three functions with <code>&quot;Ada&quot;</code>, <code>&quot;ada&quot;</code> and <code>21</code>.</p>
+<h2>The defaults, rest and return program</h2>
+<pre><code>// defaults, rest and return
+function price(amount, tax = 0.1) {
+  return amount + amount * tax;
+}
+console.log(price(100));
+console.log(price(100, 0.2));
+
+function total(...nums) {
+  let sum = 0;
+  for (const n of nums) sum += n;
+  return sum;
+}
+console.log(total(1, 2, 3));
+console.log(total());
+
+function nothing() {}
+console.log(nothing());</code></pre>
+<pre class="out"><code>110
+120
+6
+0
+undefined</code></pre>
+<p>Line 2 defines <code>price</code> with a default <code>tax</code> of <code>0.1</code>, and line 3 returns the amount plus the tax. Line 5 passes only <code>100</code>, so the default is used. Line 6 passes <code>0.2</code>, which replaces it. Line 8 is <code>total</code> with a rest parameter, so every argument lands in <code>nums</code>. Line 9 starts the sum at <code>0</code>, line 10 adds each number, and line 11 returns it. Line 13 sums <code>1, 2, 3</code> and line 14 calls it with nothing, so the loop never runs and the answer is <code>0</code>. Line 16 is a function with an empty body, and line 17 prints what it gives back: <code>undefined</code>.</p>
+<h2>The scope and functions as values program</h2>
+<pre><code>// scope and functions as values
+const label = &quot;outer&quot;;
+function show() {
+  const label = &quot;inner&quot;;
+  return label;
+}
+console.log(show(), label);
+
+function twice(fn, value) {
+  return fn(fn(value));
+}
+console.log(twice((n) =&gt; n + 3, 10));
+console.log(typeof twice);</code></pre>
+<pre class="out"><code>inner outer
+16
+function</code></pre>
+<p>Line 2 sets <code>label</code> to <code>&quot;outer&quot;</code>. Inside <code>show</code>, line 4 makes a new <code>label</code> called <code>&quot;inner&quot;</code> and line 5 returns it. Line 7 prints the result of <code>show()</code> and the outer <code>label</code>: <code>inner outer</code>. Line 9 is <code>twice</code>, which takes a function and a value, and line 10 runs the function and then runs it again on its own result. Line 12 passes an arrow that adds 3 and the value <code>10</code>, which gives <code>16</code>. Line 13 prints the type of <code>twice</code>: <code>function</code>.</p>
+<h2>What you learned</h2>
+<ul>
+  <li>A function is a named recipe: define it once, call it with brackets.</li>
+  <li>A declaration is hoisted. An expression or an arrow function is not.</li>
+  <li>Parameters are names, arguments are values, and a default fills in what is <code>undefined</code>.</li>
+  <li>A rest parameter collects the extra arguments into an array.</li>
+  <li><code>return</code> hands a value back, and without it you get <code>undefined</code>.</li>
+  <li>Variables inside a function stay inside.</li>
+  <li>A function is a value, so you can pass one to another function as a callback.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>What is the difference between a function declaration and a function expression in JavaScript?</strong> A declaration (<code>function greet() {}</code>) has its own name and is hoisted, so you can call it before the line where you wrote it. An expression (<code>const shout = function () {}</code>) is stored in a variable and only works after that line runs.</p>
+<p><strong>What is an arrow function in JavaScript?</strong> A shorter way to write a function: <code>const double = (n) =&gt; n * 2</code>. With a single expression as the body, the result is returned for you without the word <code>return</code>.</p>
+<p><strong>What is the difference between parameters and arguments?</strong> Parameters are the names in the function definition. Arguments are the real values you pass when you call it.</p>
+<p><strong>Why does my JavaScript function return undefined?</strong> Almost always the function has no <code>return</code>, or it is an arrow function with curly braces and no <code>return</code>. <code>console.log</code> shows a value but does not return it.</p>
+<p><strong>When does a default parameter value apply?</strong> Only when the argument is <code>undefined</code>, meaning nothing was passed. <code>null</code> and <code>0</code> are real values, so the default is ignored.</p>
+<p><strong>What are rest parameters in JavaScript?</strong> Three dots before the last parameter, like <code>...nums</code>. Every extra argument is collected into a real array, which is empty when nothing is passed.</p>
+<p><strong>What is a callback function?</strong> A function you pass to another function so that it can run it, like the arrow passed to <code>twice</code>. Functions are values, so passing them around is normal in JavaScript.</p>
+<p>Next in the series: arrays.</p>
+    <p class="watch">This article goes with the video <strong>Functions</strong>. <a href="https://youtu.be/TWrc55jbbPA">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/javascript/beginner/loops/"><span>Previous</span>JavaScript loops: for, while, for...of, break and continue</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
