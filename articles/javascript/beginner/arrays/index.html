@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JavaScript arrays: index, push, pop, slice, splice and copy: Codesarray</title>
+<meta name="description" content="JavaScript arrays for beginners: index, length, push, pop, shift, unshift, splice, slice, copying with spread, includes, indexOf and destructuring.">
+<link rel="canonical" href="https://codesarray.com/articles/javascript/beginner/arrays/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="JavaScript arrays: index, push, pop, slice, splice and copy">
+<meta property="og:description" content="JavaScript arrays for beginners: index, length, push, pop, shift, unshift, splice, slice, copying with spread, includes, indexOf and destructuring.">
+<meta property="og:url" content="https://codesarray.com/articles/javascript/beginner/arrays/">
+<meta property="og:image" content="https://codesarray.com/articles/javascript/beginner/arrays/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-11-10">
+<meta property="article:section" content="JavaScript">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"JavaScript arrays: index, push, pop, slice, splice and copy","description":"How you keep many values in one ordered list: creating an array, reading items by index, length, push, pop, shift and unshift, splice and slice, why equals does not copy an array, includes and indexOf, destructuring, and why a const array can still change. Three short programs with their real output.","image":"https://codesarray.com/articles/javascript/beginner/arrays/cover.png","datePublished":"2026-11-10","dateModified":"2026-11-10","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/javascript/beginner/arrays/"},"proficiencyLevel":"Beginner","articleSection":"JavaScript","video":{"@type":"VideoObject","name":"Arrays","url":"https://youtu.be/LkqP8qiUe44","embedUrl":"https://youtu.be/LkqP8qiUe44","thumbnailUrl":"https://codesarray.com/articles/javascript/beginner/arrays/cover.png","uploadDate":"2026-11-10T00:00:00+05:30","description":"How you keep many values in one ordered list: creating an array, reading items by index, length, push, pop, shift and unshift, splice and slice, why equals does not copy an array, includes and indexOf, destructuring, and why a const array can still change. Three short programs with their real output."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"JavaScript","item":"https://codesarray.com/articles/javascript/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/javascript/beginner/"},{"@type":"ListItem","position":4,"name":"JavaScript arrays: index, push, pop, slice, splice and copy"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+<script async src="https://pagead2.googleapis.com/pagead/js/adsbygoogle.js?client=ca-pub-8821229152735728" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/javascript/">JavaScript</a></li><li><a href="/articles/javascript/beginner/">Beginner</a></li></ol></nav>
+    <p class="meta">Lesson 8, by Codesarray, <time datetime="2026-11-10">10 November 2026</time>, 11 min read</p>
+    <h1>JavaScript arrays: index, push, pop, slice, splice and copy</h1>
+    <p class="standfirst">How you keep many values in one ordered list: creating an array, reading items by index, length, push, pop, shift and unshift, splice and slice, why equals does not copy an array, includes and indexOf, destructuring, and why a const array can still change. Three short programs with their real output.</p>
+<p>This lesson is about JavaScript arrays: how you keep many values in one ordered list. By the end of this page you will make an array and read any item by its number, add and remove items at the back and at the front, cut out a piece with <code>slice</code> and edit the middle with <code>splice</code>, make a real copy and see why a plain equals sign does not, search with <code>includes</code> and <code>indexOf</code>, unpack values with destructuring, and know why a <code>const</code> array can still change.</p>
+<h2>Why arrays</h2>
+<p>Picture a row of lockers in a school hallway. Each locker has a number, they sit in order, and each one holds something. That is an array: one name, many values, in order.</p>
+<p>Say you want to keep the names of five friends. You could make five variables, but what if there are fifty, or you do not know how many yet? An array is one variable holding a whole list. You write it with square brackets, with the items inside, separated by commas. It can hold any kind of value, text, numbers, even other arrays, and the order is kept: the first item you put in is the first item you get out.</p>
+<h2>Creating an array</h2>
+<pre><code>const fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;];</code></pre>
+<p>That is three strings in a list. An empty pair of square brackets, <code>[]</code>, is an empty array, a good place to start when you are going to fill it up. Print an array with <code>console.log</code> and you see the whole list. <code>typeof fruits</code> says <code>&quot;object&quot;</code>, which is a bit odd, so when you need to ask whether something is really an array, use <code>Array.isArray(fruits)</code>. It gives <code>true</code> or <code>false</code>.</p>
+<h2>Index: reading and changing items</h2>
+<p>Every item has a number, called its index, and the count starts at zero. In <code>fruits</code>, <code>&quot;apple&quot;</code> is at index 0, <code>&quot;banana&quot;</code> is at 1, and <code>&quot;cherry&quot;</code> is at 2. To read an item, write the array name and the index in square brackets: <code>fruits[0]</code> is <code>&quot;apple&quot;</code>. To change an item, put that on the left of an equals sign: <code>fruits[1] = &quot;blueberry&quot;</code> replaces <code>&quot;banana&quot;</code>.</p>
+<p>Ask for a spot that does not exist, like <code>fruits[5]</code>, and there is no error. You just get <code>undefined</code>. That is JavaScript being relaxed again, so if you get <code>undefined</code>, check your index.</p>
+<h2>length and at(-1)</h2>
+<p>Every array knows how many items it has. It is called <code>length</code>, so <code>fruits.length</code> is <code>3</code>. There are no brackets after <code>length</code>, because it is a property, not a method. The last index is always <code>length - 1</code>, so the last item is <code>fruits[fruits.length - 1]</code>, which is <code>&quot;cherry&quot;</code>. There is a shorter way too: the <code>at</code> method accepts a negative number and counts from the end, so <code>fruits.at(-1)</code> is <code>&quot;cherry&quot;</code>. An empty array has a <code>length</code> of <code>0</code>.</p>
+<h2>push and pop at the back</h2>
+<p>Think of a train. You can hook a car on at the back, or take the last car off. <code>push</code> adds an item to the end and hands back the new length, so <code>fruits.push(&quot;date&quot;)</code> makes the list apple, banana, cherry, date and gives <code>4</code>. <code>pop</code> removes the last item and hands it back to you, so <code>const last = fruits.pop()</code> gives <code>&quot;date&quot;</code> and the array goes back to three items. <code>pop</code> on an empty array is safe: it just gives you <code>undefined</code>. These two are the workhorses, and they are quick because nothing else has to move.</p>
+<h2>unshift and shift at the front</h2>
+<p><code>unshift</code> adds an item to the start: <code>fruits.unshift(&quot;fig&quot;)</code> puts <code>&quot;fig&quot;</code> at index 0 and everything else slides one place along. <code>shift</code> removes the first item and hands it back, the mirror of <code>pop</code>. One honest warning: because every item has to slide along, <code>unshift</code> and <code>shift</code> get slower on a very long list. For a few items you will never notice. Remember it this way: <code>push</code> and <code>pop</code> work at the back, <code>unshift</code> and <code>shift</code> work at the front.</p>
+<h2>splice: edit the middle</h2>
+<p>Sometimes you want to edit the middle, like fixing a playlist. That is <code>splice</code>. It takes a start index, how many items to remove, and then anything you want to put in. Start with <code>[10, 20, 30, 40, 50]</code>. <code>nums.splice(1, 2)</code> starts at index 1 and removes two items, so 20 and 30 are gone and you are left with <code>[10, 40, 50]</code>. To insert without removing anything, say zero items to remove: <code>nums.splice(1, 0, 99, 98)</code> puts 99 and 98 in at index 1 and nothing is lost. <code>splice</code> changes the original array, and hands back the removed items in a new one.</p>
+<h2>slice: copy part of an array</h2>
+<p><code>slice</code> sounds the same but is very different. It cuts a copy and leaves the original alone, like photocopying a few pages out of a book. <code>nums.slice(1, 4)</code> gives the items from index 1 up to, but not including, index 4. Leave out the second number and you get everything from there to the end, <code>slice()</code> with no numbers makes a full copy, and a negative number counts from the end, so <code>slice(-2)</code> gives the last two. An easy way to remember it: <code>slice</code>, with an i, is a copy. <code>splice</code>, with a p, pokes the original.</p>
+<h2>Copying arrays: alias or spread</h2>
+<p>Now the surprise. <code>const alias = nums</code> is not a copy. An array is not copied when you assign it: both names point to the very same list, like handing someone your house key instead of building them a new house. So after <code>alias.push(7)</code>, <code>nums</code> has the 7 too. To get a real, separate copy, use the spread, three dots inside square brackets: <code>const copy = [...nums]</code>. Now <code>copy</code> is its own list. <code>slice()</code> with no numbers does the same job. (Both make a shallow copy: if the array holds other arrays, those inner arrays are still shared.)</p>
+<h2>includes and indexOf</h2>
+<p>Searching is like looking for a name on a guest list. <code>includes</code> asks whether something is in the list: <code>colors.includes(&quot;green&quot;)</code> is <code>true</code> and <code>colors.includes(&quot;pink&quot;)</code> is <code>false</code>. <code>indexOf</code> asks where it is: <code>colors.indexOf(&quot;blue&quot;)</code> is <code>2</code>, and if the item is not there you get <code>-1</code>. That <code>-1</code> is easy to mix up with a real index, so use <code>includes</code> when you only need a yes or no, and <code>indexOf</code> when you need the position. Both compare with triple equals, so the text has to match exactly.</p>
+<h2>Array destructuring</h2>
+<p>Say you have <code>[&quot;x&quot;, &quot;y&quot;, &quot;z&quot;, &quot;w&quot;]</code> and want the first two as separate variables. Write <code>const [a, b] = list</code>. That is destructuring: it unpacks the list into labelled shelves, by position, so <code>a</code> gets <code>&quot;x&quot;</code> and <code>b</code> gets <code>&quot;y&quot;</code>. Add <code>...others</code> at the end, as in <code>const [a, b, ...others] = list</code>, and <code>others</code> collects the rest into a new array, <code>[&quot;z&quot;, &quot;w&quot;]</code>. If the array is too short, the missing ones are <code>undefined</code>, but you can give a default, like <code>const [only = &quot;none&quot;] = []</code>, which gives <code>&quot;none&quot;</code>. And a neat trick: swap two variables with <code>[a, b] = [b, a]</code>.</p>
+<h2>Why a const array can still change</h2>
+<p><code>const</code> means the name always points to the same list. It does not freeze the list. So after <code>const pinned = [&quot;a&quot;]</code>, <code>pinned.push(&quot;b&quot;)</code> works fine and <code>pinned</code> is <code>[&quot;a&quot;, &quot;b&quot;]</code>. What <code>const</code> stops is pointing the name at a different list: <code>pinned = []</code> is a <code>TypeError</code>. It is the same idea as the alias: the name is the key, and the key never changes, but what is in the house can. Use <code>const</code> for arrays by default and you can still add and remove items.</p>
+<h2>Common mistakes</h2>
+<ol>
+  <li>Counting from one. The first item is at index 0, and the last is at <code>length - 1</code>.</li>
+  <li>Thinking equals makes a copy. Use <code>[...nums]</code> or <code>nums.slice()</code>.</li>
+  <li>Mixing up <code>slice</code> and <code>splice</code>. One copies, the other changes the original.</li>
+  <li>Using <code>indexOf</code> in an <code>if</code>. <code>-1</code> counts as true and <code>0</code> counts as false, so it breaks. Use <code>includes</code>.</li>
+  <li>Expecting an error for a missing index. You get <code>undefined</code>.</li>
+</ol>
+<h2>The code, line by line</h2>
+<p>The first program covers the basics:</p>
+<pre><code>const fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;];
+console.log(fruits[0]);
+console.log(fruits[fruits.length - 1]);
+console.log(fruits[5]);
+
+fruits.push(&quot;date&quot;);
+fruits.unshift(&quot;fig&quot;);
+console.log(fruits);
+
+const last = fruits.pop();
+const first = fruits.shift();
+console.log(last, first, fruits);</code></pre>
+<pre class="out"><code>apple
+cherry
+undefined
+[ &#x27;fig&#x27;, &#x27;apple&#x27;, &#x27;banana&#x27;, &#x27;cherry&#x27;, &#x27;date&#x27; ]
+date fig [ &#x27;apple&#x27;, &#x27;banana&#x27;, &#x27;cherry&#x27; ]</code></pre>
+<p>Line 3 reads the last item with <code>length - 1</code>, and line 4 asks for index 5 and prints <code>undefined</code>. Lines 6 and 7 add <code>&quot;date&quot;</code> at the back and <code>&quot;fig&quot;</code> at the front. Lines 10 and 11 take one off each end.</p>
+<p>The second program covers cutting and copying:</p>
+<pre><code>const nums = [10, 20, 30, 40, 50];
+const middle = nums.slice(1, 4);
+console.log(middle, nums);
+
+nums.splice(1, 2);
+console.log(nums);
+
+nums.splice(1, 0, 99, 98);
+console.log(nums);
+
+const alias = nums;
+const copy = [...nums];
+alias.push(7);
+console.log(nums.length, copy.length);</code></pre>
+<pre class="out"><code>[ 20, 30, 40 ] [ 10, 20, 30, 40, 50 ]
+[ 10, 40, 50 ]
+[ 10, 99, 98, 40, 50 ]
+6 5</code></pre>
+<p>The slice is a copy and <code>nums</code> is untouched. After the splice, <code>nums</code> shrinks, then the insert grows it again. The last line prints <code>6 5</code>: pushing through <code>alias</code> changed <code>nums</code>, but <code>copy</code> stayed at five.</p>
+<p>The third program covers searching and unpacking:</p>
+<pre><code>const colors = [&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;];
+console.log(colors.includes(&quot;green&quot;));
+console.log(colors.indexOf(&quot;blue&quot;));
+console.log(colors.indexOf(&quot;pink&quot;));
+
+const [a, b, ...others] = [&quot;x&quot;, &quot;y&quot;, &quot;z&quot;, &quot;w&quot;];
+console.log(a, b, others);
+
+const list = [];
+console.log(list[0], list.length);
+const [only = &quot;none&quot;] = list;
+console.log(only);
+
+const pinned = [&quot;a&quot;];
+pinned.push(&quot;b&quot;);
+console.log(pinned);</code></pre>
+<pre class="out"><code>true
+2
+-1
+x y [ &#x27;z&#x27;, &#x27;w&#x27; ]
+undefined 0
+none
+[ &#x27;a&#x27;, &#x27;b&#x27; ]</code></pre>
+<h2>What you learned</h2>
+<ul>
+  <li>An array is an ordered list in square brackets, and the index starts at 0.</li>
+  <li><code>length</code> is how many items there are, and the last item is at <code>length - 1</code>.</li>
+  <li><code>push</code> and <code>pop</code> work at the back, <code>unshift</code> and <code>shift</code> work at the front.</li>
+  <li><code>splice</code> edits the original array, and <code>slice</code> makes a copy.</li>
+  <li>Equals does not copy an array, the spread <code>[...nums]</code> does.</li>
+  <li><code>includes</code> says yes or no, and <code>indexOf</code> says where, or <code>-1</code>.</li>
+  <li>Destructuring unpacks a list into variables.</li>
+  <li><code>const</code> stops the name from changing, not the list.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>How do I check whether an array is empty?</strong> Check its length: <code>list.length === 0</code>. An empty array is still truthy in an <code>if</code>, so <code>if (list)</code> does not work for this.</p>
+<p><strong>How do I empty an array?</strong> Set <code>list.length = 0</code>, or point a <code>let</code> variable at a new <code>[]</code>. Setting the length to zero empties the same list, so every name that points at it sees the change.</p>
+<p>**Does <code>[...nums]</code> copy arrays inside arrays?** No. Spread and <code>slice</code> make a shallow copy. For <code>[[1], [2]]</code>, the outer list is new, but the inner lists are still shared, so pushing onto an inner one shows up in both.</p>
+<p>**Why does <code>indexOf</code> give <code>-1</code>?** It means the item was not found. Because <code>-1</code> is easy to mistake for a real position, use <code>includes</code> when you only need to know whether something is there.</p>
+<p><strong>Can an array hold different types?</strong> Yes. <code>[&quot;hi&quot;, 42, [1, 2]]</code> is a valid array with a string, a number and another array.</p>
+<p>Next in the series: array methods, where you loop over lists and turn them into new ones.</p>
+    <p class="watch">This article goes with the video <strong>Arrays</strong>. <a href="https://youtu.be/LkqP8qiUe44">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/javascript/beginner/functions/"><span>Previous</span>JavaScript functions: declaration, arrow, default, rest and return</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
