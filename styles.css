@@ -1087,9 +1087,16 @@ pre.out {
   color: var(--gold);
 }
 
-/* An AdSense unit. Empty until Google fills it, so it takes no room on its own. */
+/* An AdSense unit. Google's ad frame is a light document; on a dark page the browser would paint
+   a mismatched frame opaque white, so the unit says it is light and the frame stays transparent.
+   A unit Google could not fill is collapsed instead of leaving an empty block. */
 .ad {
   margin-block: clamp(32px, 5vw, 48px);
+  color-scheme: light;
+}
+
+.ad ins[data-ad-status="unfilled"] {
+  display: none !important;
 }
 
 /* The language switcher under the articles title: one pill per language. On /articles/ the
