@@ -66,8 +66,8 @@ SITE = "https://codesarray.com"
 # file places them and only once their slot ID (from the AdSense dashboard, Ads > By ad unit)
 # is filled in. Auto ads stay off so the pages keep their layout.
 AD_CLIENT = "ca-pub-8821229152735728"
-AD_SLOTS = {"article": "5403058585",    # after an article's body
-            "board": "5403058585"}      # between the languages on /articles/
+AD_SLOTS = {"article": "",    # after an article's body
+            "board": ""}      # between the languages on /articles/
 
 HEAD = """<!doctype html>
 <html lang="en">
@@ -136,6 +136,8 @@ FOOT = """</main>
       <a href="https://www.facebook.com/codesarray">Facebook</a>
     </nav>
     <nav class="footer-links" aria-label="Footer">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
       <a href="/">Home</a>
       <a href="/articles/">Articles</a>
       <a href="/privacy/">Privacy</a>
@@ -457,7 +459,7 @@ def build():
 
 
 # Pages that are not articles but belong in the sitemap. Add a page here when you add one.
-STATIC_PAGES = ["/", "/work/", "/articles/", "/privacy/", "/blockfall/", "/pawsandperils/", "/synapsy/",
+STATIC_PAGES = ["/", "/about/", "/contact/", "/work/", "/articles/", "/privacy/", "/blockfall/", "/pawsandperils/", "/synapsy/",
                 "/blockfall/privacy-policy.html", "/pawsandperils/privacy-policy.html", "/synapsy/privacy-policy.html"]
 
 

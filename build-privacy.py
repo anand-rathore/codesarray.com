@@ -134,6 +134,8 @@ FOOT = """  </article>
   <div class="container">
     <p>&copy; 2026 Codesarray</p>
     <nav class="footer-links" aria-label="Footer">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
       <a href="/">Home</a>
       <a href="/privacy/">Privacy</a>
 {store}
