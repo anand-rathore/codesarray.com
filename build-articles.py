@@ -94,7 +94,7 @@ HEAD = """<!doctype html>
 <link rel="stylesheet" href="/styles.css">
 <script>try{{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}}catch(e){{}}</script>
 <script src="/theme.js" defer></script>
-<script async src="https://pagead2.googleapis.com/pagead/js/adsbygoogle.js?client=ca-pub-8821229152735728" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8821229152735728" crossorigin="anonymous"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
