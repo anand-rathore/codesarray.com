@@ -66,8 +66,8 @@ SITE = "https://codesarray.com"
 # file places them and only once their slot ID (from the AdSense dashboard, Ads > By ad unit)
 # is filled in. Auto ads stay off so the pages keep their layout.
 AD_CLIENT = "ca-pub-8821229152735728"
-AD_SLOTS = {"article": "",    # after an article's body
-            "board": ""}      # between the languages on /articles/
+AD_SLOTS = {"article": "5403058585",    # after an article's body
+            "board": "5403058585"}      # between the languages on /articles/
 
 HEAD = """<!doctype html>
 <html lang="en">
