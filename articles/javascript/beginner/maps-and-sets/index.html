@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JavaScript Map and Set: keys, values, unique items and union: Codesarray</title>
+<meta name="description" content="JavaScript Map and Set for beginners: set, get, has, Map vs object, remove duplicates, union, intersection and difference, with real output.">
+<link rel="canonical" href="https://codesarray.com/articles/javascript/beginner/maps-and-sets/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="JavaScript Map and Set: keys, values, unique items and union">
+<meta property="og:description" content="JavaScript Map and Set for beginners: set, get, has, Map vs object, remove duplicates, union, intersection and difference, with real output.">
+<meta property="og:url" content="https://codesarray.com/articles/javascript/beginner/maps-and-sets/">
+<meta property="og:image" content="https://codesarray.com/articles/javascript/beginner/maps-and-sets/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-11-16">
+<meta property="article:section" content="JavaScript">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"JavaScript Map and Set: keys, values, unique items and union","description":"How you store key and value pairs in a Map and unique values in a Set: set, get, has, delete, looping in order, Map or object, removing duplicates, union, intersection and difference, and counting words. Three short programs with their real output.","image":"https://codesarray.com/articles/javascript/beginner/maps-and-sets/cover.png","datePublished":"2026-11-16","dateModified":"2026-11-16","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/javascript/beginner/maps-and-sets/"},"proficiencyLevel":"Beginner","articleSection":"JavaScript","video":{"@type":"VideoObject","name":"Maps and Sets","url":"https://youtu.be/FwFUIfE0VMo","embedUrl":"https://youtu.be/FwFUIfE0VMo","thumbnailUrl":"https://codesarray.com/articles/javascript/beginner/maps-and-sets/cover.png","uploadDate":"2026-11-16T00:00:00+05:30","description":"How you store key and value pairs in a Map and unique values in a Set: set, get, has, delete, looping in order, Map or object, removing duplicates, union, intersection and difference, and counting words. Three short programs with their real output."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"JavaScript","item":"https://codesarray.com/articles/javascript/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/javascript/beginner/"},{"@type":"ListItem","position":4,"name":"JavaScript Map and Set: keys, values, unique items and union"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8821229152735728" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/javascript/">JavaScript</a></li><li><a href="/articles/javascript/beginner/">Beginner</a></li></ol></nav>
+    <p class="meta">Lesson 11, by Codesarray, <time datetime="2026-11-16">16 November 2026</time>, 8 min read</p>
+    <h1>JavaScript Map and Set: keys, values, unique items and union</h1>
+    <p class="standfirst">How you store key and value pairs in a Map and unique values in a Set: set, get, has, delete, looping in order, Map or object, removing duplicates, union, intersection and difference, and counting words. Three short programs with their real output.</p>
+<p>This lesson is about the JavaScript Map and Set: two built-in collections for jobs a plain object or array does badly. By the end of this page you will store key and value pairs in a Map and read, check and delete them, know when a Map is a better choice than an object, remove duplicates with a Set, check membership quickly, loop over both in the order you added things, and combine two sets with <code>union</code>, <code>intersection</code> and <code>difference</code>.</p>
+<h2>Why Map and Set</h2>
+<p>Objects are great for one thing with known names, like a user. But the keys of an object are always text, so a number you put in quietly becomes a string. An object also comes with some keys of its own, and it has no simple way to tell you how many things it holds. And asking an array "is this in here?" with <code>includes</code> means looking at the items one by one. A Map is for key and value pairs. A Set is for a collection of unique values. Both remember the order you added things in.</p>
+<h2>Map: set, get, has, delete and size</h2>
+<p>Picture a coat check. You hand over a coat and get a ticket, and the ticket gets the same coat back. A Map works the same way: <code>set</code> puts a value in under a key, <code>get</code> reads it back, <code>has</code> asks if a key is there, <code>delete</code> removes one, and <code>size</code> says how many pairs are inside. Note that <code>size</code> is a property, so it has no brackets. A key that is not there gives <code>undefined</code>, just like an object.</p>
+<h2>Map keys can be anything</h2>
+<p>A Map key can be a number, an object, even a function, and it stays exactly what you gave it. In the last two lines of the first program, the number <code>1</code> finds <code>&quot;one&quot;</code>, but the text <code>&quot;1&quot;</code> finds nothing, because they are two different keys. In a plain object both would be the same key, since every object key becomes text. A Map also has no hidden keys of its own, so it is safe for names you do not control, like words typed by users.</p>
+<h2>Loop over a Map</h2>
+<p>You can loop straight over a Map with <code>for...of</code>. Each time round you get a pair, a small array with the key first and the value second, so you destructure it right in the loop. No <code>Object.entries</code> is needed. The order is the order you added things in: apples first, then plums, since pears was deleted. A Map also has <code>keys()</code>, <code>values()</code> and <code>entries()</code> built in.</p>
+<pre><code>const stock = new Map();
+stock.set(&quot;apples&quot;, 4);
+stock.set(&quot;pears&quot;, 0);
+stock.set(&quot;plums&quot;, 7);
+console.log(stock.get(&quot;apples&quot;));
+console.log(stock.has(&quot;kiwi&quot;));
+console.log(stock.size);
+stock.delete(&quot;pears&quot;);
+for (const [fruit, count] of stock) {
+  console.log(`${fruit}: ${count}`);
+}
+const ids = new Map([[1, &quot;one&quot;], [2, &quot;two&quot;]]);
+console.log(ids.get(1), ids.get(&quot;1&quot;));</code></pre>
+<pre class="out"><code>4
+false
+3
+apples: 4
+plums: 7
+one undefined</code></pre>
+<p>Lines 2 to 4 put in three fruits. Line 5 reads the apples and line 6 asks about a kiwi. Line 7 prints the size, which is <code>3</code> because the delete in line 8 has not run yet. Lines 9 to 11 loop over what is left, so only apples and plums print. Line 12 makes a Map from pairs, and line 13 reads key <code>1</code> and then the text <code>&quot;1&quot;</code>.</p>
+<h2>Map or plain object</h2>
+<p>Use a plain object when you describe one thing with a fixed set of names that you know when you write the code, like a user with a name, an age and a city. Use a Map when it is a lookup table: keys you add and remove while the program runs, keys that are not always text, or when you need the size quickly. Counting words, caching results and linking an id to a record are Map jobs. One thing to remember: a Map does not turn into JSON by itself. <code>JSON.stringify</code> of a Map gives <code>{}</code>, so turn it into an array of entries first, with <code>[...map]</code>.</p>
+<h2>Set: remove duplicates</h2>
+<p>A Set is a collection where every value can appear only once. Give <code>new Set</code> an array and it takes in every item, ignoring the repeats, like a guest who signs in twice but is only counted once. A list of tags <code>js</code>, <code>node</code>, <code>js</code>, <code>css</code>, <code>node</code> becomes just three. To get a normal array back, spread the Set: <code>[...unique]</code>. That is the shortest way in JavaScript to remove duplicates from an array.</p>
+<h2>Set: add, has and delete</h2>
+<p><code>add</code> puts a value in, and adding something that is already there changes nothing. <code>has</code> asks if a value is there, and <code>delete</code> removes one. A Set finds a value almost instantly however big it is, while an array with <code>includes</code> has to look at the items one by one. For ten items you will never notice, and for a hundred thousand you will.</p>
+<h2>Union, intersection and difference</h2>
+<p>These three arrived in ES2025, and Node 24 has them. Think of two guest lists side by side. <code>a.union(b)</code> gives everyone on either list, <code>a.intersection(b)</code> gives only the people on both, and <code>a.difference(b)</code> gives the people on <code>a</code> who are not on <code>b</code>. Each one returns a brand new Set and leaves <code>a</code> and <code>b</code> as they were.</p>
+<pre><code>const tags = [&quot;js&quot;, &quot;node&quot;, &quot;js&quot;, &quot;css&quot;, &quot;node&quot;];
+const unique = new Set(tags);
+console.log(unique);
+console.log([...unique]);
+unique.add(&quot;html&quot;);
+unique.add(&quot;js&quot;);
+console.log(unique.size);
+console.log(unique.has(&quot;css&quot;));
+unique.delete(&quot;css&quot;);
+
+const a = new Set([1, 2, 3]);
+const b = new Set([3, 4]);
+console.log(a.union(b));
+console.log(a.intersection(b));
+console.log(a.difference(b));</code></pre>
+<pre class="out"><code>Set(3) { &#x27;js&#x27;, &#x27;node&#x27;, &#x27;css&#x27; }
+[ &#x27;js&#x27;, &#x27;node&#x27;, &#x27;css&#x27; ]
+4
+true
+Set(4) { 1, 2, 3, 4 }
+Set(1) { 3 }
+Set(2) { 1, 2 }</code></pre>
+<p>Line 2 makes a Set from the repeated list. Line 4 spreads it into an array. Lines 5 and 6 add <code>&quot;html&quot;</code> and a second <code>&quot;js&quot;</code>, so the size in line 7 is <code>4</code>, not <code>5</code>. Line 8 asks about <code>&quot;css&quot;</code> and line 9 deletes it. Lines 13 to 15 print the three combinations.</p>
+<h2>getOrInsert, coming in ES2026</h2>
+<p>Counting needs the same three steps every time: get the value, check if it is there, and set a starting value if not. The ES2026 method <code>getOrInsert</code> does that in one step: <code>stock.getOrInsert(key, 0)</code> gives you the value if the key is there, or puts in <code>0</code> and gives you <code>0</code>. It is not in Node 24 yet, so it is not in the programs here. Until it ships everywhere, the pattern <code>counts.get(word) ?? 0</code> works the same way.</p>
+<h2>Count words and spot repeats</h2>
+<p>The third program counts how often each word appears with a Map, then uses a Set to find the repeats. In the loop, <code>counts.get(word) ?? 0</code> gives the current count or zero for a new word, and adding one and setting it back keeps the tally. For the repeats, a word that is already in <code>seen</code> goes into <code>dupes</code>, and then it is added to <code>seen</code>. The first <code>&quot;ant&quot;</code> is not listed as a repeat because at that point it was new.</p>
+<pre><code>const words = [&quot;ant&quot;, &quot;bee&quot;, &quot;ant&quot;, &quot;cat&quot;, &quot;bee&quot;, &quot;ant&quot;];
+const counts = new Map();
+for (const word of words) {
+  counts.set(word, (counts.get(word) ?? 0) + 1);
+}
+console.log(counts);
+console.log([...counts.keys()]);
+console.log([...counts.values()]);
+console.log([...counts.entries()]);
+
+const seen = new Set();
+const dupes = [];
+for (const word of words) {
+  if (seen.has(word)) dupes.push(word);
+  seen.add(word);
+}
+console.log(dupes);</code></pre>
+<pre class="out"><code>Map(3) { &#x27;ant&#x27; =&gt; 3, &#x27;bee&#x27; =&gt; 2, &#x27;cat&#x27; =&gt; 1 }
+[ &#x27;ant&#x27;, &#x27;bee&#x27;, &#x27;cat&#x27; ]
+[ 3, 2, 1 ]
+[ [ &#x27;ant&#x27;, 3 ], [ &#x27;bee&#x27;, 2 ], [ &#x27;cat&#x27;, 1 ] ]
+[ &#x27;ant&#x27;, &#x27;bee&#x27;, &#x27;ant&#x27; ]</code></pre>
+<h2>Mistakes to avoid</h2>
+<ul>
+  <li>Using square brackets on a Map. <code>stock[&quot;apples&quot;] = 4</code> does not use the Map at all, it adds a plain property to the object. Always use <code>set</code> and <code>get</code>.</li>
+  <li>Writing <code>stock.size()</code> or <code>stock.length</code>. A Map and a Set have <code>size</code>, with no brackets, and no <code>length</code>.</li>
+  <li>Expecting two equal objects to match. A Set holds two objects with the same contents as two separate items, because each is a different object.</li>
+  <li>Expecting a Set to have positions. There is no "set at zero". Spread it into an array first.</li>
+  <li>Printing a Map with <code>JSON.stringify</code> and getting <code>{}</code>. Turn it into an array of entries first.</li>
+</ul>
+<h2>What you learned</h2>
+<ul>
+  <li>A Map holds key and value pairs, and its keys can be any type.</li>
+  <li>Use <code>set</code>, <code>get</code>, <code>has</code>, <code>delete</code> and <code>size</code>, and loop with <code>for...of</code> in the order things were added.</li>
+  <li>Pick a Map for lookups that change, and an object for one thing with known names.</li>
+  <li>A Set holds each value once, and <code>[...new Set(list)]</code> removes duplicates.</li>
+  <li><code>union</code>, <code>intersection</code> and <code>difference</code> combine sets and return a new Set.</li>
+  <li><code>getOrInsert</code> is coming in ES2026, and <code>?? 0</code> does the same job today.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>Should I use a Map or a plain object?</strong> Use an object for one thing with a fixed set of names, like a user. Use a Map for a lookup table where keys come and go, are not always text, or where you need <code>size</code> straight away.</p>
+<p><strong>Does a Set keep the order I added things in?</strong> Yes. A Set and a Map both remember insertion order, and looping over them gives that order.</p>
+<p><strong>How do I save a Map as JSON?</strong> <code>JSON.stringify</code> of a Map gives <code>{}</code>. Turn it into an array of pairs with <code>[...map]</code>, or into a plain object with <code>Object.fromEntries(map)</code>, and stringify that.</p>
+<p><strong>Why does a Set keep two objects that look the same?</strong> A Set compares objects by identity, not by contents, so <code>{ id: 1 }</code> twice are two different objects and the size is <code>2</code>. Numbers and strings compare by value, and <code>NaN</code> counts as equal to itself, so <code>new Set([NaN, NaN])</code> has size <code>1</code>.</p>
+<p>**Are <code>1</code> and <code>&quot;1&quot;</code> the same key?** Not in a Map or a Set. They are different values, so <code>new Set([1, &quot;1&quot;, 1])</code> keeps <code>1</code> and <code>&quot;1&quot;</code>. In a plain object they would be the same key, because every object key becomes text.</p>
+<p>Next lesson: errors, what happens when something goes wrong and how to handle it.</p>
+    <p class="watch">This article goes with the video <strong>Maps and Sets</strong>. <a href="https://youtu.be/FwFUIfE0VMo">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/javascript/beginner/objects/"><span>Previous</span>JavaScript objects: keys, methods, spread and more</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
