@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JavaScript files and JSON in Node: read, write and parse: Codesarray</title>
+<meta name="description" content="JavaScript files and JSON in Node: process.argv, readFileSync, writeFileSync, JSON.stringify and JSON.parse, what JSON drops, and a notes tool, with real output.">
+<link rel="canonical" href="https://codesarray.com/articles/javascript/beginner/files-and-json/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="JavaScript files and JSON in Node: read, write and parse">
+<meta property="og:description" content="JavaScript files and JSON in Node: process.argv, readFileSync, writeFileSync, JSON.stringify and JSON.parse, what JSON drops, and a notes tool, with real output.">
+<meta property="og:url" content="https://codesarray.com/articles/javascript/beginner/files-and-json/">
+<meta property="og:image" content="https://codesarray.com/articles/javascript/beginner/files-and-json/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-11-20">
+<meta property="article:section" content="JavaScript">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"JavaScript files and JSON in Node: read, write and parse","description":"How a program remembers after it ends: pass words in with process.argv, read and write files with readFileSync and writeFileSync, turn objects into text with JSON.stringify and JSON.parse, see what JSON quietly drops, and build a notes tool that saves to a file. Four short programs with their real output.","image":"https://codesarray.com/articles/javascript/beginner/files-and-json/cover.png","datePublished":"2026-11-20","dateModified":"2026-11-20","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/javascript/beginner/files-and-json/"},"proficiencyLevel":"Beginner","articleSection":"JavaScript","video":{"@type":"VideoObject","name":"Files and JSON","url":"https://youtu.be/9Llr0WvUSs8","embedUrl":"https://youtu.be/9Llr0WvUSs8","thumbnailUrl":"https://codesarray.com/articles/javascript/beginner/files-and-json/cover.png","uploadDate":"2026-11-20T00:00:00+05:30","description":"How a program remembers after it ends: pass words in with process.argv, read and write files with readFileSync and writeFileSync, turn objects into text with JSON.stringify and JSON.parse, see what JSON quietly drops, and build a notes tool that saves to a file. Four short programs with their real output."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"JavaScript","item":"https://codesarray.com/articles/javascript/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/javascript/beginner/"},{"@type":"ListItem","position":4,"name":"JavaScript files and JSON in Node: read, write and parse"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8821229152735728" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/javascript/">JavaScript</a></li><li><a href="/articles/javascript/beginner/">Beginner</a></li></ol></nav>
+    <p class="meta">Lesson 13, by Codesarray, <time datetime="2026-11-20">20 November 2026</time>, 9 min read</p>
+    <h1>JavaScript files and JSON in Node: read, write and parse</h1>
+    <p class="standfirst">How a program remembers after it ends: pass words in with process.argv, read and write files with readFileSync and writeFileSync, turn objects into text with JSON.stringify and JSON.parse, see what JSON quietly drops, and build a notes tool that saves to a file. Four short programs with their real output.</p>
+<p>This lesson is about JavaScript files and JSON in Node: how a program keeps what it learned after it ends. By the end of this page you will pass words into a script with <code>process.argv</code>, read and write real files with <code>readFileSync</code> and <code>writeFileSync</code>, turn whole objects into text with <code>JSON.stringify</code> and back with <code>JSON.parse</code>, know exactly what JSON quietly drops, and build a small notes tool that remembers your notes for good.</p>
+<h2>Why a program forgets</h2>
+<p>While your program runs, its variables live in memory. Memory is a whiteboard: fast and easy to change, and wiped clean the moment the program ends. Run the program again and the whiteboard is blank. A file is a notebook on the shelf. Writing in it is slower, but close the notebook, come back next year, and your words are still there, because a file lives on the disk. Every program that remembers follows the same plan. When it starts, it reads the notebook into memory. While it runs, it works on the whiteboard. Before it ends, it writes the whiteboard back into the notebook.</p>
+<h2>process.argv: pass words into a script</h2>
+<p>You already run a script with <code>node file.js</code>. You can keep typing after the file name: <code>node notes.js add buy milk</code>. Those extra words are arguments, like the destination you tell a taxi driver as you get in: the taxi is the same every time, and the destination changes the trip. Your script finds them in <code>process.argv</code>, an array of strings. Position 0 is the path to Node itself, position 1 is the path to your script, and your own words start at index 2. That trips everyone up once: it is <code>process.argv[2]</code>, not <code>process.argv[0]</code>.</p>
+<pre><code>console.log(process.argv[0]);
+console.log(process.argv[1]);
+console.log(process.argv[2]);
+
+const name = process.argv[2] ?? &quot;world&quot;;
+console.log(&quot;hello, &quot; + name);</code></pre>
+<p>Run as <code>node snippet.js</code>, the last two lines print <code>undefined</code> and <code>hello, world</code>. Run as <code>node snippet.js Ada</code>:</p>
+<pre class="out"><code>C:\Program Files\nodejs\node.exe
+C:\path\to\snippet.js
+Ada
+hello, Ada</code></pre>
+<p>The first two lines are paths on your own machine, so they will look different. The third is <code>Ada</code>, sitting at index 2. With no word typed, <code>process.argv[2]</code> is <code>undefined</code>, and the nullish operator <code>??</code> falls back to <code>&quot;world&quot;</code>.</p>
+<h2>Read and write files with node:fs</h2>
+<p>Everything you need ships with Node, in the <code>node:fs</code> module. <code>writeFileSync(file, text)</code> takes the file name and the text to put in it. If the file does not exist, Node creates it. If it does exist, the old content is replaced, all of it: it does not add to the end, it rips the page out and writes a fresh one. <code>readFileSync(file, &quot;utf8&quot;)</code> is the mirror. The <code>&quot;utf8&quot;</code> matters: a file on disk is really just bytes, and utf8 is the translator that turns them back into letters. Forget it and you get a <code>Buffer</code>, raw bytes. With it you get an ordinary string. To add a line to a file, read the old text, glue the new line on, and write the whole thing back.</p>
+<pre><code>import { readFileSync, writeFileSync } from &quot;node:fs&quot;;
+
+writeFileSync(&quot;todo.txt&quot;, &quot;buy milk\ncall mum\n&quot;);
+
+const text = readFileSync(&quot;todo.txt&quot;, &quot;utf8&quot;);
+console.log(text);
+console.log(typeof text, text.length);
+
+const bigger = text + &quot;water plants\n&quot;;
+writeFileSync(&quot;todo.txt&quot;, bigger);
+console.log(readFileSync(&quot;todo.txt&quot;, &quot;utf8&quot;));</code></pre>
+<pre class="out"><code>buy milk
+call mum
+
+string 18
+buy milk
+call mum
+water plants
+</code></pre>
+<p>The file comes back exactly as it was written. <code>typeof text</code> is <code>&quot;string&quot;</code> and its length is 18 characters, counting the two new lines. After the glue and the second write, all three lines are there. The blank lines in the output are the final <code>\n</code> of each text plus the newline <code>console.log</code> adds.</p>
+<h2>JSON: save whole objects as text</h2>
+<p>Real data is not text, it is objects and arrays: a player with a name and a score. You cannot hand an object to <code>writeFileSync</code>, which wants a string. JSON, short for JavaScript Object Notation, is a way to write a whole object as one piece of text. <code>JSON.stringify</code> packs your object into a string, like packing a box for a move. <code>JSON.parse</code> unpacks the box and rebuilds the object, keys, values and nesting. Stringify to save, parse to load. Two extra arguments, <code>null</code> and <code>2</code>, pretty print the text with line breaks and indents so a person can read the file too.</p>
+<h2>What JSON drops</h2>
+<p>The box has rules. JSON can hold exactly six kinds of thing: objects, arrays, strings, numbers, booleans and <code>null</code>. A function cannot be written as text, so <code>stringify</code> drops it, silently. A value of <code>undefined</code> is dropped too: the whole key disappears from the string, with no error and no warning. A <code>Date</code> is turned into a plain string on the way out, and <code>parse</code> does not turn it back. A <code>Map</code> or a <code>Set</code> comes out as empty braces. Keep your saved data to those six and the round trip is perfect.</p>
+<pre><code>const player = {
+  name: &quot;Ada&quot;,
+  score: 120,
+  level: undefined,
+  greet() { return &quot;hi&quot;; },
+};
+
+const text = JSON.stringify(player, null, 2);
+console.log(text);
+
+const back = JSON.parse(text);
+console.log(back.name, back.score);
+console.log(&quot;level&quot; in back, &quot;greet&quot; in back);</code></pre>
+<pre class="out"><code>{
+  &quot;name&quot;: &quot;Ada&quot;,
+  &quot;score&quot;: 120
+}
+Ada 120
+false false</code></pre>
+<p><code>name</code> and <code>score</code> made it. <code>level</code> and <code>greet</code> are gone, with no error anywhere. The two questions at the end both come back <code>false</code>: the keys did not return empty, they were never packed at all.</p>
+<h2>A notes tool: load, change, save</h2>
+<p>Every tool that saves data has the same shape, like a coin jar: take the jar down, drop a coin in, put the jar back. Load the file into an array, change the array, write the array back. The one wrinkle is the very first run, when there is no file yet and <code>readFileSync</code> throws. From the last lesson you know the answer: catch that error and start with an empty array.</p>
+<pre><code>import { readFileSync, writeFileSync } from &quot;node:fs&quot;;
+
+function load() {
+  try {
+    return JSON.parse(readFileSync(&quot;notes.json&quot;, &quot;utf8&quot;));
+  } catch {
+    return [];
+  }
+}
+
+const notes = load();
+const command = process.argv[2];
+
+if (command === &quot;add&quot;) {
+  const text = process.argv.slice(3).join(&quot; &quot;);
+  if (text === &quot;&quot;) {
+    console.log(&quot;nothing to add&quot;);
+  } else {
+    notes.push(text);
+    writeFileSync(&quot;notes.json&quot;, JSON.stringify(notes, null, 2));
+    console.log(&quot;added:&quot;, text);
+  }
+} else if (command === &quot;list&quot;) {
+  if (notes.length === 0) {
+    console.log(&quot;no notes yet&quot;);
+  }
+  notes.forEach((note, i) =&gt; console.log(i + 1 + &quot;. &quot; + note));
+} else {
+  console.log(&quot;usage: node notes.js add some text, or list&quot;);
+}</code></pre>
+<p><code>load()</code> reads <code>notes.json</code> and parses it in one move; if anything goes wrong, no file yet or broken JSON, the <code>catch</code> hands back an empty array, a fresh jar. <code>process.argv.slice(3).join(&quot; &quot;)</code> collects every word from index 3 on into one note, and the empty-text check guards the case where no words were typed. Here are four separate runs in a fresh folder, saved as <code>snippet_4.js</code>:</p>
+<pre class="out"><code>&gt; node snippet_4.js list
+no notes yet
+&gt; node snippet_4.js add buy milk
+added: buy milk
+&gt; node snippet_4.js add call mum
+added: call mum
+&gt; node snippet_4.js list
+1. buy milk
+2. call mum</code></pre>
+<p>Each run started from nothing, loaded the file, and the notes were just there. Open <code>notes.json</code> and you can read it yourself, a tidy JSON array:</p>
+<pre class="out"><code>[
+  &quot;buy milk&quot;,
+  &quot;call mum&quot;
+]</code></pre>
+<h2>Mistakes to avoid</h2>
+<ul>
+  <li>Forgetting <code>&quot;utf8&quot;</code> on <code>readFileSync</code>. You will know it when <code>console.log</code> shows the word <code>Buffer</code> and a row of numbers. Add the encoding and you get a string.</li>
+  <li>Trusting <code>writeFileSync</code> to add to the end. It replaces the whole file, every time. Read, change, write back.</li>
+  <li>Feeding <code>JSON.parse</code> something that is not JSON, like an empty or half-saved file. It throws a <code>SyntaxError</code>, so wrap any parse of a file in <code>try</code> and <code>catch</code>, like the notes tool does.</li>
+  <li>Expecting <code>undefined</code> or a function to survive <code>JSON.stringify</code>. They will not, and you will not be told.</li>
+  <li>Building file text by hand with plus signs when the data is really an object. Do not invent your own format: JSON is right there.</li>
+</ul>
+<h2>What you learned</h2>
+<ul>
+  <li>Memory is wiped when the program ends; a file on disk is not, so a program that remembers loads at the start and saves at the end.</li>
+  <li><code>process.argv</code> is an array of strings: index 0 is Node, index 1 is your script, and your own words start at index 2.</li>
+  <li><code>readFileSync(file, &quot;utf8&quot;)</code> turns a file into a string, and <code>writeFileSync(file, text)</code> turns a string into a file, replacing what was there.</li>
+  <li><code>JSON.stringify</code> packs an object into text, <code>JSON.stringify(x, null, 2)</code> makes it readable, and <code>JSON.parse</code> rebuilds the object.</li>
+  <li>JSON keeps objects, arrays, strings, numbers, booleans and <code>null</code>, and silently drops functions and <code>undefined</code>.</li>
+  <li>Load, change, save is the shape of every tool that remembers.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>What is the difference between readFileSync and readFile?</strong> <code>readFileSync</code> stops the whole program until the file has been read, which is simple and fine for small scripts. The asynchronous versions let the program do other work while it waits; they come later in the track.</p>
+<p><strong>Why does readFileSync return a Buffer?</strong> Without an encoding, Node gives you the raw bytes. Pass <code>&quot;utf8&quot;</code> as the second argument to get a normal string.</p>
+<p><strong>How do I append to a file instead of replacing it?</strong> With <code>writeFileSync</code> you read the old text, add your new text to it, and write it all back, as in the todo program above. Node also has <code>appendFileSync</code> for exactly that job.</p>
+<p><strong>Why does JSON.stringify leave out my keys?</strong> JSON has no way to write a function or <code>undefined</code>, so keys holding them are dropped without an error. A <code>Date</code> becomes a string, and a <code>Map</code> or <code>Set</code> becomes <code>{}</code>.</p>
+<p><strong>What does JSON.stringify(obj, null, 2) mean?</strong> The <code>null</code> means keep every key, and the <code>2</code> means indent with two spaces, so the saved file is easy for a person to read.</p>
+<p>Next lesson: the beginner capstone, a complete task tracker built from everything in this track.</p>
+    <p class="watch">This article goes with the video <strong>Files and JSON</strong>. <a href="https://youtu.be/9Llr0WvUSs8">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/javascript/beginner/errors/"><span>Previous</span>JavaScript error handling: throw, try/catch and custom errors</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
