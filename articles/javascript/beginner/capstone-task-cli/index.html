@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JavaScript project for beginners: build a task tracker CLI: Codesarray</title>
+<meta name="description" content="JavaScript project for beginners: build a task tracker CLI with Node using arrays, objects, JSON files, process.argv and try/catch, with real output.">
+<link rel="canonical" href="https://codesarray.com/articles/javascript/beginner/capstone-task-cli/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="JavaScript project for beginners: build a task tracker CLI">
+<meta property="og:description" content="JavaScript project for beginners: build a task tracker CLI with Node using arrays, objects, JSON files, process.argv and try/catch, with real output.">
+<meta property="og:url" content="https://codesarray.com/articles/javascript/beginner/capstone-task-cli/">
+<meta property="og:image" content="https://codesarray.com/articles/javascript/beginner/capstone-task-cli/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-11-21">
+<meta property="article:section" content="JavaScript">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"JavaScript project for beginners: build a task tracker CLI","description":"Build a complete task tracker for the command line in plain Node, using only arrays, objects, functions, JSON files and try/catch. Add tasks, mark them done, list them, keep them between runs, and report every mistake with a clear message. Two programs with their real output.","image":"https://codesarray.com/articles/javascript/beginner/capstone-task-cli/cover.png","datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/javascript/beginner/capstone-task-cli/"},"proficiencyLevel":"Beginner","articleSection":"JavaScript","video":{"@type":"VideoObject","name":"Task tracker CLI","url":"https://youtu.be/ODXE8kA-VB4","embedUrl":"https://youtu.be/ODXE8kA-VB4","thumbnailUrl":"https://codesarray.com/articles/javascript/beginner/capstone-task-cli/cover.png","uploadDate":"2026-11-21T00:00:00+05:30","description":"Build a complete task tracker for the command line in plain Node, using only arrays, objects, functions, JSON files and try/catch. Add tasks, mark them done, list them, keep them between runs, and report every mistake with a clear message. Two programs with their real output."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"JavaScript","item":"https://codesarray.com/articles/javascript/"},{"@type":"ListItem","position":3,"name":"Beginner","item":"https://codesarray.com/articles/javascript/beginner/"},{"@type":"ListItem","position":4,"name":"JavaScript project for beginners: build a task tracker CLI"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8821229152735728" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/javascript/">JavaScript</a></li><li><a href="/articles/javascript/beginner/">Beginner</a></li></ol></nav>
+    <p class="meta">Lesson 14, by Codesarray, <time datetime="2026-11-21">21 November 2026</time>, 9 min read</p>
+    <h1>JavaScript project for beginners: build a task tracker CLI</h1>
+    <p class="standfirst">Build a complete task tracker for the command line in plain Node, using only arrays, objects, functions, JSON files and try/catch. Add tasks, mark them done, list them, keep them between runs, and report every mistake with a clear message. Two programs with their real output.</p>
+<p>This lesson is a JavaScript project for beginners: a task tracker for the command line, built with Node from nothing. By the end of this page you will have a tool you can run as <code>node tasks.js add buy milk</code>, <code>node tasks.js done 1</code> and <code>node tasks.js list</code>, that keeps your tasks in a file between runs and answers every mistake with a clear message instead of a crash. You already know every piece: arrays, objects, functions, <code>process.argv</code>, JSON files, and <code>try</code> and <code>catch</code>.</p>
+<h2>What we are building</h2>
+<p>Think of the to-do list stuck on your fridge. You write a task on it, you tick a task off, and you read the list. That is the whole app: three commands. <code>add</code> with some words writes a new task, <code>done</code> with a number ticks that task off, and <code>list</code> shows everything. Before writing any code, decide what a task looks like.</p>
+<h2>The shape of the data</h2>
+<p>A task needs three facts: a number so you can point at it, a title, and whether it is done. Three facts with names is an object, for example <code>{ id: 1, title: &quot;buy milk&quot;, done: false }</code>. A list of tasks is an array of those objects. Save that array with <code>JSON.stringify</code> and it lands in a file called <code>tasks.json</code>; load it back with <code>JSON.parse</code> and the array is there again. That design took thirty seconds and it is already done.</p>
+<h2>The shape of the program</h2>
+<p>You have seen this one before: the coin jar. Take the jar down, drop a coin in, put it back. Load the file into an array, change the array, save the array back. This app talks to you, so there is one more step: show the list. Every command runs the same four steps, load, change, save, show, and only the change differs. <code>add</code> pushes a new object, <code>done</code> flips a done flag, and <code>list</code> changes nothing at all.</p>
+<h2>Stage one: a tracker that rolls</h2>
+<p>Build it like a bike: make it roll first, add the brakes after. Stage one can add and list.</p>
+<pre><code>import { readFileSync, writeFileSync } from &quot;node:fs&quot;;
+
+function load() {
+  try {
+    return JSON.parse(readFileSync(&quot;tasks.json&quot;, &quot;utf8&quot;));
+  } catch {
+    return [];
+  }
+}
+
+const tasks = load();
+const [command, ...words] = process.argv.slice(2);
+
+if (command === &quot;add&quot;) {
+  const id = Math.max(0, ...tasks.map((t) =&gt; t.id)) + 1;
+  tasks.push({ id, title: words.join(&quot; &quot;), done: false });
+  writeFileSync(&quot;tasks.json&quot;, JSON.stringify(tasks, null, 2));
+}
+
+for (const t of tasks) {
+  console.log(`${t.done ? &quot;[x]&quot; : &quot;[ ]&quot;} ${t.id}. ${t.title}`);
+}</code></pre>
+<p>Lines 3 to 9 are <code>load</code>. It tries to read <code>tasks.json</code> and parse it; if that fails because there is no file yet, the <code>catch</code> hands back an empty array, a fresh list. Line 12 splits <code>process.argv</code>: <code>slice(2)</code> skips the Node path and the script path, the first word left is the command, and the rest syntax collects every other word into <code>words</code>. Line 15 makes the new id: <code>map</code> pulls out every id and <code>Math.max</code> finds the biggest, and the zero up front is for the empty list, so the first task gets id 1. Line 16 pushes a new object with the title built by joining the words and <code>done</code> set to <code>false</code>. Line 17 saves the whole array back as pretty JSON. Lines 20 to 22 print every task, with a ternary picking the check box: <code>[x]</code> for a done task and <code>[ ]</code> for one still to do.</p>
+<p>Run it in a fresh folder. With no command there is no file and nothing to print. Then <code>add buy milk</code>, <code>add call mum</code>, and a run with no command at all:</p>
+<pre class="out"><code>&gt; node snippet.js
+&gt; node snippet.js add buy milk
+[ ] 1. buy milk
+&gt; node snippet.js add call mum
+[ ] 1. buy milk
+[ ] 2. call mum
+&gt; node snippet.js
+[ ] 1. buy milk
+[ ] 2. call mum</code></pre>
+<p>The last run was a brand new run of the program, and both tasks were still there. Your tracker rolls. It has gaps, though: <code>add</code> with no title saves a task with an empty title, and there is no way to finish a task.</p>
+<h2>What can go wrong</h2>
+<p>A real person will type <code>add</code> and forget the title. They will type <code>done</code> with a number that does not exist, a command the program has never heard of, or nothing at all. And one day the file itself will get broken. Every one of these is an error you can see coming, like a smoke alarm: it does not mean the house is on fire, it means someone burnt the toast. So the program should not crash. It throws a clear <code>Error</code> with a plain message where the problem is found, and catches it in one place, at the bottom, where it prints it nicely.</p>
+<h2>Stage two: the whole app</h2>
+<pre><code>import { readFileSync, writeFileSync } from &quot;node:fs&quot;;
+
+function load() {
+  try {
+    return JSON.parse(readFileSync(&quot;tasks.json&quot;, &quot;utf8&quot;));
+  } catch (err) {
+    if (err instanceof SyntaxError) {
+      throw new Error(&quot;tasks.json is broken&quot;, { cause: err });
+    }
+    return [];
+  }
+}
+
+function run(tasks, command, words) {
+  if (command === &quot;add&quot;) {
+    if (words.length === 0) {
+      throw new Error(&quot;add needs a title&quot;);
+    }
+    const id = Math.max(0, ...tasks.map((t) =&gt; t.id)) + 1;
+    tasks.push({ id, title: words.join(&quot; &quot;), done: false });
+  } else if (command === &quot;done&quot;) {
+    const task = tasks.find((t) =&gt; t.id === Number(words[0]));
+    if (!task) {
+      throw new Error(&quot;no such task&quot;);
+    }
+    task.done = true;
+  } else if (command !== &quot;list&quot;) {
+    throw new Error(&quot;use: add, done or list&quot;);
+  }
+}
+
+try {
+  const [command, ...words] = process.argv.slice(2);
+  const tasks = load();
+  run(tasks, command, words);
+  writeFileSync(&quot;tasks.json&quot;, JSON.stringify(tasks, null, 2));
+  const lines = tasks.map((t) =&gt; `${t.done ? &quot;[x]&quot; : &quot;[ ]&quot;} ${t.id}. ${t.title}`);
+  console.log(lines.join(&quot;\n&quot;) || &quot;no tasks yet&quot;);
+} catch (err) {
+  console.log(&quot;error:&quot;, err.message);
+}</code></pre>
+<p>Lines 3 to 12 are <code>load</code> again, with one new idea. Line 7 asks whether the caught error is a <code>SyntaxError</code>, which is what <code>JSON.parse</code> throws on a broken file, and line 8 throws a new <code>Error</code> that keeps the original as its <code>cause</code>. The file holds your tasks: if the program quietly started from an empty list, the next save would wipe them out. Any other failure, like a missing file, is expected, so line 10 returns the empty list.</p>
+<p>Lines 14 to 30 are a new function, <code>run</code>, which gets the tasks, the command and the words. Lines 16 to 18 guard the empty case: no words means <code>add needs a title</code>. Lines 19 and 20 are the same two lines as stage one. Line 21 starts the new <code>done</code> command. Line 22 uses <code>find</code> to look for the task whose id matches; <code>Number</code> turns the word you typed into a number, because everything from <code>process.argv</code> is a string. Lines 23 to 25 throw if <code>find</code> came back with nothing, and otherwise line 26 flips the flag. Line 27 catches the rest: if the command is not <code>list</code>, it is one the program does not know, and line 28 throws with a hint. <code>list</code> needs no code of its own: change nothing, show everything.</p>
+<p>The main part, lines 32 to 41, runs inside one <code>try</code>. It splits <code>process.argv</code>, loads, runs the command, saves, builds one line of text per task with <code>map</code>, and prints them joined with new lines. If the list is empty, the join gives an empty string and the <code>||</code> operator falls back to <code>no tasks yet</code>. The <code>catch</code> on lines 39 to 41 is the one place every error lands, and it prints the word <code>error:</code> and the message. A <code>throw</code> from anywhere above jumps straight there, and it skips the save, so a bad command can never touch the file.</p>
+<p>Run it, and break it on purpose:</p>
+<pre class="out"><code>&gt; node tasks.js list
+no tasks yet
+&gt; node tasks.js add buy milk
+[ ] 1. buy milk
+&gt; node tasks.js add call mum
+[ ] 1. buy milk
+[ ] 2. call mum
+&gt; node tasks.js done 1
+[x] 1. buy milk
+[ ] 2. call mum
+&gt; node tasks.js done 9
+error: no such task
+&gt; node tasks.js add
+error: add needs a title
+&gt; node tasks.js dance
+error: use: add, done or list</code></pre>
+<p>Then damage the file so it is no longer JSON (here it holds only <code>{oops</code>) and list again:</p>
+<pre class="out"><code>&gt; node tasks.js list
+error: tasks.json is broken</code></pre>
+<p>The file is still there exactly as it was. The program refused to overwrite it. Nothing crashed, and every mistake got a clear message.</p>
+<h2>What you built</h2>
+<ul>
+  <li>The data is an array of objects, and every command is just a different way to change that array.</li>
+  <li>All the file work lives in two places, <code>load</code> and the save line. Everything else only sees plain arrays and objects.</li>
+  <li>Errors are thrown where they are found and caught in one place, which is why the code reads so clean.</li>
+  <li>Saving only happens after the change worked, so if the change throws, the file stays safe. That is not a trick for tasks; it is how you write any program that keeps data.</li>
+</ul>
+<h2>Your turn</h2>
+<p>Three upgrades, and you know everything you need for each. Add a <code>remove</code> command: use <code>filter</code> to keep every task that is not the one you want gone. Add a <code>clear</code> command that drops every done task: <code>filter</code> again. Show how many tasks are left at the bottom of the list: <code>filter</code> and <code>length</code>. Try them from what you know, without looking anything up. The first time you add a feature to your own code without a tutorial is when you stop learning JavaScript and start using it.</p>
+<h2>What you learned</h2>
+<ul>
+  <li>A task is an object with an <code>id</code>, a <code>title</code> and a <code>done</code> flag, and the list is an array of those objects saved as <code>tasks.json</code>.</li>
+  <li>The shape of every tool that remembers is load, change, save, show.</li>
+  <li><code>const [command, ...words] = process.argv.slice(2)</code> splits the command from its words, and every word is a string.</li>
+  <li><code>find</code> looks up a task, <code>push</code> adds one, <code>map</code> builds the text, and <code>Math.max(0, ...ids) + 1</code> makes the next id.</li>
+  <li><code>throw new Error(...)</code> reports a mistake where it is found, and one <code>try</code> and <code>catch</code> at the bottom catches them all.</li>
+  <li>A broken <code>tasks.json</code> is reported, with <code>instanceof SyntaxError</code> and a <code>cause</code>, instead of being overwritten.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>How do I build a task tracker in JavaScript?</strong> Store each task as an object with an id, a title and a done flag, keep them in an array, and save the array to a JSON file with <code>JSON.stringify</code>. Each command loads the file, changes the array, saves it and prints the list.</p>
+<p><strong>Why does the first task get id 1?</strong> <code>Math.max(0, ...tasks.map((t) =&gt; t.id))</code> is <code>0</code> for an empty list, and the code adds 1. Without the zero, <code>Math.max()</code> of nothing is <code>-Infinity</code>.</p>
+<p><strong>Why use Number(words[0]) in the done command?</strong> Every value in <code>process.argv</code> is a string, and the ids in the file are numbers. <code>find</code> compares with <code>===</code>, so <code>&quot;1&quot;</code> would never match <code>1</code> until <code>Number</code> converts it.</p>
+<p><strong>Why does a broken tasks.json throw instead of starting a fresh list?</strong> The file holds your data. If <code>load</code> returned an empty list for a broken file, the next save would overwrite your tasks with nothing. Only a missing file is safe to treat as empty.</p>
+<p><strong>Why does the save come after the command runs?</strong> A <code>throw</code> in <code>run</code> jumps to the <code>catch</code> and skips the save, so a bad command never changes the file.</p>
+<p>Next lesson: the Intermediate track starts with Big O in JavaScript, how to tell whether your code is fast before you run it.</p>
+    <p class="watch">This article goes with the video <strong>Task tracker CLI</strong>. <a href="https://youtu.be/ODXE8kA-VB4">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+      <a href="/articles/javascript/beginner/files-and-json/"><span>Previous</span>JavaScript files and JSON in Node: read, write and parse</a>
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
