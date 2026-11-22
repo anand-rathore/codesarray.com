@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Big O notation in JavaScript: count steps, spot the hidden loop: Codesarray</title>
+<meta name="description" content="Big O notation in JavaScript explained with real step counts and timings in Node: the five shapes, the hidden loop in includes, and the Set fix.">
+<link rel="canonical" href="https://codesarray.com/articles/javascript/intermediate/big-o-in-javascript/">
+<meta name="theme-color" content="#1d2024">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Codesarray">
+<meta property="og:title" content="Big O notation in JavaScript: count steps, spot the hidden loop">
+<meta property="og:description" content="Big O notation in JavaScript explained with real step counts and timings in Node: the five shapes, the hidden loop in includes, and the Set fix.">
+<meta property="og:url" content="https://codesarray.com/articles/javascript/intermediate/big-o-in-javascript/">
+<meta property="og:image" content="https://codesarray.com/articles/javascript/intermediate/big-o-in-javascript/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codesarray">
+<meta property="article:published_time" content="2026-11-22">
+<meta property="article:section" content="JavaScript">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Big O notation in JavaScript: count steps, spot the hidden loop","description":"Learn Big O notation in JavaScript by counting steps instead of seconds. Meet O(1), O(log n), O(n), O(n log n) and O(n²), see which array methods hide a loop, and fix a slow includes loop with a Set, with real output from Node.","image":"https://codesarray.com/articles/javascript/intermediate/big-o-in-javascript/cover.png","datePublished":"2026-11-22","dateModified":"2026-11-22","inLanguage":"en","author":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"publisher":{"@type":"Organization","name":"Codesarray","url":"https://codesarray.com/","logo":{"@type":"ImageObject","url":"https://codesarray.com/brand/logo/mark-tile-1024.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://codesarray.com/articles/javascript/intermediate/big-o-in-javascript/"},"proficiencyLevel":"Intermediate","articleSection":"JavaScript","video":{"@type":"VideoObject","name":"Big O in JavaScript","url":"https://youtu.be/lKjmFWEgO1w","embedUrl":"https://youtu.be/lKjmFWEgO1w","thumbnailUrl":"https://codesarray.com/articles/javascript/intermediate/big-o-in-javascript/cover.png","uploadDate":"2026-11-22T00:00:00+05:30","description":"Learn Big O notation in JavaScript by counting steps instead of seconds. Meet O(1), O(log n), O(n), O(n log n) and O(n²), see which array methods hide a loop, and fix a slow includes loop with a Set, with real output from Node."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Articles","item":"https://codesarray.com/articles/"},{"@type":"ListItem","position":2,"name":"JavaScript","item":"https://codesarray.com/articles/javascript/"},{"@type":"ListItem","position":3,"name":"Intermediate","item":"https://codesarray.com/articles/javascript/intermediate/"},{"@type":"ListItem","position":4,"name":"Big O notation in JavaScript: count steps, spot the hidden loop"}]}</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/styles.css">
+<script>try{var m=localStorage.getItem("mode");if(m)document.documentElement.dataset.mode=m}catch(e){}</script>
+<script src="/theme.js" defer></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8821229152735728" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a class="wordmark brand" href="/">
+      <svg class="mark" viewBox="0 0 48 48" role="img" aria-label="Codesarray">
+        <path d="M38 10.4L18.4 10.4L10.4 18.4L10.4 29.6L18.4 37.6L29.6 37.6" fill="none" stroke="currentColor" stroke-width="8.4" stroke-linejoin="round"/>
+        <circle cx="34.4" cy="37.6" r="5.32" fill="none" stroke="#ff6a13" stroke-width="4.56"/>
+      </svg>
+      CODESARRAY
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="/#games">Games</a>
+      <a href="/#videos">Videos</a>
+      <a href="/articles/">Articles</a>
+      <a href="/work/">Work</a>
+      <button class="mode-toggle" type="button" hidden>
+        <svg class="sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="container">
+  <article class="article">
+    <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="/articles/">Articles</a></li><li><a href="/articles/javascript/">JavaScript</a></li><li><a href="/articles/javascript/intermediate/">Intermediate</a></li></ol></nav>
+    <p class="meta">Lesson 1, by Codesarray, <time datetime="2026-11-22">22 November 2026</time>, 8 min read</p>
+    <h1>Big O notation in JavaScript: count steps, spot the hidden loop</h1>
+    <p class="standfirst">Learn Big O notation in JavaScript by counting steps instead of seconds. Meet O(1), O(log n), O(n), O(n log n) and O(n²), see which array methods hide a loop, and fix a slow includes loop with a Set, with real output from Node.</p>
+<p>Big O notation in JavaScript is a way to tell, before you run anything, whether code will stay fast or fall apart as the data grows. By the end of this page you will count steps instead of seconds, recognise the five shapes you meet every day, know which JavaScript methods hide a loop, and be able to fix a loop that takes almost a second on 40,000 items. Everything here ran on Node 24.</p>
+<h2>Why timing is not enough</h2>
+<p>The obvious check is to run the code and time it. <code>console.time(&quot;loop&quot;)</code> starts a stopwatch and <code>console.timeEnd(&quot;loop&quot;)</code> prints it, and <code>performance.now()</code> gives the time in milliseconds so you can subtract two readings. Both are useful, and we use one below. But the answer depends on your computer and on what else is running, and it only covers the input you tried. It says nothing about what happens with ten times more data.</p>
+<h2>Count steps, not seconds</h2>
+<p>Instead, count steps. A step is one small piece of work: read an item, compare two values, add one to a total. Steps do not change when the computer changes. Then ask one question: if the input gets bigger, how does the number of steps grow? The size of the input is called <code>n</code>, and Big O is the short way to write the answer. It does not say how fast your code is. It says how the work grows.</p>
+<h2>The five shapes</h2>
+<p><strong>O(1), constant.</strong> A hallway of numbered lockers: open locker forty and you walk straight to it, whether there are fifty lockers or fifty thousand. Reading an array by index, <code>push</code>, and <code>get</code>, <code>set</code>, <code>has</code> and <code>add</code> on a <code>Map</code> or <code>Set</code> are all constant.</p>
+<p><strong>O(n), linear.</strong> Looking for one word by reading every page. A book twice as thick takes twice as long. Any loop that touches each item once is linear, and so are <code>includes</code>, <code>indexOf</code>, <code>find</code>, <code>map</code>, <code>filter</code> and <code>reduce</code>, because they walk the list for you.</p>
+<p><strong>O(n²), quadratic.</strong> A party where everyone shakes everyone else's hand. Ten people make 45 handshakes. Twenty people make 190, not 90: twice the people, four times the handshakes. In code this is a loop inside a loop.</p>
+<p><strong>O(log n), logarithmic.</strong> Guessing a number from one to a thousand. Each guess throws away half the numbers, so a thousand items need about ten steps and a million need about twenty. The catch is that the data must already be in order. This is binary search.</p>
+<p><strong>O(n log n).</strong> The cost of sorting. It sits between linear and quadratic, and <code>sort</code> and <code>toSorted</code> belong here.</p>
+<h2>Three rules for writing it</h2>
+<p>Drop the constants: a function that loops twice is 2n, and we still call it O(n), because the shape matters, not two or three times. Keep only the biggest part: n plus n squared is O(n²), since the square swamps the rest when n is big. And count the worst case: if the item you search for is last, or missing, that is the case to plan for.</p>
+<h2>Hidden loops</h2>
+<p>The trap in JavaScript is that one line can hide a whole loop. <code>includes</code>, <code>indexOf</code>, <code>find</code> and <code>slice</code> each walk the array. The spread syntax copies every item. <code>shift</code> has to move every other item along, while <code>pop</code> just drops the last one, so <code>pop</code> is O(1) and <code>shift</code> is O(n). Put one of these inside a loop that runs n times and you have n times n: quadratic, and you never wrote a second <code>for</code>.</p>
+<h2>Counting steps in real code</h2>
+<p>This script keeps a <code>steps</code> counter and runs three functions on lists of 10, 100 and 1,000 items.</p>
+<pre><code>let steps = 0;
+
+function first(items) {
+  steps++;
+  return items[0];
+}
+
+function total(items) {
+  let sum = 0;
+  for (const n of items) {
+    steps++;
+    sum += n;
+  }
+  return sum;
+}
+
+function hasPair(items) {
+  for (let i = 0; i &lt; items.length; i++) {
+    for (let j = i + 1; j &lt; items.length; j++) {
+      steps++;
+      if (items[i] === items[j]) return true;
+    }
+  }
+  return false;
+}
+
+function count(fn, items) {
+  steps = 0;
+  fn(items);
+  return steps;
+}
+
+for (const size of [10, 100, 1000]) {
+  const items = Array.from({ length: size }, (_, i) =&gt; i);
+  console.log(size, count(first, items), count(total, items), count(hasPair, items));
+}</code></pre>
+<p><code>first</code> adds one step and returns the first item. <code>total</code> loops over the items and counts one step each. <code>hasPair</code> has a loop inside a loop, so it counts a step for every pair it compares. The <code>count</code> helper resets the counter, calls the function and returns the steps.</p>
+<pre class="out"><code>10 1 10 45
+100 1 100 4950
+1000 1 1000 499500</code></pre>
+<p>Read down the columns. The first never moves: constant. The second grows with n, ten times the items and ten times the steps: linear. The third explodes, ten times the items and a hundred times the steps: quadratic. The 45 in the first row is the ten people at the party. There is no stopwatch and no noise, and any computer gives the same answer.</p>
+<h2>Binary search: the flat one</h2>
+<p>Binary search keeps two pointers, <code>low</code> and <code>high</code>, finds the middle, and throws away the half that cannot hold the target.</p>
+<pre><code>function search(sorted, target) {
+  let steps = 0;
+  let low = 0;
+  let high = sorted.length - 1;
+  while (low &lt;= high) {
+    steps++;
+    const mid = Math.floor((low + high) / 2);
+    if (sorted[mid] === target) break;
+    if (sorted[mid] &lt; target) low = mid + 1;
+    else high = mid - 1;
+  }
+  return steps;
+}
+
+for (const size of [10, 1000, 1000000]) {
+  const sorted = Array.from({ length: size }, (_, i) =&gt; i);
+  console.log(size, search(sorted, -1));
+}</code></pre>
+<p>We search for <code>-1</code>, which is not in the list, so the search goes all the way: the worst case.</p>
+<pre class="out"><code>10 3
+1000 9
+1000000 19</code></pre>
+<p>Ten items took 3 steps, a thousand took 9, and a million took only 19. Double the data and you add about one step.</p>
+<h2>The loop from the start</h2>
+<p>Here is a function that finds out whether a list has a duplicate, written two ways. <code>slow</code> keeps the values seen so far in an array and asks <code>includes</code>. <code>fast</code> keeps them in a <code>Set</code> and asks <code>has</code>.</p>
+<pre><code>function slow(items) {
+  const seen = [];
+  for (const x of items) {
+    if (seen.includes(x)) return true;
+    seen.push(x);
+  }
+  return false;
+}
+
+function fast(items) {
+  const seen = new Set();
+  for (const x of items) {
+    if (seen.has(x)) return true;
+    seen.add(x);
+  }
+  return false;
+}
+
+function time(label, fn, items) {
+  const start = performance.now();
+  fn(items);
+  const ms = performance.now() - start;
+  console.log(label, items.length, ms.toFixed(1) + &quot; ms&quot;);
+}
+
+for (const n of [10000, 20000, 40000]) {
+  const items = Array.from({ length: n }, (_, i) =&gt; i);
+  time(&quot;includes&quot;, slow, items);
+  time(&quot;set&quot;, fast, items);
+}</code></pre>
+<p><code>slow</code> reads clean, but <code>seen.includes(x)</code> walks the whole of <code>seen</code> every time, so the loop is quadratic. The lists have no duplicates, so every call goes all the way. These timings are from one run, and yours will differ; the shape will not.</p>
+<pre class="out"><code>includes 10000 98.9 ms
+set 10000 1.6 ms
+includes 20000 336.1 ms
+set 20000 2.3 ms
+includes 40000 882.9 ms
+set 40000 4.8 ms</code></pre>
+<p>Each time the items double, <code>includes</code> gets several times slower, which is the quadratic shape showing up on a stopwatch. The <code>Set</code> barely moves. Same answer, about two hundred times faster at 40,000 items, from swapping an array for a <code>Set</code>.</p>
+<h2>Things to keep in mind</h2>
+<ul>
+  <li>Big O is about growth. For ten items nothing here matters, and a quadratic loop over fifty items is fine.</li>
+  <li>A better Big O is not always faster on small input. A <code>Set</code> has setup costs, and for tiny lists <code>includes</code> can win.</li>
+  <li>Do not guess where your program is slow. Reasoning tells you what could go wrong, and measuring tells you what did.</li>
+  <li>Watch for the hidden loop: <code>includes</code>, <code>indexOf</code>, <code>find</code> or a spread inside another loop is the moment to ask how big this can get.</li>
+</ul>
+<h2>What you learned</h2>
+<ul>
+  <li>Big O describes how the work grows with the input, written with <code>n</code>, and it counts steps rather than seconds.</li>
+  <li>O(1) is an index, <code>push</code> or a <code>Map</code> or <code>Set</code> lookup; O(log n) halves the problem each step; O(n) touches every item once; O(n log n) is sorting; O(n²) is a loop in a loop.</li>
+  <li>Drop the constants, keep the biggest part, and count the worst case.</li>
+  <li><code>includes</code>, <code>indexOf</code>, <code>find</code>, <code>slice</code>, spread and <code>shift</code> each hide a loop, so using one inside a loop is quadratic.</li>
+  <li>A <code>Set</code> instead of <code>includes</code> inside a loop is the most common fix.</li>
+</ul>
+<h2>Common questions</h2>
+<p><strong>What is Big O notation in JavaScript?</strong> It is a short way to describe how the number of steps your code takes grows as the input grows. O(n) means the work grows in step with the number of items; O(n²) means it grows with the square.</p>
+<p>**Is <code>includes</code> O(n) in JavaScript?** Yes. It walks the array from the start until it finds the value, so in the worst case it checks every item. <code>Set.prototype.has</code> is O(1) on average.</p>
+<p>**Why is a loop with <code>includes</code> inside it slow?** The loop runs n times and each <code>includes</code> walks up to n items, so the total is n times n. In the test above, 40,000 items took about 883 ms with an array and under 5 ms with a <code>Set</code>.</p>
+<p>**Is <code>shift</code> slower than <code>pop</code>?** <code>pop</code> removes the last item and is O(1). <code>shift</code> removes the first item, so every other item moves one place, which is O(n). Use a head pointer or a proper queue for large queues.</p>
+<p><strong>Should I always use the lowest Big O?</strong> No. Big O describes growth, so on small lists a simpler approach can be as fast or faster. Measure first, then fix the one slow part.</p>
+<p>Next lesson: closures and scope, how a function can remember the variables around it.</p>
+    <p class="watch">This article goes with the video <strong>Big O in JavaScript</strong>. <a href="https://youtu.be/lKjmFWEgO1w">Watch it on YouTube</a>.</p>
+    <nav class="pager" aria-label="More in this level">
+    </nav>
+  </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 Codesarray</p>
+    <nav class="footer-links social" aria-label="Codesarray elsewhere">
+      <a href="https://www.youtube.com/@codesarray">YouTube</a>
+      <a href="https://www.instagram.com/codesarray/">Instagram</a>
+      <a href="https://x.com/codesarray">X</a>
+      <a href="https://www.facebook.com/codesarray">Facebook</a>
+    </nav>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/">Home</a>
+      <a href="/articles/">Articles</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="mailto:codesarray@gmail.com">codesarray@gmail.com</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
